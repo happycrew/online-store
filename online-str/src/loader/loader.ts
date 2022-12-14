@@ -3,34 +3,13 @@ Using - https://dummyjson.com/
 Example query - https://dummyjson.com/RESOURCE/?limit=10&skip=5&select=key1&select=key2&select=key3
  */
 
-// import { ProductResponse } from './types'
-interface Product {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    images: string[];
-}
-
-interface ProductResponse {
-    products: Product[];
-    total: number;
-    skip: number;
-    limit: number;
-}
-
-class Loader {
-    private products: ProductResponse
-    private categories: Array<string>
+import { ProductResponse } from '../types'
+export class Loader {
+    private products!: ProductResponse
+    private categories!: Array<string>
 
     constructor() {
-        this.setAllData() //  sets initial data
+        this.setAllData(); //  sets initial data
     }
 
     private async setAllData() {
@@ -50,7 +29,7 @@ class Loader {
 
     //  returns an array of products
     get getProducts() {
-        return this.products.products;
+        return this.products?.products as Array<object>;
     }
 
     //  returns an array of categories
@@ -58,7 +37,3 @@ class Loader {
         return this.categories;
     }
 }
-
-let a = new Loader()
-// console.log(JSON.stringify(a.getProducts))
-// console.log(JSON.stringify(a.getCategories))
