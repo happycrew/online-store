@@ -1,5 +1,126 @@
-$zalupa: blue;
+$main-color-bg: rgb(170, 186, 204);
+$main-color-bg-gradient: linear-gradient(
+  273deg,
+  rgba(170, 186, 204, 1) 16%,
+  rgba(213, 219, 224, 1) 32%,
+  rgba(171, 181, 191, 1) 89%
+);
+$sub-color-bg: rgb(78, 104, 144);
+$sub-color-bg-gradient: linear-gradient(
+  159deg,
+  rgba(78, 104, 144, 1) 10%,
+  rgba(63, 83, 105, 1) 19%,
+  rgba(179, 195, 209, 1) 35%,
+  rgba(72, 99, 130, 1) 89%
+);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+  transition: 0.2s;
+}
+
+body {
+  background: $main-color-bg;
+  background: $main-color-bg-gradient;
+}
+
+.header {
+  height: 10vh;
+  width: 100%;
+  background: $sub-color-bg;
+  background: $sub-color-bg-gradient;
+  border: 2px solid black;
+  border-radius: 3rem 3rem 3rem 3rem;
+  padding-left: 3%;
+  padding-right: 3%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.header__div-logo {
+  display: flex;
+  gap: 5px;
+}
 
 h1 {
-  color: $zalupa;
+  text-shadow: 0px 0 40px black;
+  font-size: 40px;
+  border: black;
+  align-self: center;
+}
+
+.header__logo {
+  width: 70px;
+  height: 70px;
+  background-image: url("./assets/pngegg.png");
+  background: url("./assets/pngegg.png");
+}
+
+main {
+  min-height: 80vh;
+}
+
+// Footer
+
+.footer {
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: $sub-color-bg;
+  background: $sub-color-bg-gradient;
+  border: 2px solid black;
+  border-radius: 3rem 3rem 3rem 3rem;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.footer__github {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.footer__info {
+  display: flex;
+  gap: 50px;
+}
+
+.footer__logo {
+  width: 120px;
+  height: 75px;
+
+  &:hover {
+    transform: scale(107%);
+  }
+}
+
+.footer__year {
+  display: inline-block;
+  font-size: 28px;
+  align-self: center;
+}
+
+.footer__github {
+  gap: 20px;
+}
+
+.footer__github-link {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.9);
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: black;
+  }
 }
