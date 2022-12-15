@@ -1,39 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Store</title>
-</head>
-<body>
-  <header class="header">
-    <div class="header__div-logo">
-      <img class="header__logo" src="assets/pngegg.png" alt="logo">
-      <h1>Online Store</h1>
-    </div>
-    <div class="header__total-price">
-      <span>Card total:</span>
-      € 0.00
-    </div>
-    <div class="header__basket">
-      <div class="header__total">
-        <div class="header__total-content">0</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Store</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__div-logo">
+        <img class="header__logo" src="assets/pngegg.png" alt="logo" />
+        <h1>Online Store</h1>
       </div>
-    </div>
-  </header>
+      <div class="header__total-price">
+        <span>Card total:</span>
+        € 0.00
+      </div>
+      <div class="header__basket">
+        <div class="header__total">
+          <div class="header__total-content">0</div>
+        </div>
+      </div>
+    </header>
 
-  <main></main>
+    <main class="main">
+      <div class="main__filter">
+        <div class="main__reset-copy">
+          <button class="main__btn">Reset Filters</button>
+          <button class="main__btn">Copy Link</button>
+        </div>
+        <div class="main__category">
+          <h3>Category</h3>
+          <div class="main__category-list">
+            <div class="main__category-item item-not-active">
+              <input type="checkbox" id="smartphones" />
+              <label for="smartphones">smartphones</label>
+              <span>(0/5)</span>
+            </div>
+          </div>
+        </div>
+        <div class="main__brand">
+          <h3>Brand</h3>
+          <div class="main__brand-list">
+            <div class="main__brand-item item-active">
+              <input type="checkbox" id="Apple" />
+              <label for="Apple">Apple</label>
+              <span>(0/3)</span>
+            </div>
+          </div>
+        </div>
+        <div class="main__price">
+          <h3>Price</h3>
+          <div class="main__data">
+            <div class="main__from-data">€10.00</div>
+            ⟷ 
+            <div class="main__to-data">€1749.00</div>
+          </div>
+          <!-- <div class="main__multi-range">
+            <input type="range" min="0" max="48">
+            <input type="range" min="0" max="48">
+          </div> -->
+        </div>
+        <div></div>
+      </div>
+      <div class="main__products"></div>
+    </main>
 
-  <footer class="footer">
-    <div class="footer__github">
-        <span class="footer__github-link"><a href="https://github.com/Satancrew" target="_blank">Satancrew GitHub</a></span>
-        <span class="footer__github-link"><a href="https://github.com/KirillDemyanenko" target="_blank">KirillDemyanenko GitHub</a></span>
-    </div>
-    <div class="footer__info">
-        <a href="https://rs.school/" target="_blank"><img class="footer__logo" src="https://rollingscopes.com/images/logo_rs2.svg" alt="logo_rsschool"></a>
+    <footer class="footer">
+      <div class="footer__github">
+        <span class="footer__github-link"
+          ><a href="https://github.com/Satancrew" target="_blank"
+            >Satancrew GitHub</a
+          ></span
+        >
+        <span class="footer__github-link"
+          ><a href="https://github.com/KirillDemyanenko" target="_blank"
+            >KirillDemyanenko GitHub</a
+          ></span
+        >
+      </div>
+      <div class="footer__info">
+        <a href="https://rs.school/" target="_blank"
+          ><img
+            class="footer__logo"
+            src="https://rollingscopes.com/images/logo_rs2.svg"
+            alt="logo_rsschool"
+        /></a>
         <span class="footer__year">2022</span>
-    </div>
-</footer>
-</body>
+      </div>
+    </footer>
+  </body>
 </html>

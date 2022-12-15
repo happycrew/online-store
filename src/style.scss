@@ -13,10 +13,11 @@ $sub-color-bg-gradient: linear-gradient(
   rgba(179, 195, 209, 1) 35%,
   rgba(72, 99, 130, 1) 89%
 );
-$shadow-text: 0px 1px 0 rgb(0,0,0),0px -1px 0 rgb(0,0,0),1px 0px 0 rgb(0,0,0),-1px 0px 0 rgb(0,0,0),1px 1px 0 rgb(0,0,0),1px -1px 0 rgb(0,0,0),-1px 1px 0 rgb(0,0,0),-1px -1px 0 rgb(0,0,0);
+$shadow-text: 0px 1px 0 rgb(0, 0, 0), 0px -1px 0 rgb(0, 0, 0),
+  1px 0px 0 rgb(0, 0, 0), -1px 0px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0),
+  1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), -1px -1px 0 rgb(0, 0, 0);
 $medium-size: 720px;
 $small-size: 520px;
-
 
 * {
   margin: 0;
@@ -64,7 +65,6 @@ h1 {
   font-size: 40px;
   border: black;
   align-self: center;
-  
 
   @media (max-width: $medium-size) {
     font-size: 28px;
@@ -85,7 +85,6 @@ h1 {
   @media screen and (max-width: $small-size) {
     display: none;
   }
-  
 }
 
 .header__total-price {
@@ -132,9 +131,124 @@ h1 {
   font-size: 120%;
   border-radius: 50%;
 }
+//main
 
-main {
+.main {
   min-height: 80vh;
+  padding: 2%;
+  display: flex;
+  justify-content: center;
+}
+
+.main__filter {
+  width: 25%;
+  background: rgba(105, 135, 196, 0.4);
+  border: 1px solid gainsboro;
+  border-radius: 0.8rem;
+  padding: 0.6%;
+  height: fit-content;
+}
+
+.main__products {
+  width: 75%;
+}
+
+.main__reset-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 2%;
+  color: green;
+}
+
+.main__btn {
+  background-color: $sub-color-bg;
+  text-shadow: $shadow-text;
+  border: 1px solid black;
+  border-radius: 0.3rem;
+  padding-left: 2%;
+  padding-right: 2%;
+  font-size: 120%;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(105%);
+  }
+
+  &:active {
+    box-shadow: 2px 2px 5px #2d3388;
+  }
+}
+
+.main__category,
+.main__brand,
+.main__price {
+  border: 1px solid gainsboro;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 5%;
+}
+
+.main__category-list,
+.main__brand-list {
+  height: 10rem;
+  overflow: hidden;
+  overflow-y: auto;
+  background: rgba(112, 130, 141, 0.4);
+  padding: 4%;
+
+}
+
+h3 {
+  text-align: center;
+  border-bottom: 1px solid gainsboro;
+  background-color: rgba(79, 81, 137, 0.432);
+  text-shadow: $shadow-text;
+}
+
+.main__category-item,
+.main__brand-item {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: auto;
+    text-shadow: $shadow-text;
+    font-size: 1.1rem;
+  }
+
+  label {
+    overflow: hidden;
+    padding: 0.3rem;
+    cursor: pointer;
+    user-select: none;
+    text-shadow: $shadow-text;
+    font-size: 1.1rem;
+
+  }
+
+}
+
+input[type="checkbox"] {
+  cursor: grab;
+  height: 1.1rem;
+  width: 1.2rem;
+  accent-color: $main-color-bg;
+}
+
+.item-not-active {  // ????????? //
+  label, span {
+    color: rgba(218, 231, 218, 0.737);
+  }
+}
+
+.main__data {
+  display: flex;
+  justify-content: space-around;
+  text-shadow: $shadow-text;
+  margin-top: 5%;
+  width: 100%;
 }
 
 // Footer
