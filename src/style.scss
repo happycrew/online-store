@@ -13,6 +13,10 @@ $sub-color-bg-gradient: linear-gradient(
   rgba(179, 195, 209, 1) 35%,
   rgba(72, 99, 130, 1) 89%
 );
+$shadow-text: 0px 1px 0 rgb(0,0,0),0px -1px 0 rgb(0,0,0),1px 0px 0 rgb(0,0,0),-1px 0px 0 rgb(0,0,0),1px 1px 0 rgb(0,0,0),1px -1px 0 rgb(0,0,0),-1px 1px 0 rgb(0,0,0),-1px -1px 0 rgb(0,0,0);
+$medium-size: 720px;
+$small-size: 520px;
+
 
 * {
   margin: 0;
@@ -27,6 +31,8 @@ body {
   background: $main-color-bg-gradient;
 }
 
+// Header
+
 .header {
   height: 10vh;
   width: 100%;
@@ -37,20 +43,37 @@ body {
   padding-left: 3%;
   padding-right: 3%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   overflow: hidden;
+
+  @media screen and (max-width: $small-size) {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
 }
 
 .header__div-logo {
   display: flex;
   gap: 5px;
+  cursor: pointer;
 }
 
 h1 {
-  text-shadow: 0px 0 40px black;
+  text-shadow: $shadow-text;
   font-size: 40px;
   border: black;
   align-self: center;
+  
+
+  @media (max-width: $medium-size) {
+    font-size: 28px;
+  }
+
+  @media (max-width: $small-size) {
+    font-size: 22px;
+    width: 50px;
+  }
 }
 
 .header__logo {
@@ -58,6 +81,56 @@ h1 {
   height: 70px;
   background-image: url("./assets/pngegg.png");
   background: url("./assets/pngegg.png");
+
+  @media screen and (max-width: $small-size) {
+    display: none;
+  }
+  
+}
+
+.header__total-price {
+  color: wheat;
+  font-size: 22px;
+  text-shadow: $shadow-text;
+
+  @media screen and (max-width: $medium-size) {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.header__basket {
+  background-image: url("./assets/shop-basket.png");
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  padding-top: 20px;
+}
+
+.header__total {
+  overflow: hidden;
+  position: relative;
+  width: 45%;
+  padding-bottom: 40%;
+}
+
+.header__total-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(163, 206, 233, 0.943);
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  border: 1px solid black;
+  font-size: 120%;
+  border-radius: 50%;
 }
 
 main {
@@ -83,16 +156,29 @@ main {
 .footer__github {
   display: flex;
   justify-content: space-evenly;
+  gap: 15px;
+  @media screen and (max-width: $small-size) {
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 .footer__info {
   display: flex;
   gap: 50px;
+
+  @media screen and (max-width: $medium-size) {
+    gap: 5px;
+  }
 }
 
 .footer__logo {
   width: 120px;
   height: 75px;
+
+  @media screen and (max-width: $small-size) {
+    width: 100px;
+  }
 
   &:hover {
     transform: scale(107%);
@@ -103,10 +189,10 @@ main {
   display: inline-block;
   font-size: 28px;
   align-self: center;
-}
-
-.footer__github {
-  gap: 20px;
+  text-shadow: $shadow-text;
+  @media screen and (max-width: $small-size) {
+    font-size: 16px;
+  }
 }
 
 .footer__github-link {
@@ -116,8 +202,13 @@ main {
   text-decoration: none;
   color: rgba(255, 255, 255, 0.9);
 
+  @media screen and (max-width: $medium-size) {
+    font-size: 1.2rem;
+    text-align: center;
+  }
   a {
     text-decoration: none;
+    text-shadow: $shadow-text;
   }
 
   a:hover {
