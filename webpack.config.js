@@ -25,7 +25,6 @@ module.exports = {
       filename: "index.js",
       path: path.resolve(__dirname, "./dist"),
     },
-
     module: {
       rules: [
         { test: /\.ts$/i, use: "ts-loader" }, // добавил правило ts-loader

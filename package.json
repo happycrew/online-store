@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack serve",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --fix --ext .ts"
   },
   "keywords": [],
   "author": "",
