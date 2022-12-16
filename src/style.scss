@@ -108,6 +108,7 @@ h1 {
   width: 70px;
   height: 70px;
   padding-top: 20px;
+  margin-bottom: 10px;
 }
 
 .header__total {
@@ -137,7 +138,7 @@ h1 {
   min-height: 80vh;
   padding: 2%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .main__filter {
@@ -150,7 +151,11 @@ h1 {
 }
 
 .main__products {
-  width: 75%;
+  width: 74%;
+  background: rgba(105, 135, 196, 0.4);
+  border: 1px solid gainsboro;
+  border-radius: 0.8rem;
+  overflow: hidden;
 }
 
 .main__reset-copy {
@@ -182,7 +187,8 @@ h1 {
 
 .main__category,
 .main__brand,
-.main__price {
+.main__price,
+.main__stock {
   border: 1px solid gainsboro;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -195,8 +201,7 @@ h1 {
   overflow: hidden;
   overflow-y: auto;
   background: rgba(112, 130, 141, 0.4);
-  padding: 4%;
-
+  padding: 2%;
 }
 
 h3 {
@@ -225,9 +230,7 @@ h3 {
     user-select: none;
     text-shadow: $shadow-text;
     font-size: 1.1rem;
-
   }
-
 }
 
 input[type="checkbox"] {
@@ -237,8 +240,10 @@ input[type="checkbox"] {
   accent-color: $main-color-bg;
 }
 
-.item-not-active {  // ????????? //
-  label, span {
+.item-not-active {
+  // ????????? //
+  label,
+  span {
     color: rgba(218, 231, 218, 0.737);
   }
 }
@@ -249,6 +254,173 @@ input[type="checkbox"] {
   text-shadow: $shadow-text;
   margin-top: 5%;
   width: 100%;
+}
+
+.main__sort-products {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(79, 81, 137, 0.432);
+  padding: 0.6%;
+  border-bottom: 1px solid gainsboro;
+
+  .main__view {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .view__small,
+    .view__big {
+      border: 1px solid black;
+      height: 2rem;
+      width: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      border-radius: 0.5rem;
+      justify-content: center;
+      align-items: center;
+      padding: 2%;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      user-select: none;
+      text-shadow: $shadow-text;
+    }
+  }
+}
+
+.active-view {
+  box-shadow: 3px 3px 10px #2d3388;
+  transform: scale(108%);
+}
+
+.main__sort-stat {
+  text-shadow: $shadow-text;
+}
+
+select {
+  outline: 0;
+  padding: 0 1em;
+  cursor: pointer;
+  background-color: rgba(79, 81, 137, 0.432);
+  border: 1px solid gainsboro;
+  border-radius: 1rem;
+  text-align: center;
+  text-shadow: $shadow-text;
+}
+
+.main__search-bar {
+  input {
+    width: 140%;
+    background-color: rgba(79, 81, 137, 0.432);
+    border: 1px solid gainsboro;
+    border-radius: 2rem;
+    outline: none;
+    padding: 0.2rem;
+    text-align: center;
+    color: white;
+    text-shadow: $shadow-text;
+  }
+}
+
+// Main items styles (too much styles)
+.main__product-items {
+  padding: 0.5%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main__item {
+  position: relative;
+  width: 14.6%;
+  padding-top: 12%;
+  margin: 1%;
+  border: 1px solid gainsboro;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &:active {
+    transform: scale(105%);
+  }
+}
+
+.big-item {
+  width: 23%;
+  padding-top: 20%;
+}
+
+.main__wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.main__item-text {
+  width: 100%;
+  height: 83%;
+  cursor: pointer;
+}
+
+.item__title {
+  background: rgba(24, 26, 28, 0.8);
+  padding: 1%;
+  font-size: 90%;
+  text-align: center;
+  text-shadow: $shadow-text;
+  border-bottom: 1px solid black;
+  white-space: nowrap;
+}
+
+.info-hidden {
+  display: none;
+}
+
+.item__info-item {
+  width: 55%;
+  background-color: rgba(10, 62, 167, 0.592);
+  border-radius: 0 0 0.4rem;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  padding: 1%;
+  text-shadow: $shadow-text;
+
+  p {
+    font-size: 0.7rem;
+    color: goldenrod;
+  }
+
+  span {
+    font-size: 0.7rem;
+  }
+}
+
+.main__item-btns {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: space-evenly;
+
+  button {
+    background-color: #4e6890;
+    opacity: 0.7;
+    text-shadow: $shadow-text;
+    border: 1px solid black;
+    border-radius: 0.3rem;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-size: 70%;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(103%);
+    }
+  
+    &:active {
+      box-shadow: 2px 2px 3px #2d3388;
+    }
+  }
 }
 
 // Footer

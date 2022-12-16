@@ -32,38 +32,120 @@
         <div class="main__category">
           <h3>Category</h3>
           <div class="main__category-list">
-            <div class="main__category-item item-not-active">
+            <!-- <div class="main__category-item item-not-active">
               <input type="checkbox" id="smartphones" />
               <label for="smartphones">smartphones</label>
               <span>(0/5)</span>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="main__brand">
           <h3>Brand</h3>
           <div class="main__brand-list">
-            <div class="main__brand-item item-active">
+            <!-- <div class="main__brand-item item-active">
               <input type="checkbox" id="Apple" />
               <label for="Apple">Apple</label>
               <span>(0/3)</span>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="main__price">
           <h3>Price</h3>
           <div class="main__data">
             <div class="main__from-data">€10.00</div>
-            ⟷ 
+            ⟷
             <div class="main__to-data">€1749.00</div>
           </div>
-          <!-- <div class="main__multi-range">
-            <input type="range" min="0" max="48">
-            <input type="range" min="0" max="48">
-          </div> -->
+          <div class="main__multi-range">
+            <input type="range" min="0" max="48" />
+            <!-- <input type="range" min="0" max="48"> -->
+          </div>
         </div>
-        <div></div>
+        <div class="main__stock">
+          <h3>Stock</h3>
+          <div class="main__data">
+            <div class="main__from-data">2</div>
+            ⟷
+            <div class="main__to-data">150</div>
+          </div>
+          <div class="main__multi-range">
+            <input type="range" min="0" max="48" />
+            <!-- <input type="range" min="0" max="48"> -->
+          </div>
+        </div>
       </div>
-      <div class="main__products"></div>
+      <div class="main__products">
+        <div class="main__sort-products">
+          <div class="main__sort-bar">
+            <select name="select" id="zalupa">
+              <option>Sort options:</option>
+              <option value="price-ASC">Sort by price ASC</option>
+              <option value="price-DESC">Sort by price DESC</option>
+              <option value="rating-ASC">Sort by rating ASC</option>
+              <option value="rating-DESC">Sort by rating DESC</option>
+              <option value="discount-ASC">Sort by discount ASC</option>
+              <option value="discount-DESC">Sory by discount DESC</option>
+            </select>
+          </div>
+          <div class="main__sort-stat">Found: 100</div>
+          <div class="main__search-bar">
+            <input type="search" placeholder="Search product" />
+          </div>
+          <div class="main__view">
+            <span class="view__small">6x6</span>
+            <span class="view__big active-view">4x4</span>
+          </div>
+        </div>
+        <div class="main__product-items">
+          <div class="main__item big-item">
+            <div class="main__product-item">
+              <div
+                class="main__wrapper"
+                style="
+                  background: url(https://i.dummyjson.com/data/products/6/thumbnail.png)
+                    0% 0% / cover;
+                "
+              >
+                <div class="main__item-text">
+                  <div class="item__title">MacBook Pro</div>
+                  <div class="item__info">
+                    <div class="item__info-item">
+                      <p>
+                        <span>Category: </span>
+                        laptops
+                      </p>
+                      <p>
+                        <span>Brand: </span>
+                        Apple
+                      </p>
+                      <p>
+                        <span>Price: </span>
+                        €1,749.00
+                      </p>
+                      <p>
+                        <span>Discount: </span>
+                        11.02%
+                      </p>
+                      <p>
+                        <span>Rating: </span>
+                        4.57
+                      </p>
+                      <p>
+                        <span>Stock: </span>
+                        83
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="main__item-btns">
+                  <button>ADD TO CART</button>
+                  <button>DETAILS</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="footer">
