@@ -5,17 +5,20 @@ import { ContentGenerator } from './htmlGenerator/contentGenerator'
 export class App {
   private readonly loader: Loader
   private readonly generator: ContentGenerator
+  private readonly brandsBlock: HTMLElement
+  private readonly categoriesBlock: HTMLElement
 
   constructor (loader: Loader, generator: ContentGenerator) {
     this.loader = loader
     this.generator = generator
+    this.brandsBlock = document.querySelector('.main__brand-list') as HTMLElement
+    this.categoriesBlock = document.querySelector('.main__category-list') as HTMLElement
   }
 
   async start (): Promise<void> {
-    const categories: string[] = await this.loader.getCategorise()
+    const categories: string[] = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
-    console.log(categories)
-    console.log(products.products)
-    this.generator.generateCategoryItems(categories)
+    this.generator.generateBrandItems(products.products, this.brandsBlock)
+    this.generator.generateCategoryItems(categories, this.categoriesBlock)
   }
 }
