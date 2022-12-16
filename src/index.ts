@@ -1,11 +1,13 @@
 import './style.scss'
-// import { Loader } from './loader/loader'
-// const loader: Loader = new Loader();
-// async function main (): void {
-//   const foo = await loader.setAllData()
-//   console.log(foo)
-// }
-// main()
-// (async () => {
-//   await loader.setAllData()
-// })()
+import { App } from './app/app'
+import { Loader } from './app/loader/loader'
+import { ContentGenerator } from './app/htmlGenerator/contentGenerator'
+
+const loader: Loader = new Loader()
+const generator: ContentGenerator = new ContentGenerator()
+const app = new App(loader, generator)
+app.start().catch((err: Error) => {
+  throw new Error(err.message)
+})
+  .then(() => console.log('App successful running!'))
+  .catch(() => 'Something wrong...')
