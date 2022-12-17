@@ -339,10 +339,6 @@ select {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-
-  &:active {
-    transform: scale(105%);
-  }
 }
 
 .big-item {
@@ -404,7 +400,7 @@ select {
 
   button {
     background-color: #4e6890;
-    opacity: 0.7;
+    opacity: 0.9;
     text-shadow: $shadow-text;
     border: 1px solid black;
     border-radius: 0.3rem;
@@ -419,6 +415,7 @@ select {
   
     &:active {
       box-shadow: 2px 2px 3px #2d3388;
+      transform: translateY(-0.25em);
     }
   }
 }
