@@ -32,4 +32,108 @@ export class ContentGenerator {
       element.append(child)
     }
   }
+
+  generateProductItems (products: Product[], element: HTMLElement): void { // create by me
+    for (let i = 0; i < products.length; i++) {
+      // основной div, который мы добавляем в контейер
+      const child = document.createElement('div') as HTMLElement
+      child.classList.add('main__item', 'big-item')
+      // div с товаром
+      const mainProductItem = document.createElement('div') as HTMLElement
+      mainProductItem.classList.add('main__product-item')
+      // оболочка для товара + его бекграунд
+      const mainWrapper = document.createElement('div') as HTMLElement
+      mainWrapper.classList.add('main__wrapper')
+      mainWrapper.style.background = `url(${products[i].thumbnail}) 0% 0% / cover`
+      // создаем div, в который мы положим title товара и блок с информацией о нем
+      const mainItemText = document.createElement('div') as HTMLElement
+      mainItemText.classList.add('main__item-text')
+      // создаем div с названием продукта и добавляем ему параметры
+      const itemTitle = document.createElement('div') as HTMLElement
+      itemTitle.classList.add('item__title')
+      itemTitle.innerHTML = `${products[i].title}`
+      // создаем div item__info, в который мы положем div обертку item__info-item
+      const itemInfo = document.createElement('div') as HTMLElement
+      itemInfo.classList.add('item__info')
+      const itemInfoItem = document.createElement('div') as HTMLElement
+      itemInfoItem.classList.add('item__info-item')
+      /* бежим по циклу, на каждой итерации добавляем один из пунктов характеристик товара
+      через switch-case */
+      for (let j = 0; j < 6; j++) {
+        switch (j) {
+          case 0: {
+            const newP = document.createElement('p') as HTMLElement
+            newP.innerHTML = 'Category: '
+            const newSpan = document.createElement('span') as HTMLElement
+            newSpan.innerHTML = `${products[i].category}`
+            newP.append(newSpan)
+            itemInfoItem.appendChild(newP)
+            break
+          }
+          case 1: {
+            const newP = document.createElement('p') as HTMLElement
+            newP.innerHTML = 'Brand: '
+            const newSpan = document.createElement('span') as HTMLElement
+            newSpan.innerHTML = `${products[i].brand}`
+            newP.append(newSpan)
+            itemInfoItem.appendChild(newP)
+            break
+          }
+          case 2: {
+            const newP = document.createElement('p') as HTMLElement
+            newP.innerHTML = 'Price: '
+            const newSpan = document.createElement('span') as HTMLElement
+            newSpan.innerHTML = `${products[i].price}`
+            newP.append(newSpan)
+            itemInfoItem.appendChild(newP)
+            break
+          }
+          case 3: {
+            const newP = document.createElement('p') as HTMLElement
+            newP.innerHTML = 'Discount: '
+            const newSpan = document.createElement('span') as HTMLElement
+            newSpan.innerHTML = `${products[i].discountPercentage}`
+            newP.append(newSpan)
+            itemInfoItem.appendChild(newP)
+            break
+          }
+          case 4: {
+            const newP = document.createElement('p') as HTMLElement
+            newP.innerHTML = 'Rating: '
+            const newSpan = document.createElement('span') as HTMLElement
+            newSpan.innerHTML = `${products[i].rating}`
+            newP.append(newSpan)
+            itemInfoItem.appendChild(newP)
+            break
+          }
+          case 5: {
+            const newP = document.createElement('p') as HTMLElement
+            newP.innerHTML = 'Stock: '
+            const newSpan = document.createElement('span') as HTMLElement
+            newSpan.innerHTML = `${products[i].stock}`
+            newP.append(newSpan)
+            itemInfoItem.appendChild(newP)
+            break
+          }
+        }
+      }
+      // добавили информацию в item__info
+      itemInfo.append(itemInfoItem)
+      // делаем блок с кнопками, по аналогии создаем кнопки, закидываем их в другой блок
+      const mainItemBtns = document.createElement('div') as HTMLElement
+      mainItemBtns.classList.add('main__item-btns')
+      const itemBtn1 = document.createElement('button') as HTMLElement
+      itemBtn1.innerHTML = 'ADD TO CART'
+      const itemBtn2 = document.createElement('button') as HTMLElement
+      itemBtn2.innerHTML = 'DETAILS'
+      // устраиваем матрешку, закидываем одно в другое затем в третье
+      mainItemBtns.append(itemBtn1, itemBtn2)
+      mainItemText.append(itemTitle, itemInfo)
+      mainWrapper.append(mainItemText, mainItemBtns)
+      mainProductItem.append(mainWrapper)
+      child.append(mainProductItem)
+      // закидываем получившийся товар в блок с товарами, балдеем
+      element.append(child)
+    }
+  }
 }
