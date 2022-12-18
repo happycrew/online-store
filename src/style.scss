@@ -473,7 +473,7 @@ select {
 
   h3 {
     font-size: 150%;
-    padding: .5%;
+    padding: 0.5%;
     border-bottom: none;
   }
 }
@@ -481,7 +481,7 @@ select {
 .main__popup-data {
   display: flex;
   width: 100%;
-  padding: .5%;
+  padding: 0.5%;
 }
 
 .popup__photo {
@@ -515,6 +515,67 @@ select {
   }
 }
 
+.popup__product-info {
+  width: 40%;
+}
+
+.product__detail {
+  margin: 1% auto;
+  border: 1px solid black;
+  border-radius: 0.3rem;
+  overflow: hidden;
+  text-align: center;
+  text-shadow: $shadow-text;
+
+  h3 {
+    text-align: center;
+    padding: 0.7%;
+  }
+
+  p {
+    padding: 0.7%;
+    color: #001F3F;
+    text-shadow: none;
+  }
+}
+
+.popup__add-to-cart {
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.product__price-btns {
+  width: 90%;
+  font-size: 200%;
+  color:aliceblue;
+  text-shadow: $shadow-text;
+
+  button {
+    font-size: 40%;
+    display: block;
+    padding: 7% 0;
+    background: $sub-color-bg;
+    border: 2px solid black;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    width: 100%;
+    margin: 1rem auto;
+
+    &:hover {
+      transform: scale(103%);
+      border: 2px solid gainsboro;
+    }
+
+    &:active {
+      box-shadow: 2px 2px 3px #2d3388;
+      transform: translateY(-0.25em);
+    }
+    
+  }
+}
 // Footer
 
 .footer {
