@@ -139,6 +139,14 @@ h1 {
   padding: 2%;
   display: flex;
   justify-content: space-between;
+  justify-content: center;
+}
+
+.main__container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  display: none;
 }
 
 .main__filter {
@@ -241,7 +249,7 @@ input[type="checkbox"] {
 }
 
 .item-not-active {
-  // ????????? //
+
   label,
   span {
     color: rgba(218, 231, 218, 0.737);
@@ -412,11 +420,34 @@ select {
     &:hover {
       transform: scale(103%);
     }
-  
+
     &:active {
       box-shadow: 2px 2px 3px #2d3388;
       transform: translateY(-0.25em);
     }
+  }
+}
+// Main popup
+.main__popup {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.main__popup-item {
+  width: 80%;
+  height: fit-content;
+}
+
+.main__popup-navigation {
+  margin: 3% auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  
+  a {
+    text-decoration: none;
   }
 }
 
