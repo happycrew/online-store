@@ -52,15 +52,31 @@
           </div>
           <div class="main__price">
             <h3>Price</h3>
-            <div class="main__data">
+            <!-- <div class="main__data">
               <div class="main__from-data">€10.00</div>
               ⟷
               <div class="main__to-data">€1749.00</div>
             </div>
             <div class="main__multi-range">
-              <input type="range" min="0" max="48" />
-              <!-- <input type="range" min="0" max="48"> -->
+              <input type="range" class="range-min" min="0" max="10" value="100" />
+              <input type="range" class="range-max" min="0" max="1749" value ="900">
+            </div> -->
+            <div class="price-input">
+              <div class="field">
+                <input type="number" class="input-min" value="10">
+              </div>
+              ⟷
+              <div class="field">
+                <input type="number" class="input-max" value="1749">
+              </div>
             </div>
+            <div class="slider">
+              <div class="progress"></div>
+            </div>
+            <div class="range-input">
+              <input type="range" class="range-min" min="10" max="1749" value="10" step="1" />
+              <input type="range" class="range-max" min="10" max="1749" value="1700" step="1">
+            </div> 
           </div>
           <div class="main__stock">
             <h3>Stock</h3>
@@ -69,10 +85,10 @@
               ⟷
               <div class="main__to-data">150</div>
             </div>
-            <div class="main__multi-range">
-              <input type="range" min="0" max="48" />
+            <!-- <div class="main__multi-range"> -->
+              <!-- <input type="range" min="0" max="48" /> -->
               <!-- <input type="range" min="0" max="48"> -->
-            </div>
+            <!-- </div> -->
           </div>
         </div>
         <div class="main__products">

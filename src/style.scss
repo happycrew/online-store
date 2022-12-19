@@ -146,7 +146,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  display: none;
+  // display: none;
 }
 
 .main__filter {
@@ -429,7 +429,7 @@ select {
 // Main popup
 .main__popup {
   width: 100%;
-  display: flex;
+  display: none;
   justify-content: center;
 }
 
@@ -653,4 +653,83 @@ select {
   a:hover {
     color: black;
   }
+}
+
+// input range price/stock
+input[type="number"] {
+  color: black;
+}
+
+.price-input {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: flex;
+  justify-content: space-around;
+
+  .field {
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 60px;
+      height: 30px;
+      border: 1px solid gainsboro;
+      border-radius: 10px;
+      text-align: center;
+      outline: none;
+    }
+  }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.slider {
+  height: 5px;
+  background: #ddd;
+  border-radius: 5px;
+  margin-left: 3%;
+  margin-right: 3%;
+  position: relative;
+
+  .progress {
+    height: 5px;
+    width: 100%;
+    left: 0%;
+    right: 0%;
+    border-radius: 5px;
+    position: absolute;
+    background: rgb(78, 104, 144);
+    transition: 0s;
+  }
+}
+
+.range-input {
+  position: relative;
+  height: 1rem;
+
+  input {
+    position: absolute;
+    width: 100%;
+    top: -5px;
+    height: 5px;
+    width: 100%;
+    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+  }
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  height: 13px;
+  width: 13px;
+  -webkit-appearance: none;
+  border-radius: 50%;
+  pointer-events: auto;
+  background: rgb(78, 104, 144);
+  border: 1px solid gainsboro;
+  
 }
