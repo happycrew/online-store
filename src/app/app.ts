@@ -1,6 +1,7 @@
 import { Loader } from './loader/loader'
 import { ProductResponse } from './types'
 import { ContentGenerator } from './htmlGenerator/contentGenerator'
+import { Router } from './router/router'
 
 export class App {
   private readonly loader: Loader
@@ -18,6 +19,8 @@ export class App {
   }
 
   async start (): Promise<void> {
+    const router = new Router(window.location.origin.concat('/'))
+    console.log(router.start())
     const categories: string[] = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
     this.generator.generateBrandItems(products.products, this.brandsBlock)
