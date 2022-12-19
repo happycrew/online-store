@@ -22,9 +22,9 @@ priceInput.forEach(input => {
   input.addEventListener('input', e => {
     const minPrice = parseInt((priceInput[0] as HTMLInputElement).value)
     const maxPrice = parseInt((priceInput[1] as HTMLInputElement).value)
-    const zalupa = parseInt((rangeInput[1] as HTMLInputElement).max)
+    const maxRangeInputFirst = parseInt((rangeInput[1] as HTMLInputElement).max)
     console.log(e.target, 'target')
-    if ((maxPrice - minPrice >= priceGap) && maxPrice <= zalupa) {
+    if ((maxPrice - minPrice >= priceGap) && maxPrice <= maxRangeInputFirst) {
       if ((e.target as HTMLElement).className === 'input-min') {
         (rangeInput[0] as HTMLInputElement).value = String(minPrice)
       } else {
