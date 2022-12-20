@@ -2,9 +2,12 @@ import './style.scss'
 import { App } from './app/app'
 import { Loader } from './app/loader/loader'
 import { ContentGenerator } from './app/htmlGenerator/contentGenerator'
+import { ClickChangeView } from './app/htmlGenerator/changeView'
+
 const loader: Loader = new Loader()
 const generator: ContentGenerator = new ContentGenerator()
-const app = new App(loader, generator)
+const changeView: ClickChangeView = new ClickChangeView()
+const app = new App(loader, generator, changeView)
 app.start().catch((err: Error) => {
   throw new Error(err.message)
 })
@@ -52,28 +55,3 @@ rangeInput.forEach(input => {
     }
   })
 })
-
-// Resize
-const viewButtons = Array.from(document.querySelectorAll('.main__view span'))
-
-viewButtons.forEach(btn => {
-  btn.addEventListener('click', event => {
-    if (!(event.target as HTMLElement).classList.contains('active-view')) {
-      const currentActive = document.querySelector('.active-view') as HTMLElement
-      currentActive.classList.remove('active-view');
-      (event.target as HTMLElement).classList.add('active-view')
-      if ((event.target as HTMLElement).classList.contains('view__small')) {
-        const bigItemsArr = Array.from(document.querySelectorAll('.big-item'))
-        const itemInfoArr = Array.from(document.querySelectorAll('.item__info'))
-        itemInfoArr.forEach((el) => el.classList.toggle('info-hidden'))
-        bigItemsArr.forEach((el) => el.classList.remove('big-item'))
-      } else if ((event.target as HTMLElement).classList.contains('view__big')) {
-        const bigItemsArr = Array.from(document.querySelectorAll('.main__item'))
-        bigItemsArr.forEach((el) => el.classList.add('big-item'))
-        const itemInfoArr = Array.from(document.querySelectorAll('.item__info'))
-        itemInfoArr.forEach((el) => el.classList.toggle('info-hidden'))
-      }
-    }
-  })
-}
-)
