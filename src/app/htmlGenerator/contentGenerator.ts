@@ -140,4 +140,14 @@ export class ContentGenerator {
       element.append(child)
     }
   }
+
+  showSingleProduct (product: Product): void {
+    const element: HTMLElement = document.querySelector('.main__popup') as HTMLElement
+    element.style.display = 'flex' as string
+    (element.firstChild?.nextSibling as HTMLElement).onclick = () => {
+      element.style.display = 'none'
+    }
+    // TODO: тут позакидывать  из переменной product: Product в форму всплывающего окна
+    console.log(product)
+  }
 }
