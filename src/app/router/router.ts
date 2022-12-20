@@ -1,5 +1,6 @@
 import { Product } from '../types'
 import { Loader } from '../loader/loader'
+import { ContentGenerator } from '../htmlGenerator/contentGenerator'
 
 export class Router {
   private readonly root: string
@@ -8,14 +9,14 @@ export class Router {
     this.root = root
   }
 
-  async start (loader: Loader): Promise<void> {
+  async start (loader: Loader, generator: ContentGenerator): Promise<void> {
     const currentPage = window.location.href
     console.log(window.location.origin.concat('/?product='))
     if (currentPage.includes(window.location.origin.concat('/?product='))) {
       const str = window.location.href
       const productNumber = parseInt(str.replace(window.location.origin.concat('/?product='), ''), 10)
       const product: Product = await loader.getSingleProduct(productNumber)
-      console.log(product)
+      generator.showSingleProduct(product)
       return
     }
     console.log(currentPage)
