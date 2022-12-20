@@ -38,6 +38,10 @@ export class ContentGenerator {
       // основной div, который мы добавляем в контейер
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__item', 'big-item')
+      child.id = `product${products[i].id}`
+      child.onclick = () => {
+        window.location.href = window.location.origin.concat(`?product=${products[i].id}`)
+      }
       // div с товаром
       const mainProductItem = document.createElement('div') as HTMLElement
       mainProductItem.classList.add('main__product-item')
@@ -135,5 +139,15 @@ export class ContentGenerator {
       // закидываем получившийся товар в блок с товарами, балдеем
       element.append(child)
     }
+  }
+
+  showSingleProduct (product: Product): void {
+    const element: HTMLElement = document.querySelector('.main__popup') as HTMLElement
+    element.style.display = 'flex' as string
+    (element.firstChild?.nextSibling as HTMLElement).onclick = () => {
+      element.style.display = 'none'
+    }
+    // TODO: тут позакидывать  из переменной product: Product в форму всплывающего окна
+    console.log(product)
   }
 }
