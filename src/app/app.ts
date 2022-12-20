@@ -20,7 +20,9 @@ export class App {
 
   async start (): Promise<void> {
     const router = new Router(window.location.origin.concat('/'))
-    console.log(router.start())
+    await router.start(this.loader).catch((err: Error) => {
+      throw new Error(err.message)
+    }).then().catch()
     const categories: string[] = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
     this.generator.generateBrandItems(products.products, this.brandsBlock)
