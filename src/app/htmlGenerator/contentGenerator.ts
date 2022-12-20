@@ -38,6 +38,10 @@ export class ContentGenerator {
       // основной div, который мы добавляем в контейер
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__item', 'big-item')
+      child.id = `product${products[i].id}`
+      child.onclick = () => {
+        window.location.href = window.location.origin.concat(`?product=${products[i].id}`)
+      }
       // div с товаром
       const mainProductItem = document.createElement('div') as HTMLElement
       mainProductItem.classList.add('main__product-item')
