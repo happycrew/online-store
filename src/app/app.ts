@@ -2,6 +2,7 @@ import { Loader } from './loader/loader'
 import { ProductResponse } from './types'
 import { ContentGenerator } from './htmlGenerator/contentGenerator'
 import { Router } from './router/router'
+import { ClickChangeView } from './htmlGenerator/changeView'
 
 export class App {
   private readonly loader: Loader
@@ -9,13 +10,15 @@ export class App {
   private readonly brandsBlock: HTMLElement
   private readonly categoriesBlock: HTMLElement
   private readonly productsBlock: HTMLElement // create by me
+  private readonly clickChangeView: ClickChangeView // by me
 
-  constructor (loader: Loader, generator: ContentGenerator) {
+  constructor (loader: Loader, generator: ContentGenerator, changeview: ClickChangeView) {
     this.loader = loader
     this.generator = generator
     this.brandsBlock = document.querySelector('.main__brand-list') as HTMLElement
     this.categoriesBlock = document.querySelector('.main__category-list') as HTMLElement
     this.productsBlock = document.querySelector('.main__product-items') as HTMLElement // by me
+    this.clickChangeView = changeview
   }
 
   async start (): Promise<void> {
