@@ -20,7 +20,7 @@ export class App {
 
   async start (): Promise<void> {
     const router = new Router(window.location.origin.concat('/'))
-    await router.start(this.loader).catch((err: Error) => {
+    await router.start(this.loader, this.generator).catch((err: Error) => {
       throw new Error(err.message)
     }).then().catch()
     const categories: string[] = (await this.loader.getCategorise()).sort()
