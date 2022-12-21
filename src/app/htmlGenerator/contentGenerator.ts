@@ -152,7 +152,6 @@ export class ContentGenerator {
     }
     // TODO: тут позакидывать  из переменной product: Product в форму всплывающего окна
     console.log(product)
-    console.log(element)
     // Меняем navigation
     const navPopup = Array.from(document.querySelectorAll('.main__popup-navigation a'))
     navPopup[1].innerHTML = product.category.toUpperCase()
@@ -173,16 +172,21 @@ export class ContentGenerator {
     const productPrice = document.querySelector('.product__price-btns span') as HTMLElement
     productPrice.innerHTML = `€${product.price}`
     // Меняем изображение
-    const productImgSlide = document.querySelector('.popup__slide') as HTMLElement
-    productImgSlide.innerHTML = ''
+    const productSlide = document.querySelector('.popup__slide') as HTMLElement
+    productSlide.innerHTML = ''
     for (let i = 0; i < product.images.length; i++) {
       const productImg = document.createElement('img') as HTMLElement
       (productImg as HTMLImageElement).src = `${product.images[i]}`
-      productImgSlide.append(productImg)
+      productSlide.append(productImg)
     }
-    // const productImg = Array.from(document.querySelectorAll('.popup__slide img'))
-    console.log(product.images)
     const productBigImg = document.querySelector('.popup__big-photo img') as HTMLImageElement
     productBigImg.src = `${product.thumbnail}`
+    // Cмена изображения при клике
+    const sliderImgs = Array.from(document.querySelectorAll('.popup__slide img'))
+    sliderImgs.forEach((img) => {
+      img.addEventListener('click', (): void => {
+        productBigImg.src = `${(img as HTMLImageElement).src}`
+      })
+    })
   }
 }
