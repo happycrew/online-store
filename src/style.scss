@@ -146,10 +146,6 @@ h1 {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  // display: none;
-  // @media screen and (max-width: 980px) {
-  //   flex-direction: column;
-  // }
 }
 
 .main__filter {
@@ -464,8 +460,7 @@ select {
   justify-content: center;
   .close{
     position: absolute;
-    top: 5px;
-    right: 5px;
+    right: 50px;
     width: 55px;
     height: 55px;
     cursor: pointer;
@@ -485,12 +480,12 @@ select {
   }
 
   .close:before {
-    webkit-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
   }
 
   .close:after {
-    webkit-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
   }
 }
@@ -597,6 +592,7 @@ select {
 
 .popup__product-info {
   width: 40%;
+  align-self: center;
   @media screen and (max-width: 800px) {
     margin-top: 3%;
     width: 100%;

@@ -55,3 +55,19 @@ rangeInput.forEach(input => {
     }
   })
 })
+
+// Сортировка тест
+const selectSort = document.getElementById('selectSort') as HTMLSelectElement
+
+selectSort.addEventListener('change', () => {
+  switch (selectSort.value) {
+    case ('price-ASC'): {
+      console.log('По возрастанию цены')
+      break
+    }
+    case ('price-DESC'): {
+      console.log('По убыванию цены')
+      break
+    }
+  }
+})
