@@ -79,8 +79,8 @@ h1 {
 .header__logo {
   width: 70px;
   height: 70px;
-  background-image: url("./assets/pngegg.png");
-  background: url("./assets/pngegg.png");
+  background-image: url('./assets/pngegg.png');
+  background: url('./assets/pngegg.png');
 
   @media screen and (max-width: $small-size) {
     display: none;
@@ -100,7 +100,7 @@ h1 {
 }
 
 .header__basket {
-  background-image: url("./assets/shop-basket.png");
+  background-image: url('./assets/shop-basket.png');
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -255,7 +255,7 @@ h3 {
   }
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   cursor: grab;
   height: 1.1rem;
   width: 1.2rem;
@@ -395,7 +395,7 @@ select {
   white-space: nowrap;
 
   @media screen and (max-width: 1160px) {
-    font-size: 80%
+    font-size: 80%;
   }
 }
 
@@ -458,7 +458,7 @@ select {
   width: 100%;
   display: none;
   justify-content: center;
-  .close{
+  .close {
     position: absolute;
     right: 50px;
     width: 55px;
@@ -470,7 +470,7 @@ select {
 
   .close:before,
   .close:after {
-    content: "";
+    content: '';
     position: absolute;
     top: 21px;
     left: 10px;
@@ -614,7 +614,7 @@ select {
 
   p {
     padding: 0.7%;
-    color: #001F3F;
+    color: #001f3f;
     text-shadow: none;
   }
 }
@@ -634,7 +634,7 @@ select {
 .product__price-btns {
   width: 90%;
   font-size: 200%;
-  color:aliceblue;
+  color: aliceblue;
   text-shadow: $shadow-text;
 
   button {
@@ -657,10 +657,257 @@ select {
       box-shadow: 2px 2px 3px #2d3388;
       transform: translateY(-0.25em);
     }
-  @media screen and (max-width: 800px) {
+    @media screen and (max-width: 800px) {
       width: 50%;
       padding: 2% 0;
+    }
   }
+}
+
+// Main cart styles
+
+.main__cart {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.main__cart-wrapper {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main__prod-in-cart {
+  width: 69%;
+  border: 1px solid gainsboro;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background-color: #1e1b1b80;
+  height: fit-content;
+  text-shadow: $shadow-text;
+
+  .title-and-page-control {
+    display: flex;
+    background-color: $main-color-bg;
+    background-color: $main-color-bg-gradient;
+    padding: 0.3rem;
+    border-bottom: 1px solid gainsboro;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 {
+      justify-self: center;
+    }
+
+    .page-control {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+.page-limit {
+  input {
+    width: 2rem;
+    text-align: center;
+    outline: none;
+    border: 1px solid gainsboro;
+    border-radius: 0.2rem;
+    background-color: green;
+    font-size: 140%;
+  }
+}
+
+.page-numbers {
+  margin-left: 2rem;
+  button {
+    background-color: green;
+    cursor: pointer;
+    border: 1px solid gainsboro;
+    border-radius: 0.2rem;
+    padding: 0.1rem;
+    font-size: 140%;
+  }
+}
+.main__total-cart {
+  width: 29%;
+  border: 1px solid gainsboro;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  height: fit-content;
+  text-shadow: $shadow-text;
+  background: rgba(96, 167, 221, 0.592);
+
+  h2 {
+    background-color: #aabacc;
+    text-align: center;
+    font-size: 130%;
+    padding: 0.55rem;
+    border-bottom: 1px solid gainsboro;
+  }
+
+  .total-cart__price,
+  .total-cart__products {
+    width: 90%;
+    font-size: 110%;
+    text-align: center;
+    margin: 4%;
+
+    span {
+      font-size: 170%;
+      color: goldenrod;
+    }
+  }
+
+  .total-cart__promocode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input {
+      background-color: rgba(79, 81, 137, 0.432);
+      border: 1px solid gainsboro;
+      border-radius: 2rem;
+      outline: none;
+      padding: 0.4rem;
+      text-align: center;
+      color: white;
+      text-shadow: $shadow-text;
+      width: 70%;
+      font-size: 100%;
+    }
+  }
+
+  .total-cart__promo-example {
+    display: block;
+    margin: 3% auto;
+    text-align: center;
+    color: #e49999f7;
+    font-size: 90%;
+  }
+
+  button {
+    font-size: 100%;
+    display: block;
+    padding: 2% 0;
+    background: #3b65ad;
+    color: wheat;
+    border: 2px solid black;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    width: 50%;
+    margin: 3rem auto 1rem;
+  }
+}
+
+.cart-item__wrapper {
+  width: 100%;
+  display: block;
+  padding: 0.5%;
+  border-bottom: 1px solid gainsboro;
+  background: $sub-color-bg;
+  background: rgba(96, 167, 221, 0.592);
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 5rem;
+
+  .cart-item__id {
+    width: 3%;
+    text-align: center;
+    border: 1px solid gainsboro;
+    border-radius: 5rem;
+    background-color: #181a1c;
+  }
+
+  .cart-item__info {
+    width: 75%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    img {
+      width: 20%;
+      height: 100%;
+      border-radius: 0.5rem;
+      border: 0.2px solid gainsboro;
+    }
+
+    .cart-item__detail {
+      width: 80%;
+      height: 100%;
+      padding: 1%;
+      text-shadow: $shadow-text;
+
+      .product-title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-shadow: $shadow-text;
+        border-bottom: 1px solid wheat;
+
+        h3 {
+          padding-bottom: 1%;
+          border-bottom: none;
+          background-color: inherit;
+        }
+      }
+
+      .product-description {
+        padding-top: 1%;
+        font-size: 80%;
+        text-align: center;
+      }
+
+      .product-other {
+        padding-top: 1%;
+        display: flex;
+        align-items: end;
+        justify-content: space-around;
+      }
+    }
+  }
+
+  .cart-item__number-control {
+    width: 15%;
+
+    .product-stock,
+    .product-price {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 7%;
+      text-shadow: $shadow-text;
+    }
+    .product-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 150%;
+
+      button {
+        width: 2rem;
+        height: 2rem;
+        background-color: #181a1c;
+        border-radius: 10rem;
+        font-size: 150%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        border: 1px solid gainsboro;
+      }
+    }
   }
 }
 // Footer
@@ -743,7 +990,7 @@ select {
 }
 
 // input range price/stock
-input[type="number"] {
+input[type='number'] {
   color: black;
 }
 
@@ -768,8 +1015,8 @@ input[type="number"] {
   }
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
@@ -812,7 +1059,7 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
-input[type="range"]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
   height: 13px;
   width: 13px;
   -webkit-appearance: none;
@@ -820,5 +1067,4 @@ input[type="range"]::-webkit-slider-thumb {
   pointer-events: auto;
   background: rgb(78, 104, 144);
   border: 1px solid gainsboro;
-
 }
