@@ -97,10 +97,50 @@ selectSort.addEventListener('change', () => {
 // Cкрыл все блоки кроме корзины
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const displayContainer = document.querySelector('.main__container') as HTMLElement
-displayContainer.style.display = 'none'
+displayContainer.style.display = 'flex'
 const cartEmpty = document.querySelector('.main__cart h1') as HTMLHeadingElement
 cartEmpty.style.display = 'none'
 const displayCart = document.querySelector('.main__cart') as HTMLElement
-displayCart.style.display = 'flex'
+displayCart.style.display = 'none'
 const displayModal = document.querySelector('.main__modal') as HTMLElement
-displayModal.style.display = 'flex'
+displayModal.style.display = 'none'
+
+// Попытки в валидацию
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const phoneNumber = document.querySelector('.person-phone input') as HTMLInputElement
+const validationBlocks = Array.from(document.querySelectorAll('.modal-form__personal-details div'))
+const validationInputs = Array.from(document.querySelectorAll('.modal-form__personal-details div input'))
+console.log(validationInputs[1])
+
+function createError (block: HTMLElement): void {
+  const divError = document.createElement('div')
+  divError.classList.add('error')
+  divError.innerHTML = 'error'
+  block.append(divError)
+}
+
+function deleteError (): HTMLElement {
+  const divError = document.querySelector('.error')
+  return divError as HTMLElement
+}
+
+function validatePhone (phone: string | number): boolean {
+  const re = /^((8|\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/
+  return re.test(String(phone))
+}
+
+// Телефонный номер
+phoneNumber.onchange = function (): void {
+  const phoneVal = phoneNumber.value
+  if (!validatePhone(phoneVal)) {
+    console.log('zalupa oshibka')
+    if (validationBlocks[1].children.length === 1) {
+      createError(validationBlocks[1] as HTMLElement)
+    }
+  } else {
+    console.log('genui')
+    if (validationBlocks[1].children.length !== 1) {
+      validationBlocks[1].removeChild(deleteError())
+    }
+  }
+}
