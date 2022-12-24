@@ -106,13 +106,19 @@ const displayModal = document.querySelector('.main__modal') as HTMLElement
 displayModal.style.display = 'flex'
 
 // Попытки в валидацию
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const phoneNumber = document.querySelector('.person-phone input') as HTMLInputElement
 const personName = document.querySelector('.person-name input') as HTMLInputElement
 const personAddress = document.querySelector('.person-adress input') as HTMLInputElement
 const personEmail = document.querySelector('.person-email input') as HTMLInputElement
 const validationBlocks = Array.from(document.querySelectorAll('.modal-form__personal-details div'))
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const cardImg = {
+  nologo: 'https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71',
+  mastercard: 'https://www.mastercard.hu/content/dam/public/mastercardcom/eu/hu/images/mc-logo-52.svg',
+  visa: 'https://cdn.visa.com/v2/assets/images/logos/visa/blue/logo.png',
+  americanExpress: 'https://www.aexp-static.com/cdaas/one/statics/axp-static-assets/1.8.0/package/dist/img/logos/dls-logo-stack.svg',
+  unionPay: 'https://m.unionpayintl.com/imp_file/global/wap/en/static/images/logo.png'
+}
 function createError (block: HTMLElement): void {
   const divError = document.createElement('div')
   divError.classList.add('error')
