@@ -232,3 +232,15 @@ personEmail.onchange = function (): void {
     }
   }
 }
+
+const creditCart = document.querySelector('.card__number input') as HTMLInputElement
+console.log(creditCart)
+creditCart.addEventListener('input', ev => {
+  // const numbers = /[0-9]/
+  // const regExp = /[0-9]{4}/
+  // if ((ev as InputEvent).inputType === 'insertText' && !numbers.test(ev.data) || input.value.length > 19) {
+  //   input.value = input.value.slice(0, input.value.length - 1)
+  //   return
+  // console.log(ev)
+}
+)
