@@ -3,6 +3,7 @@ import { App } from './app/app'
 import { Loader } from './app/loader/loader'
 import { ContentGenerator } from './app/htmlGenerator/contentGenerator'
 import { ClickChangeView } from './app/htmlGenerator/changeView'
+import { Product } from './app/types'
 
 const loader: Loader = new Loader()
 const generator: ContentGenerator = new ContentGenerator()
@@ -68,27 +69,105 @@ const selectSort = document.getElementById('selectSort') as HTMLSelectElement
 selectSort.addEventListener('change', () => {
   switch (selectSort.value) {
     case 'price-ASC': {
-      window.location.href = window.location.origin.concat('/?sort=price-ASC')
+      window.history.pushState(
+        {
+          currentPage: 'sort',
+          products: (
+            history.state as {
+              currentPage: string
+              products: Product[]
+            }
+          ).products
+        },
+        '',
+        '/?sort=price-ASC'
+      )
+      app.startSorting()
       break
     }
     case 'price-DESC': {
-      window.location.href = window.location.origin.concat('/?sort=price-DESC')
+      window.history.pushState(
+        {
+          currentPage: 'sort',
+          products: (
+            history.state as {
+              currentPage: string
+              products: Product[]
+            }
+          ).products
+        },
+        '',
+        '/?sort=price-DESC'
+      )
+      app.startSorting()
       break
     }
     case 'rating-ASC': {
-      window.location.href = window.location.origin.concat('/?sort=price-ASC')
+      window.history.pushState(
+        {
+          currentPage: 'sort',
+          products: (
+            history.state as {
+              currentPage: string
+              products: Product[]
+            }
+          ).products
+        },
+        '',
+        '/?sort=rating-ASC'
+      )
+      app.startSorting()
       break
     }
     case 'rating-DESC': {
-      window.location.href = window.location.origin.concat('/?sort=price-DESC')
+      window.history.pushState(
+        {
+          currentPage: 'sort',
+          products: (
+            history.state as {
+              currentPage: string
+              products: Product[]
+            }
+          ).products
+        },
+        '',
+        '/?sort=rating-DESC'
+      )
+      app.startSorting()
       break
     }
     case 'discount-ASC': {
-      window.location.href = window.location.origin.concat('/?sort=price-ASC')
+      window.history.pushState(
+        {
+          currentPage: 'sort',
+          products: (
+            history.state as {
+              currentPage: string
+              products: Product[]
+            }
+          ).products
+        },
+        '',
+        '/?sort=discount-ASC'
+      )
+      app.startSorting()
       break
     }
     case 'discount-DESC': {
-      window.location.href = window.location.origin.concat('/?sort=price-DESC')
+      window.history.pushState(
+        {
+          currentPage: 'sort',
+          products: (
+            history.state as {
+              currentPage: string
+              products: Product[]
+            }
+          ).products
+        },
+        '',
+        '/?sort=discount-DESC'
+      )
+      app.startSorting()
       break
     }
   }
@@ -96,7 +175,9 @@ selectSort.addEventListener('change', () => {
 
 // Cкрыл все блоки кроме корзины
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const displayContainer = document.querySelector('.main__container') as HTMLElement
+const displayContainer = document.querySelector(
+  '.main__container'
+) as HTMLElement
 displayContainer.style.display = 'flex'
 const cartEmpty = document.querySelector('.main__cart h1') as HTMLHeadingElement
 cartEmpty.style.display = 'none'
@@ -107,9 +188,15 @@ displayModal.style.display = 'none'
 
 // Попытки в валидацию
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const phoneNumber = document.querySelector('.person-phone input') as HTMLInputElement
-const validationBlocks = Array.from(document.querySelectorAll('.modal-form__personal-details div'))
-const validationInputs = Array.from(document.querySelectorAll('.modal-form__personal-details div input'))
+const phoneNumber = document.querySelector(
+  '.person-phone input'
+) as HTMLInputElement
+const validationBlocks = Array.from(
+  document.querySelectorAll('.modal-form__personal-details div')
+)
+const validationInputs = Array.from(
+  document.querySelectorAll('.modal-form__personal-details div input')
+)
 console.log(validationInputs[1])
 
 function createError (block: HTMLElement): void {
@@ -144,3 +231,7 @@ phoneNumber.onchange = function (): void {
     }
   }
 }
+
+window.addEventListener('popstate', (): void => {
+  window.history.state === null ? alert('wrong') : app.startSorting()
+})
