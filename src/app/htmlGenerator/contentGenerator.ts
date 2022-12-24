@@ -42,8 +42,13 @@ export class ContentGenerator {
       child.classList.add('main__item', 'big-item')
       child.id = `product${products[i].id}`
       child.onclick = () => {
-        window.location.href = window.location.origin.concat(
-          `?product=${products[i].id}`
+        window.history.pushState(
+          { currentPage: 'product', product: products[i] },
+          '',
+          `/?product=${i}`
+        )
+        this.showSingleProduct(
+          (history.state as { currentPage: string, product: Product }).product
         )
       }
       // div с товаром
@@ -155,11 +160,10 @@ export class ContentGenerator {
     element.style.display = 'flex' as string
     mainContainer.style.display = 'none'
     ;(element.firstChild?.nextSibling as HTMLElement).onclick = () => {
+      window.history.back()
       element.style.display = 'none'
       mainContainer.style.display = 'flex'
     }
-    // TODO: тут позакидывать  из переменной product: Product в форму всплывающего окна
-    console.log(product)
     // Меняем navigation
     const navPopup = Array.from(
       document.querySelectorAll('.main__popup-navigation a')
