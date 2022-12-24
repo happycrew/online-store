@@ -210,3 +210,19 @@ personAddress.onchange = function (): void {
     }
   }
 }
+
+// Проверка email
+personEmail.onchange = function (): void {
+  const emailVal = personEmail.value
+  if (!validateEmail(emailVal)) {
+    console.log('Email incorrect')
+    if (validationBlocks[3].children.length === 1) {
+      createError(validationBlocks[3] as HTMLElement)
+    }
+  } else {
+    console.log('Email correct')
+    if (validationBlocks[3].children.length !== 1) {
+      validationBlocks[3].removeChild(deleteError())
+    }
+  }
+}
