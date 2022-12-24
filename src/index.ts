@@ -181,13 +181,13 @@ selectSort.addEventListener('change', () => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const displayContainer = document.querySelector('.main__container') as HTMLElement
-displayContainer.style.display = 'flex'
+displayContainer.style.display = 'none'
 const cartEmpty = document.querySelector('.main__cart h1') as HTMLHeadingElement
 cartEmpty.style.display = 'none'
 const displayCart = document.querySelector('.main__cart') as HTMLElement
-displayCart.style.display = 'none'
+displayCart.style.display = 'flex'
 const displayModal = document.querySelector('.main__modal') as HTMLElement
-displayModal.style.display = 'none'
+displayModal.style.display = 'flex'
 
 // Попытки в валидацию
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -327,11 +327,27 @@ personEmail.onchange = function (): void {
 const creditCart = document.querySelector('.card__number input') as HTMLInputElement
 console.log(creditCart)
 creditCart.addEventListener('input', ev => {
-  // const numbers = /[0-9]/
-  // const regExp = /[0-9]{4}/
-  // if ((ev as InputEvent).inputType === 'insertText' && !numbers.test(ev.data) || input.value.length > 19) {
-  //   input.value = input.value.slice(0, input.value.length - 1)
-  //   return
-  // console.log(ev)
-}
-)
+  const numbers = /[0-9]/
+  const regExp = /[0-9]{4}/
+  // не позволяем ввести ничего, кроме цифр 0-9, ограничиваем размер поля 19-ю символами
+  if (((ev as InputEvent).inputType === 'insertText' && !numbers.test(((ev as InputEvent).data) as string)) || creditCart.value.length > 19) {
+    creditCart.value = creditCart.value.slice(0, creditCart.value.length - 1)
+    return
+  }
+  // обеспечиваем работу клавиш "backspace","delete"
+  const value = creditCart.value
+  if ((ev as InputEvent).inputType === 'deleteContentBackward' && regExp.test(value.slice(-4))) {
+    creditCart.value = creditCart.value.slice(0, creditCart.value.length - 1)
+    return
+  }
+
+  // добавяем пробел после 4 цифр подряд
+  if (regExp.test(creditCart.value.slice(-4)) && creditCart.value.length < 19) {
+    creditCart.value += ' '
+  }
+})
+
+// if ((ev as InputEvent).inputType === 'insertText' && !numbers.test(ev.data) || input.value.length > 19) {
+//   input.value = input.value.slice(0, input.value.length - 1)
+//   return
+// console.log(ev)
