@@ -11,6 +11,7 @@ export class App {
   private readonly categoriesBlock: HTMLElement
   private readonly productsBlock: HTMLElement // create by me
   private readonly clickChangeView: ClickChangeView // by me
+  private readonly router: Router
 
   constructor (
     loader: Loader,
@@ -18,6 +19,7 @@ export class App {
     changeview: ClickChangeView
   ) {
     this.loader = loader
+    this.router = new Router(window.location.origin.concat('/'))
     this.generator = generator
     this.brandsBlock = document.querySelector(
       '.main__brand-list'
@@ -31,17 +33,15 @@ export class App {
     this.clickChangeView = changeview
   }
 
+  startSorting (): void {
+    this.router.start(this.generator)
+  }
+
   async start (): Promise<void> {
-    const router = new Router(window.location.origin.concat('/'))
     const categories: string[] = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
-    await router
-      .start(this.loader, this.generator, products.products)
-      .catch((err: Error) => {
-        throw new Error(err.message)
-      })
-      .then()
-      .catch()
+    this.router.setProducts(products.products)
+    this.router.start(this.generator)
     this.generator.generateBrandItems(products.products, this.brandsBlock)
     this.generator.generateCategoryItems(categories, this.categoriesBlock)
   }
