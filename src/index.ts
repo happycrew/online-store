@@ -97,21 +97,23 @@ selectSort.addEventListener('change', () => {
 // Cкрыл все блоки кроме корзины
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const displayContainer = document.querySelector('.main__container') as HTMLElement
-displayContainer.style.display = 'flex'
+displayContainer.style.display = 'none'
 const cartEmpty = document.querySelector('.main__cart h1') as HTMLHeadingElement
 cartEmpty.style.display = 'none'
 const displayCart = document.querySelector('.main__cart') as HTMLElement
-displayCart.style.display = 'none'
+displayCart.style.display = 'flex'
 const displayModal = document.querySelector('.main__modal') as HTMLElement
-displayModal.style.display = 'none'
+displayModal.style.display = 'flex'
 
 // Попытки в валидацию
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const phoneNumber = document.querySelector('.person-phone input') as HTMLInputElement
+const personName = document.querySelector('.person-name input') as HTMLInputElement
+const personEmail = document.querySelector('.person-email input') as HTMLInputElement
 const validationBlocks = Array.from(document.querySelectorAll('.modal-form__personal-details div'))
 const validationInputs = Array.from(document.querySelectorAll('.modal-form__personal-details div input'))
 console.log(validationInputs[1])
-
+console.log(personName)
 function createError (block: HTMLElement): void {
   const divError = document.createElement('div')
   divError.classList.add('error')
@@ -124,8 +126,22 @@ function deleteError (): HTMLElement {
   return divError as HTMLElement
 }
 
+function validateName (name: string): boolean {
+  const checkName: string[] = name.split(' ')
+  let nameFlag = true
+  if (checkName.length === 1) {
+    return false
+  } else {
+    checkName.forEach((el) => {
+      if (el.length < 3) {
+        nameFlag = false
+      }
+    })
+  }
+  return nameFlag
+}
 function validatePhone (phone: string | number): boolean {
-  const re = /^((8|\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/
+  const re = /^[+][0-9]{11}$/
   return re.test(String(phone))
 }
 
@@ -133,14 +149,29 @@ function validatePhone (phone: string | number): boolean {
 phoneNumber.onchange = function (): void {
   const phoneVal = phoneNumber.value
   if (!validatePhone(phoneVal)) {
-    console.log('zalupa oshibka')
+    console.log('Phone number incorrect')
     if (validationBlocks[1].children.length === 1) {
       createError(validationBlocks[1] as HTMLElement)
     }
   } else {
-    console.log('genui')
+    console.log('Phone number correct')
     if (validationBlocks[1].children.length !== 1) {
       validationBlocks[1].removeChild(deleteError())
+    }
+  }
+}
+
+personName.onchange = function (): void {
+  const nameVal = personName.value
+  if (!validateName(nameVal)) {
+    console.log('Display name incorrect')
+    if (validationBlocks[0].children.length === 1) {
+      createError(validationBlocks[0] as HTMLElement)
+    }
+  } else {
+    console.log('Display name correct')
+    if (validationBlocks[0].children.length !== 1) {
+      validationBlocks[0].removeChild(deleteError())
     }
   }
 }
