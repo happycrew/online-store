@@ -324,8 +324,10 @@ personEmail.onchange = function (): void {
   }
 }
 
+// Кредитка
 const creditCart = document.querySelector('.card__number input') as HTMLInputElement
-console.log(creditCart)
+const creditCartImg = document.querySelector('.card__number img') as HTMLImageElement
+// Набираем номер кредитки в формате xxxx xxxx xxxx xxxx и меняет логотип банка
 creditCart.addEventListener('input', ev => {
   const numbers = /[0-9]/
   const regExp = /[0-9]{4}/
@@ -345,9 +347,26 @@ creditCart.addEventListener('input', ev => {
   if (regExp.test(creditCart.value.slice(-4)) && creditCart.value.length < 19) {
     creditCart.value += ' '
   }
-})
 
-// if ((ev as InputEvent).inputType === 'insertText' && !numbers.test(ev.data) || input.value.length > 19) {
-//   input.value = input.value.slice(0, input.value.length - 1)
-//   return
-// console.log(ev)
+  // меняем логотип банка
+  switch (creditCart.value[0]) {
+    case '3': {
+      creditCartImg.src = cardImg.americanExpress
+      break
+    }
+    case '4': {
+      creditCartImg.src = cardImg.visa
+      break
+    }
+    case '5': {
+      creditCartImg.src = cardImg.mastercard
+      break
+    }
+    case '6': {
+      creditCartImg.src = cardImg.unionPay
+    }
+  }
+  if (creditCart.value.length === 0) {
+    creditCartImg.src = cardImg.nologo
+  }
+})

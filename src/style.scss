@@ -1012,8 +1012,12 @@ select {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 7% auto 10%;
+            margin: 5% auto 5%;
             width: 100%;
+
+            @media screen and (max-width: 1200px) {
+              margin: 7% auto 10%;
+            }
 
             input {
               background: rgb(233, 233, 202);
