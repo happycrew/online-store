@@ -1066,6 +1066,7 @@ select {
                 outline: none;
                 text-align: center;
                 margin-left: 2%;
+                color: black;
               }
             }
           }
@@ -1088,6 +1089,12 @@ select {
 
 .error {
   color: red;
+}
+
+.card__error {
+  color: red;
+  text-align: center;
+  padding-top: 1%;
 }
 
 // Footer

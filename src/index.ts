@@ -37,7 +37,6 @@ priceInput.forEach((input) => {
     const minPrice = parseInt((priceInput[0] as HTMLInputElement).value)
     const maxPrice = parseInt((priceInput[1] as HTMLInputElement).value)
     const maxRangeInputFirst = parseInt((rangeInput[1] as HTMLInputElement).max)
-    console.log(e.target, 'target')
     if (maxPrice - minPrice >= priceGap && maxPrice <= maxRangeInputFirst) {
       if ((e.target as HTMLElement).className === 'input-min') {
         (rangeInput[0] as HTMLInputElement).value = String(minPrice)
@@ -194,14 +193,13 @@ displayModal.style.display = 'flex'
 const validationInputs = Array.from(
   document.querySelectorAll('.modal-form__personal-details div input')
 )
-console.log(validationInputs[1])
 
 const phoneNumber = document.querySelector('.person-phone input') as HTMLInputElement
 const personName = document.querySelector('.person-name input') as HTMLInputElement
 const personAddress = document.querySelector('.person-adress input') as HTMLInputElement
 const personEmail = document.querySelector('.person-email input') as HTMLInputElement
 const validationBlocks = Array.from(document.querySelectorAll('.modal-form__personal-details div'))
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const validationCardBlock = document.querySelector('.modal-form__card-details') as HTMLElement
 const cardImg = {
   nologo: 'https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71',
   mastercard: 'https://www.mastercard.hu/content/dam/public/mastercardcom/eu/hu/images/mc-logo-52.svg',
@@ -221,6 +219,18 @@ function deleteError (): HTMLElement {
   return divError as HTMLElement
 }
 
+function createCardError (block: HTMLElement, errorPlace: string): void {
+  const divCardError = document.createElement('div')
+  divCardError.classList.add('card__error')
+  divCardError.setAttribute('id', errorPlace)
+  divCardError.innerHTML = `Card ${errorPlace} - error`
+  block.append(divCardError)
+}
+
+function deleteCardError (errorPlace: string): HTMLElement {
+  const divCardError = document.getElementById(`${errorPlace}`)
+  return divCardError as HTMLElement
+}
 function validateName (name: string): boolean {
   const checkName: string[] = name.split(' ')
   let nameFlag = true
@@ -265,12 +275,10 @@ function validateEmail (email: string): boolean {
 phoneNumber.onchange = function (): void {
   const phoneVal = phoneNumber.value
   if (!validatePhone(phoneVal)) {
-    console.log('Phone number incorrect')
     if (validationBlocks[1].children.length === 1) {
       createError(validationBlocks[1] as HTMLElement)
     }
   } else {
-    console.log('Phone number correct')
     if (validationBlocks[1].children.length !== 1) {
       validationBlocks[1].removeChild(deleteError())
     }
@@ -281,27 +289,24 @@ phoneNumber.onchange = function (): void {
 personName.onchange = function (): void {
   const nameVal = personName.value
   if (!validateName(nameVal)) {
-    console.log('Display name incorrect')
     if (validationBlocks[0].children.length === 1) {
       createError(validationBlocks[0] as HTMLElement)
     }
   } else {
-    console.log('Display name correct')
     if (validationBlocks[0].children.length !== 1) {
       validationBlocks[0].removeChild(deleteError())
     }
   }
 }
+
 // Проверка адреса
 personAddress.onchange = function (): void {
   const addressVal = personAddress.value
   if (!validateAddress(addressVal)) {
-    console.log('Address incorrect')
     if (validationBlocks[2].children.length === 1) {
       createError(validationBlocks[2] as HTMLElement)
     }
   } else {
-    console.log('Address correct')
     if (validationBlocks[2].children.length !== 1) {
       validationBlocks[2].removeChild(deleteError())
     }
@@ -312,12 +317,10 @@ personAddress.onchange = function (): void {
 personEmail.onchange = function (): void {
   const emailVal = personEmail.value
   if (!validateEmail(emailVal)) {
-    console.log('Email incorrect')
     if (validationBlocks[3].children.length === 1) {
       createError(validationBlocks[3] as HTMLElement)
     }
   } else {
-    console.log('Email correct')
     if (validationBlocks[3].children.length !== 1) {
       validationBlocks[3].removeChild(deleteError())
     }
@@ -370,3 +373,118 @@ creditCart.addEventListener('input', ev => {
     creditCartImg.src = cardImg.nologo
   }
 })
+
+// Проверка на верность введенных данных
+function validateCreditCard (creditcard: string): boolean {
+  const checkCreditCart: string[] = creditcard.split(' ')
+  let creditCardFlag = true
+  if (checkCreditCart.length < 4) {
+    return false
+  } else {
+    checkCreditCart.forEach((el) => {
+      if (el.length < 4) {
+        creditCardFlag = false
+      }
+    })
+  }
+  return creditCardFlag
+}
+creditCart.onchange = function (): void {
+  const creditCardVal = creditCart.value
+  if (!validateCreditCard(creditCardVal)) {
+    if (document.getElementById('number') === null) {
+      createCardError(validationCardBlock, 'number')
+    }
+  } else {
+    if (document.getElementById('number') !== null) {
+      validationCardBlock.removeChild(deleteCardError('number'))
+    }
+  }
+}
+
+// Делаем валидацию у срока действия карты
+const creditCartData = document.querySelector('.card__valid input') as HTMLInputElement
+creditCartData.addEventListener('input', ev => {
+  const numbers = /[0-9]/
+  const regExp = /[0-9]{2}/
+  // не позволяем ввести ничего, кроме цифр 0-9, ограничиваем размер поля 5 символами
+  if (((ev as InputEvent).inputType === 'insertText' && !numbers.test(((ev as InputEvent).data) as string)) || creditCartData.value.length > 5) {
+    creditCartData.value = creditCartData.value.slice(0, creditCartData.value.length - 1)
+    return
+  }
+  // обеспечиваем работу клавиш "backspace","delete"
+  const value = creditCartData.value
+  if ((ev as InputEvent).inputType === 'deleteContentBackward' && regExp.test(value.slice(-2))) {
+    creditCartData.value = creditCart.value.slice(0, creditCartData.value.length - 1)
+    return
+  }
+  // добавяем '/' после 2 цифр подряд
+  if (regExp.test(creditCartData.value.slice(-2)) && creditCartData.value.length < 5) {
+    creditCartData.value += '/'
+  }
+})
+
+function validateCardData (data: string): boolean {
+  const creditData = data.substring(0, 2)
+  let flag = true
+  if (data.length < 5) {
+    return false
+  } else {
+    if (Number(creditData) > 12) {
+      flag = false
+      return false
+    }
+  }
+  return flag
+}
+
+creditCartData.onchange = function (): void {
+  const dataValue = creditCartData.value
+  if (!validateCardData(dataValue)) {
+    if (document.getElementById('valid thru') === null) {
+      createCardError(validationCardBlock, 'valid thru')
+    }
+  } else {
+    if (document.getElementById('valid thru') !== null) {
+      validationCardBlock.removeChild(deleteCardError('valid thru'))
+    }
+  }
+}
+
+// Валидация cvv
+const cardCVV = document.querySelector('.card__data input') as HTMLInputElement
+cardCVV.addEventListener('input', ev => {
+  const numbers = /[0-9]/
+  const regExp = /[0-9]{2}/
+  // не позволяем ввести ничего, кроме цифр 0-9, ограничиваем размер поля 3 символами
+  if (((ev as InputEvent).inputType === 'insertText' && !numbers.test(((ev as InputEvent).data) as string)) || cardCVV.value.length > 3) {
+    cardCVV.value = cardCVV.value.slice(0, cardCVV.value.length - 1)
+    return
+  }
+  // обеспечиваем работу клавиш "backspace","delete"
+  const value = cardCVV.value
+  if ((ev as InputEvent).inputType === 'deleteContentBackward' && regExp.test(value.slice(-2))) {
+    creditCartData.value = creditCart.value.slice(0, creditCartData.value.length - 1)
+  }
+})
+
+function validateCardCvv (data: string): boolean {
+  let flag = true
+  if (data.length < 3) {
+    flag = false
+  }
+  return flag
+}
+
+cardCVV.onchange = function (): void {
+  const valueCVV = cardCVV.value
+  if (!validateCardCvv(valueCVV)) {
+    if (document.getElementById('CVV') === null) {
+      createCardError(validationCardBlock, 'CVV')
+    }
+  } else {
+    if (document.getElementById('CVV') !== null) {
+      validationCardBlock.removeChild(deleteCardError('CVV'))
+    }
+  }
+}
