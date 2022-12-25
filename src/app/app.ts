@@ -3,6 +3,7 @@ import { ProductResponse } from './types'
 import { ContentGenerator } from './htmlGenerator/contentGenerator'
 import { Router } from './router/router'
 import { ClickChangeView } from './htmlGenerator/changeView'
+import { Validation } from './htmlGenerator/validator'
 
 export class App {
   private readonly loader: Loader
@@ -12,11 +13,13 @@ export class App {
   private readonly productsBlock: HTMLElement // create by me
   private readonly clickChangeView: ClickChangeView // by me
   private readonly router: Router
+  private readonly validator: Validation // add 25.12
 
   constructor (
     loader: Loader,
     generator: ContentGenerator,
-    changeview: ClickChangeView
+    changeview: ClickChangeView,
+    validator: Validation // add 25.12
   ) {
     this.loader = loader
     this.router = new Router(window.location.origin.concat('/'))
@@ -31,6 +34,7 @@ export class App {
       '.main__product-items'
     ) as HTMLElement // by me
     this.clickChangeView = changeview
+    this.validator = validator // add 25.12
   }
 
   startSorting (): void {
