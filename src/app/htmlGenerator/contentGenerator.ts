@@ -121,11 +121,11 @@ export class ContentGenerator {
     }
   }
 
-  showSingleProduct (product: Product, id: string): void {
+  showSingleProduct (product: Product, id?: string): void {
     const element: HTMLElement = document.querySelector(
       '.main__popup'
     ) as HTMLElement
-    element.setAttribute('id', id)
+    element.setAttribute('id', id as string)
     const mainContainer = document.querySelector(
       '.main__container'
     ) as HTMLElement
