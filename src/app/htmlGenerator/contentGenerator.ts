@@ -1,4 +1,5 @@
 import { Product } from '../types'
+import { app } from '../../index'
 
 export class ContentGenerator {
   generateBrandItems (products: Product[], element: HTMLElement): void {
@@ -37,8 +38,22 @@ export class ContentGenerator {
   generateProductItems (products: Product[], element: HTMLElement): void {
     // create by me
     function createElementInfo (block: HTMLElement, iter: number): void {
-      const itemInfo: string[] = ['Category', 'Brand', 'Price', 'Discount', 'Rating', 'Stock']
-      const itemSpan: string[] = ['category', 'brand', 'price', 'discountPercentage', 'rating', 'stock']
+      const itemInfo: string[] = [
+        'Category',
+        'Brand',
+        'Price',
+        'Discount',
+        'Rating',
+        'Stock'
+      ]
+      const itemSpan: string[] = [
+        'category',
+        'brand',
+        'price',
+        'discountPercentage',
+        'rating',
+        'stock'
+      ]
       for (let j = 0; j < itemInfo.length; j++) {
         const newP = document.createElement('p') as HTMLElement
         newP.innerHTML = `${itemInfo[j]}: `
@@ -55,14 +70,8 @@ export class ContentGenerator {
       child.classList.add('main__item', 'big-item')
       child.id = `product${products[i].id}`
       child.onclick = () => {
-        window.history.pushState(
-          { currentPage: 'product', product: products[i] },
-          '',
-          `/?product=${i}`
-        )
-        this.showSingleProduct(
-          (history.state as { currentPage: string, product: Product }).product
-        )
+        app.router.setState(app.router.states[2], `?product=${i}`)
+        this.showSingleProduct(products[i])
       }
       // div с товаром
       const mainProductItem = document.createElement('div') as HTMLElement

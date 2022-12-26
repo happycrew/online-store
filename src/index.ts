@@ -4,13 +4,12 @@ import { Loader } from './app/loader/loader'
 import { ContentGenerator } from './app/htmlGenerator/contentGenerator'
 import { ClickChangeView } from './app/htmlGenerator/changeView'
 import { Validation } from './app/htmlGenerator/validator' // add 25.12
-import { Product } from './app/types'
 
 const loader: Loader = new Loader()
-const generator: ContentGenerator = new ContentGenerator()
+export const generator: ContentGenerator = new ContentGenerator()
 const changeView: ClickChangeView = new ClickChangeView()
 const validator: Validation = new Validation() // add 25.12
-const app = new App(loader, generator, changeView, validator)
+export const app = new App(loader, generator, changeView, validator)
 app
   .start()
   .catch((err: Error) => {
@@ -20,7 +19,7 @@ app
   .catch(() => 'Something wrong...')
 
 window.addEventListener('popstate', (): void => {
-  window.history.state === null ? alert('wrong') : app.startSorting()
+  window.history.state === null ? alert('wrong') : app.router.start()
 })
 
 // Test genius function //
@@ -72,116 +71,19 @@ rangeInput.forEach((input) => {
 const selectSort = document.getElementById('selectSort') as HTMLSelectElement
 
 selectSort.addEventListener('change', () => {
-  switch (selectSort.value) {
-    case 'price-ASC': {
-      window.history.pushState(
-        {
-          currentPage: 'sort',
-          products: (
-            history.state as {
-              currentPage: string
-              products: Product[]
-            }
-          ).products
-        },
-        '',
-        '/?sort=price-ASC'
-      )
-      app.startSorting()
-      break
-    }
-    case 'price-DESC': {
-      window.history.pushState(
-        {
-          currentPage: 'sort',
-          products: (
-            history.state as {
-              currentPage: string
-              products: Product[]
-            }
-          ).products
-        },
-        '',
-        '/?sort=price-DESC'
-      )
-      app.startSorting()
-      break
-    }
-    case 'rating-ASC': {
-      window.history.pushState(
-        {
-          currentPage: 'sort',
-          products: (
-            history.state as {
-              currentPage: string
-              products: Product[]
-            }
-          ).products
-        },
-        '',
-        '/?sort=rating-ASC'
-      )
-      app.startSorting()
-      break
-    }
-    case 'rating-DESC': {
-      window.history.pushState(
-        {
-          currentPage: 'sort',
-          products: (
-            history.state as {
-              currentPage: string
-              products: Product[]
-            }
-          ).products
-        },
-        '',
-        '/?sort=rating-DESC'
-      )
-      app.startSorting()
-      break
-    }
-    case 'discount-ASC': {
-      window.history.pushState(
-        {
-          currentPage: 'sort',
-          products: (
-            history.state as {
-              currentPage: string
-              products: Product[]
-            }
-          ).products
-        },
-        '',
-        '/?sort=discount-ASC'
-      )
-      app.startSorting()
-      break
-    }
-    case 'discount-DESC': {
-      window.history.pushState(
-        {
-          currentPage: 'sort',
-          products: (
-            history.state as {
-              currentPage: string
-              products: Product[]
-            }
-          ).products
-        },
-        '',
-        '/?sort=discount-DESC'
-      )
-      app.startSorting()
-      break
-    }
-  }
+  app.router.url.searchParams.has('sort')
+    ? app.router.url.searchParams.set('sort', selectSort.value)
+    : app.router.url.searchParams.append('sort', selectSort.value)
+  app.router.setState(app.router.states[0], app.router.url.search)
+  app.router.start()
 })
 
 // Cкрыл все блоки кроме корзины
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-const displayContainer = document.querySelector('.main__container') as HTMLElement
+const displayContainer = document.querySelector(
+  '.main__container'
+) as HTMLElement
 displayContainer.style.display = 'flex'
 const cartEmpty = document.querySelector('.main__cart h1') as HTMLHeadingElement
 cartEmpty.style.display = 'none'
