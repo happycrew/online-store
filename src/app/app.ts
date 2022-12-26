@@ -1,5 +1,5 @@
 import { Loader } from './loader/loader'
-import { ProductResponse } from './types'
+import { Product, ProductResponse } from './types'
 import { ContentGenerator } from './htmlGenerator/contentGenerator'
 import { Router } from './router/router'
 import { ClickChangeView } from './htmlGenerator/changeView'
@@ -12,8 +12,9 @@ export class App {
   private readonly categoriesBlock: HTMLElement
   private readonly productsBlock: HTMLElement // create by me
   private readonly clickChangeView: ClickChangeView // by me
-  private readonly router: Router
+  readonly router: Router
   private readonly validator: Validation // add 25.12
+  products: Product[]
 
   constructor (
     loader: Loader,
@@ -22,8 +23,9 @@ export class App {
     validator: Validation // add 25.12
   ) {
     this.loader = loader
-    this.router = new Router(window.location.origin.concat('/'))
+    this.router = new Router()
     this.generator = generator
+    this.products = []
     this.brandsBlock = document.querySelector(
       '.main__brand-list'
     ) as HTMLElement
@@ -37,15 +39,11 @@ export class App {
     this.validator = validator // add 25.12
   }
 
-  startSorting (): void {
-    this.router.start(this.generator)
-  }
-
   async start (): Promise<void> {
     const categories: string[] = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
-    this.router.setProducts(products.products)
-    this.router.start(this.generator)
+    this.products = products.products
+    this.router.start()
     this.generator.generateBrandItems(products.products, this.brandsBlock)
     this.generator.generateCategoryItems(categories, this.categoriesBlock)
   }
