@@ -79,11 +79,7 @@ selectSort.addEventListener('change', () => {
 })
 
 // Cкрыл все блоки кроме корзины
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-const displayContainer = document.querySelector(
-  '.main__container'
-) as HTMLElement
+const displayContainer = document.querySelector('.main__container') as HTMLElement
 displayContainer.style.display = 'flex'
 const cartEmpty = document.querySelector('.main__cart h1') as HTMLHeadingElement
 cartEmpty.style.display = 'none'
