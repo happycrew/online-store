@@ -54,14 +54,20 @@ export class ContentGenerator {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__item', 'big-item')
       child.id = `product${products[i].id}`
-      child.onclick = () => {
+      child.onclick = (ev: Event, id?: string) => {
+        if (ev.target instanceof Element) {
+          if (ev.target.id === 'addCartBtn') return false
+        }
+        const elem = ev.target as HTMLElement
+        const idNumber = (elem.closest('.main__item')?.getAttribute('id')?.slice(7)) as string
         window.history.pushState(
           { currentPage: 'product', product: products[i] },
           '',
           `/?product=${i}`
         )
         this.showSingleProduct(
-          (history.state as { currentPage: string, product: Product }).product
+          (history.state as { currentPage: string, product: Product }).product,
+          idNumber
         )
       }
       // div с товаром
@@ -91,7 +97,9 @@ export class ContentGenerator {
       const mainItemBtns = document.createElement('div') as HTMLElement
       mainItemBtns.classList.add('main__item-btns')
       const itemBtn1 = document.createElement('button') as HTMLElement
+      itemBtn1.setAttribute('id', 'addCartBtn')
       itemBtn1.innerHTML = 'ADD TO CART'
+      itemBtn1.onclick = (ev) => this.addProdToCart(ev, products[i])
       const itemBtn2 = document.createElement('button') as HTMLElement
       itemBtn2.innerHTML = 'DETAILS'
       // устраиваем матрешку, закидываем одно в другое затем в третье
@@ -105,10 +113,11 @@ export class ContentGenerator {
     }
   }
 
-  showSingleProduct (product: Product): void {
+  showSingleProduct (product: Product, id: string): void {
     const element: HTMLElement = document.querySelector(
       '.main__popup'
     ) as HTMLElement
+    element.setAttribute('id', id)
     const mainContainer = document.querySelector(
       '.main__container'
     ) as HTMLElement
@@ -145,6 +154,9 @@ export class ContentGenerator {
     const productPrice = document.querySelector(
       '.product__price-btns span'
     ) as HTMLElement
+    // Вешаем обработчик на кнопку
+    const productAddBtn = document.querySelector('.product__price-btns button') as HTMLButtonElement
+    productAddBtn.onclick = (ev) => this.addProdToCart(ev, product)
     productPrice.innerHTML = `€${product.price}`
     // Меняем изображение
     const productSlide = document.querySelector('.popup__slide') as HTMLElement
@@ -167,5 +179,43 @@ export class ContentGenerator {
         productBigImg.src = `${(img as HTMLImageElement).src}`
       })
     })
+  }
+
+  addProdToCart (ev: Event, product: Product): void {
+    // Количество товаров в корзине
+    const cartCounter = document.querySelector('.header__total-content') as HTMLElement
+    // Общая сумма
+    const totalPrice = Array.from(document.querySelectorAll('.header__total-price span'))
+    const totalPriceNumber = totalPrice[1].innerHTML
+    // Ищем родителя кнопки, по которой клацнули
+    const pressedBtn = ev.target as HTMLButtonElement
+    if ((document.querySelector('.main__popup') as HTMLElement).style.display === 'flex') {
+      const id = document.querySelector('.main__popup')?.getAttribute('id') as string
+      if (!((document.getElementById(`product${id}`)?.classList.contains('prod-in-cart')) ?? false)) {
+        document.getElementById(`product${id}`)?.classList.toggle('prod-in-cart')
+        pressedBtn.innerHTML = 'Drop from cart'.toUpperCase()
+        cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
+        totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
+      } else {
+        document.getElementById(`product${id}`)?.classList.toggle('prod-in-cart')
+        pressedBtn.innerHTML = 'Add to cart'.toUpperCase()
+        cartCounter.innerHTML = String(Number(cartCounter.innerHTML) - 1)
+        totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
+      }
+    } else {
+      if (!(pressedBtn.closest('.main__item') as HTMLElement).classList.contains('prod-in-cart')) {
+        (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle('prod-in-cart')
+        pressedBtn.innerHTML = 'Drop from cart'.toUpperCase()
+        cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
+        totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
+        console.log('Товаров в корзине: ', cartCounter.innerHTML)
+      } else {
+        (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle('prod-in-cart')
+        pressedBtn.innerHTML = 'Add to cart'.toUpperCase()
+        cartCounter.innerHTML = String(Number(cartCounter.innerHTML) - 1)
+        totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
+        console.log('Товаров в корзине: ', cartCounter.innerHTML)
+      }
+    }
   }
 }

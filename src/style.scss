@@ -97,6 +97,12 @@ h1 {
     flex-direction: column;
     text-align: center;
   }
+
+  span {
+   &:last-child {
+    color: wheat;
+   } 
+  }
 }
 
 .header__basket {
@@ -364,6 +370,11 @@ select {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+.prod-in-cart {
+  box-shadow: 0 0 5px 4px #0711c4;
+  border: 1px solid rgb(76, 68, 235);
 }
 
 .big-item {
