@@ -69,14 +69,14 @@ export class ContentGenerator {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__item', 'big-item')
       child.id = `product${products[i].id}`
-      child.onclick = (ev: Event, id?: string) => {
+      child.onclick = (ev: Event) => {
         if (ev.target instanceof Element) {
           if (ev.target.id === 'addCartBtn') return false
         }
-        const elem = ev.target as HTMLElement
-        const idNumber = (elem.closest('.main__item')?.getAttribute('id')?.slice(7)) as string
-        app.router.setState(app.router.states[2], `?product=${i}`)
-        this.showSingleProduct(products[i], idNumber)
+        // const elem = ev.target as HTMLElement
+        // const idNumber = (elem.closest('.main__item')?.getAttribute('id')?.slice(7)) as string
+        app.router.setState(app.router.states[2], `?product=${products[i].id}`)
+        this.showSingleProduct(products[i])
       }
       // div с товаром
       const mainProductItem = document.createElement('div') as HTMLElement
@@ -107,7 +107,7 @@ export class ContentGenerator {
       const itemBtn1 = document.createElement('button') as HTMLElement
       itemBtn1.setAttribute('id', 'addCartBtn')
       itemBtn1.innerHTML = 'ADD TO CART'
-      itemBtn1.onclick = (ev) => this.addProdToCart(ev, products[i])
+      itemBtn1.onclick = (ev) => this.addProdToCartCount(ev, products[i])
       const itemBtn2 = document.createElement('button') as HTMLElement
       itemBtn2.innerHTML = 'DETAILS'
       // устраиваем матрешку, закидываем одно в другое затем в третье
@@ -121,11 +121,11 @@ export class ContentGenerator {
     }
   }
 
-  showSingleProduct (product: Product, id?: string): void {
+  showSingleProduct (product: Product): void {
     const element: HTMLElement = document.querySelector(
       '.main__popup'
     ) as HTMLElement
-    element.setAttribute('id', id as string)
+    element.setAttribute('id', product.id.toString())
     const mainContainer = document.querySelector(
       '.main__container'
     ) as HTMLElement
@@ -164,7 +164,7 @@ export class ContentGenerator {
     ) as HTMLElement
     // Вешаем обработчик на кнопку
     const productAddBtn = document.querySelector('.product__price-btns button') as HTMLButtonElement
-    productAddBtn.onclick = (ev) => this.addProdToCart(ev, product)
+    productAddBtn.onclick = (ev) => this.addProdToCartCount(ev, product)
     productPrice.innerHTML = `€${product.price}`
     // Меняем изображение
     const productSlide = document.querySelector('.popup__slide') as HTMLElement
@@ -189,7 +189,7 @@ export class ContentGenerator {
     })
   }
 
-  addProdToCart (ev: Event, product: Product): void {
+  addProdToCartCount (ev: Event, product: Product): void {
     // Количество товаров в корзине
     const cartCounter = document.querySelector('.header__total-content') as HTMLElement
     // Общая сумма
@@ -222,6 +222,7 @@ export class ContentGenerator {
         popupBtn.innerHTML = 'Drop from cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
         totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
+        // createElement(product)
       } else {
         (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle('prod-in-cart')
         pressedBtn.innerHTML = 'Add to cart'.toUpperCase()
@@ -232,3 +233,39 @@ export class ContentGenerator {
     }
   }
 }
+
+//  function createElement (product: Product): void {
+//     const cartItems = document.querySelector('.main__cart-items') as HTMLElement
+//     const cartWrapper = document.createElement('div') as HTMLElement
+//     cartWrapper.classList.add('cart__item-wrapper')
+//     cartItems.append(cartWrapper)
+
+// export class CartGenerator {
+//   headerCart: HTMLElement
+//   constructor () {
+//     this.headerCart = document.querySelector('.header__basket') as HTMLElement
+//     this.showCart()
+//   }
+
+//   createProdInCart (ev: Event): void {
+//     const mainContainer = document.querySelector('.main__container') as HTMLElement
+//     const mainPopup = document.querySelector('.main__popup') as HTMLElement
+//     const mainCart = document.querySelector('.main__cart') as HTMLElement
+//     if (ev.target instanceof Element) {
+//       if (ev.target.classList.contains('header__basket') || ev.target.classList.contains('header__total-content')) {
+//         console.log('2nd if')
+//         mainContainer.style.display = 'none'
+//         mainPopup.style.display = 'none'
+//         mainCart.style.display = 'flex'
+//       } else {
+//         mainContainer.style.display = 'flex'
+//         mainPopup.style.display = 'none'
+//         mainCart.style.display = 'none'
+//       }
+//     }
+//   }
+
+//   showCart (): void {
+//     this.headerCart.onclick = (ev) => this.createProdInCart(ev)
+//   }
+// }
