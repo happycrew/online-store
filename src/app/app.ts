@@ -9,7 +9,7 @@ export class App {
   private readonly loader: Loader
   private readonly generator: ContentGenerator
   private readonly brandsBlock: HTMLElement
-  private readonly categoriesBlock: HTMLElement
+  readonly categoriesBlock: HTMLElement
   private readonly productsBlock: HTMLElement // create by me
   private readonly clickChangeView: ClickChangeView // by me
   readonly router: Router
@@ -23,7 +23,6 @@ export class App {
     validator: Validation // add 25.12
   ) {
     this.loader = loader
-    this.router = new Router()
     this.generator = generator
     this.products = []
     this.brandsBlock = document.querySelector(
@@ -37,12 +36,14 @@ export class App {
     ) as HTMLElement // by me
     this.clickChangeView = changeview
     this.validator = validator // add 25.12
+    this.router = new Router()
   }
 
   async start (): Promise<void> {
     const categories: string[] = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
     this.products = products.products
+    this.router.addListenersForRouting()
     this.router.start()
     this.generator.generateBrandItems(products.products, this.brandsBlock)
     this.generator.generateCategoryItems(categories, this.categoriesBlock)
