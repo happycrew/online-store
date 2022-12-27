@@ -28,6 +28,16 @@ export class Router {
     history.pushState(state, '', url)
   }
 
+  filterProducts (
+    products: Product[],
+    brands: string[],
+    categories: string[]
+  ): Product[] {
+    return products.filter(
+      (value) => value.brand in brands || value.category in categories
+    )
+  }
+
   getSortingMethod (url: URL): string {
     if (url.search.includes('sort=price')) {
       return url.search.includes('-DESC') ? 'price-DESC' : 'price-ASC'
@@ -42,66 +52,70 @@ export class Router {
     return ''
   }
 
+  sortProducts (arr: Product[], sortingMethod: string): Product[] {
+    if (sortingMethod.includes('price')) {
+      return sortingMethod.includes('DESC')
+        ? arr.sort((a: Product, b: Product) => (a.price < b.price ? 1 : -1))
+        : arr.sort((a: Product, b: Product) => (a.price > b.price ? 1 : -1))
+    }
+    if (sortingMethod.includes('rating')) {
+      return sortingMethod.includes('DESC')
+        ? arr.sort((a: Product, b: Product) => (a.rating < b.rating ? 1 : -1))
+        : arr.sort((a: Product, b: Product) => (a.rating > b.rating ? 1 : -1))
+    }
+    return sortingMethod.includes('DESC')
+      ? arr.sort((a: Product, b: Product) =>
+        a.discountPercentage > b.discountPercentage ? 1 : -1
+      )
+      : arr.sort((a: Product, b: Product) =>
+        a.discountPercentage < b.discountPercentage ? 1 : -1
+      )
+  }
+
+  addListenersForRouting (): void {
+    window.addEventListener('popstate', (): void => {
+      window.history.state === null ? alert('wrong') : app.router.start()
+    })
+    const selectSort = document.getElementById(
+      'selectSort'
+    ) as HTMLSelectElement
+    selectSort.addEventListener('change', () => {
+      app.router.url.searchParams.has('sort')
+        ? app.router.url.searchParams.set('sort', selectSort.value)
+        : app.router.url.searchParams.append('sort', selectSort.value)
+      app.router.setState(app.router.states[0], app.router.url.search)
+      app.router.start()
+    })
+    app.categoriesBlock.addEventListener('click', (ev) => {
+      const element = (ev.target as HTMLElement).parentElement as HTMLElement
+      element.classList.contains('item-not-active')
+        ? element.classList.remove('item-not-active')
+        : element.classList.add('item-not-active')
+    })
+  }
+
   start (): void {
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search === '') {
           generator.generateProductItems(app.products, this.productsBlock)
         } else {
-          if (this.url.search.includes('sort=')) {
-            const sortingMethod = this.getSortingMethod(this.url)
-            this.productsBlock.innerHTML = ''
-            switch (sortingMethod) {
-              case 'price-ASC':
-                generator.generateProductItems(
-                  app.products.sort((a: Product, b: Product) =>
-                    a.price > b.price ? 1 : -1
-                  ),
-                  this.productsBlock
-                )
-                break
-              case 'price-DESC':
-                generator.generateProductItems(
-                  app.products.sort((a: Product, b: Product) =>
-                    a.price < b.price ? 1 : -1
-                  ),
-                  this.productsBlock
-                )
-                break
-              case 'rating-ASC':
-                generator.generateProductItems(
-                  app.products.sort((a: Product, b: Product) =>
-                    a.rating > b.rating ? 1 : -1
-                  ),
-                  this.productsBlock
-                )
-                break
-              case 'rating-DESC':
-                generator.generateProductItems(
-                  app.products.sort((a: Product, b: Product) =>
-                    a.rating < b.rating ? 1 : -1
-                  ),
-                  this.productsBlock
-                )
-                break
-              case 'discount-ASC':
-                generator.generateProductItems(
-                  app.products.sort((a: Product, b: Product) =>
-                    a.discountPercentage > b.discountPercentage ? 1 : -1
-                  ),
-                  this.productsBlock
-                )
-                break
-              case 'discount-DESC':
-                generator.generateProductItems(
-                  app.products.sort((a: Product, b: Product) =>
-                    a.discountPercentage < b.discountPercentage ? 1 : -1
-                  ),
-                  this.productsBlock
-                )
-                break
-            }
+          let arr: Product[] = app.products
+          if (
+            this.url.searchParams.has('category') ||
+            this.url.searchParams.has('brand')
+          ) {
+            arr = this.filterProducts(
+              arr,
+              this.url.searchParams.getAll('brand'),
+              this.url.searchParams.getAll('category')
+            )
           }
+          if (this.url.searchParams.has('sort')) {
+            arr = this.sortProducts(arr, this.getSortingMethod(this.url))
+          }
+          this.productsBlock.innerHTML = ''
+          generator.generateProductItems(arr, this.productsBlock)
         }
         break
       case 1: // cart
@@ -109,9 +123,13 @@ export class Router {
         break
       case 2: // product
         generator.showSingleProduct(
-          app.products[
-            parseInt(window.location.search.replace('?product=', ''), 10)
-          ]
+          app.products.filter(
+            (value) =>
+              (value.id = parseInt(
+                window.location.search.replace('?product=', ''),
+                10
+              ))
+          )[0]
         )
         break
       case 3: // error
