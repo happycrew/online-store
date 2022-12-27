@@ -26,12 +26,61 @@ export class Cart {
   }
 
   setProdToCart (product: Product): void {
+    // все товары
     const cartItems = document.querySelector('.main__cart-items') as HTMLElement
+    // товар, который добавляем
     const cartWrapper = document.createElement('div') as HTMLElement
-    cartWrapper.classList.add('cart__item-wrapper')
+    cartWrapper.classList.add('cart-item__wrapper')
     cartWrapper.setAttribute('id', `cart${product.id}`)
+    const cartItem = document.createElement('div') as HTMLElement
+    cartItem.classList.add('cart-item')
+    // Cоздаем id (номер товара в списке)
+    const cartItemId = document.createElement('div') as HTMLElement
+    cartItemId.classList.add('cart-item__id')
+    cartItemId.innerHTML = `${cartItems.childElementCount + 1}`
+    // Создаем info товара
+    const cartItemInfo = document.createElement('div') as HTMLElement
+    cartItemInfo.classList.add('cart-item__info')
+    // Фото товара
+    const itemIMG = document.createElement('img')
+    itemIMG.setAttribute('src', `${product.thumbnail}`)
+    itemIMG.setAttribute('alt', 'Product img')
+    // Details
+    const itemDetails = document.createElement('div')
+    itemDetails.classList.add('cart-item__detail')
+    const detailsClasses = ['product-title', 'product-description', 'product-other']
+    for (let i = 0; i < 3; i++) {
+      const div = document.createElement('div')
+      div.classList.add(`${detailsClasses[i]}`)
+      itemDetails.append(div)
+    }
+    itemDetails.children[0].innerHTML = `<h3>${product.title}</h3>`
+    itemDetails.children[1].innerHTML = product.description
+    itemDetails.children[2].innerHTML = `<div>Rating: ${product.rating}</div>
+                                         <div>Discount: ${product.discountPercentage}%</div>`
+    const cartItemNumberControl = document.createElement('div') as HTMLElement
+    cartItemNumberControl.classList.add('cart-item__number-control')
+    const numberControlClasses = ['product-stock', 'product-controls', 'product-price']
+    for (let i = 0; i < 3; i++) {
+      const div = document.createElement('div')
+      div.classList.add(`${numberControlClasses[i]}`)
+      cartItemNumberControl.append(div)
+    }
+    cartItemNumberControl.children[0].innerHTML = `Stock: ${product.stock}`
+    cartItemNumberControl.children[1].innerHTML = `<button> + </button>
+                                                  <span>1</span>
+                                                  <button> - </button>`
+    cartItemNumberControl.children[2].innerHTML = `Price: €${product.price}`
+    cartItemInfo.append(itemIMG, itemDetails)
+    cartItem.append(cartItemId, cartItemInfo, cartItemNumberControl)
+    cartWrapper.append(cartItem)
     cartItems.append(cartWrapper)
-    console.log('huy')
+  }
+
+  dropProdFromCart (product: Product): void {
+    const cartItems = document.querySelector('.main__cart-items') as HTMLElement
+    const element = document.getElementById(`cart${product.id}`) as HTMLElement
+    cartItems.removeChild(element)
   }
 }
 
@@ -258,11 +307,13 @@ export class ContentGenerator extends Cart {
         pressedBtn.innerHTML = 'Drop from cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
         totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
+        this.setProdToCart(product)
       } else {
         (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle('prod-in-cart')
         pressedBtn.innerHTML = 'Add to cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) - 1)
         totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
+        this.dropProdFromCart(product)
       }
     }
   }
