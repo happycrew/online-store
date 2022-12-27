@@ -199,30 +199,35 @@ export class ContentGenerator {
     const pressedBtn = ev.target as HTMLButtonElement
     if ((document.querySelector('.main__popup') as HTMLElement).style.display === 'flex') {
       const id = document.querySelector('.main__popup')?.getAttribute('id') as string
-      if (!((document.getElementById(`product${id}`)?.classList.contains('prod-in-cart')) ?? false)) {
-        document.getElementById(`product${id}`)?.classList.toggle('prod-in-cart')
+      const mainProd = document.getElementById(`product${id}`) as HTMLElement
+      const mainProdBtn = mainProd.querySelector('.main__item-btns button') as HTMLButtonElement
+      if (!(mainProd.classList.contains('prod-in-cart'))) {
+        mainProd.classList.toggle('prod-in-cart')
         pressedBtn.innerHTML = 'Drop from cart'.toUpperCase()
+        mainProdBtn.innerHTML = 'Drop from cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
         totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
       } else {
-        document.getElementById(`product${id}`)?.classList.toggle('prod-in-cart')
+        mainProd.classList.toggle('prod-in-cart')
         pressedBtn.innerHTML = 'Add to cart'.toUpperCase()
+        mainProdBtn.innerHTML = 'Add to cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) - 1)
         totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
       }
     } else {
+      const popupBtn = document.querySelector('.product__price-btns button') as HTMLButtonElement
       if (!(pressedBtn.closest('.main__item') as HTMLElement).classList.contains('prod-in-cart')) {
         (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle('prod-in-cart')
         pressedBtn.innerHTML = 'Drop from cart'.toUpperCase()
+        popupBtn.innerHTML = 'Drop from cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
         totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
-        console.log('Товаров в корзине: ', cartCounter.innerHTML)
       } else {
         (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle('prod-in-cart')
         pressedBtn.innerHTML = 'Add to cart'.toUpperCase()
+        popupBtn.innerHTML = 'Add to cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) - 1)
         totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
-        console.log('Товаров в корзине: ', cartCounter.innerHTML)
       }
     }
   }
