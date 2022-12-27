@@ -1,7 +1,7 @@
 import './style.scss'
 import { App } from './app/app'
 import { Loader } from './app/loader/loader'
-import { ContentGenerator } from './app/htmlGenerator/contentGenerator'
+import { Cart, ContentGenerator } from './app/htmlGenerator/contentGenerator'
 import { ClickChangeView } from './app/htmlGenerator/changeView'
 import { Validation } from './app/htmlGenerator/validator' // add 25.12
 
@@ -9,7 +9,8 @@ const loader: Loader = new Loader()
 export const generator: ContentGenerator = new ContentGenerator()
 const changeView: ClickChangeView = new ClickChangeView()
 const validator: Validation = new Validation() // add 25.12
-export const app = new App(loader, generator, changeView, validator)
+const cartGenerator: Cart = new Cart()
+export const app = new App(loader, generator, changeView, validator, cartGenerator)
 app
   .start()
   .catch((err: Error) => {
