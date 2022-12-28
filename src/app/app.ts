@@ -1,6 +1,6 @@
 import { Loader } from './loader/loader'
 import { Product, ProductResponse } from './types'
-import { ContentGenerator } from './htmlGenerator/contentGenerator'
+import { Cart, ContentGenerator } from './htmlGenerator/contentGenerator'
 import { Router } from './router/router'
 import { ClickChangeView } from './htmlGenerator/changeView'
 import { Validation } from './htmlGenerator/validator'
@@ -14,15 +14,18 @@ export class App {
   private readonly clickChangeView: ClickChangeView // by me
   readonly router: Router
   private readonly validator: Validation // add 25.12
+  private readonly cartGenerator: Cart // ad 27.12
   products: Product[]
 
   constructor (
     loader: Loader,
     generator: ContentGenerator,
     changeview: ClickChangeView,
-    validator: Validation // add 25.12
+    validator: Validation, // add 25.12
+    cartGenerator: Cart
   ) {
     this.loader = loader
+    this.router = new Router()
     this.generator = generator
     this.products = []
     this.brandsBlock = document.querySelector(
@@ -36,7 +39,7 @@ export class App {
     ) as HTMLElement // by me
     this.clickChangeView = changeview
     this.validator = validator // add 25.12
-    this.router = new Router()
+    this.cartGenerator = cartGenerator
   }
 
   async start (): Promise<void> {
