@@ -828,7 +828,7 @@ select {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  height: 5rem;
+  height: 6rem;
 
   .cart-item__id {
     width: 3%;
@@ -855,7 +855,7 @@ select {
     .cart-item__detail {
       width: 80%;
       height: 100%;
-      padding: 1%;
+      padding: 0%;
       text-shadow: $shadow-text;
 
       .product-title {
