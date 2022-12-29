@@ -11,26 +11,46 @@ export class Validation {
   cartCVV: HTMLInputElement
 
   constructor () {
-    this.personName = document.querySelector('.person-name input') as HTMLInputElement
+    this.personName = document.querySelector(
+      '.person-name input'
+    ) as HTMLInputElement
     this.makeOnchangeName()
-    this.phoneNumber = document.querySelector('.person-phone input') as HTMLInputElement
+    this.phoneNumber = document.querySelector(
+      '.person-phone input'
+    ) as HTMLInputElement
     this.makeOnchangePhone()
-    this.personAddress = document.querySelector('.person-adress input') as HTMLInputElement
+    this.personAddress = document.querySelector(
+      '.person-adress input'
+    ) as HTMLInputElement
     this.makeOnchangeAddress()
-    this.personEmail = document.querySelector('.person-email input') as HTMLInputElement
+    this.personEmail = document.querySelector(
+      '.person-email input'
+    ) as HTMLInputElement
     this.makeOnchangeEmail()
-    this.creditCart = document.querySelector('.card__number input') as HTMLInputElement
+    this.creditCart = document.querySelector(
+      '.card__number input'
+    ) as HTMLInputElement
     this.makeCreditCartEvent()
     this.makeCreditCartOnchange()
-    this.creditCartData = document.querySelector('.card__valid input') as HTMLInputElement
+    this.creditCartData = document.querySelector(
+      '.card__valid input'
+    ) as HTMLInputElement
     this.makeCreditCartDataEvent()
     this.makeCreditCartDataOnchange()
-    this.cartCVV = document.querySelector('.card__data input') as HTMLInputElement
+    this.cartCVV = document.querySelector(
+      '.card__data input'
+    ) as HTMLInputElement
     this.makeCreditCartCVVEvent()
     this.makeCreditCartCVVOnchange()
-    this.bankImage = document.querySelector('.card__number img') as HTMLImageElement
-    this.validationBlocks = Array.from(document.querySelectorAll('.modal-form__personal-details div'))
-    this.validationCardBlock = document.querySelector('.modal-form__card-details') as HTMLElement
+    this.bankImage = document.querySelector(
+      '.card__number img'
+    ) as HTMLImageElement
+    this.validationBlocks = Array.from(
+      document.querySelectorAll('.modal-form__personal-details div')
+    )
+    this.validationCardBlock = document.querySelector(
+      '.modal-form__card-details'
+    ) as HTMLElement
   }
 
   // Методы создания и удаления ошибок в инпутах с персональными данными
@@ -60,6 +80,7 @@ export class Validation {
     const divCardError = document.getElementById(`${errorPlace}`)
     return divCardError as HTMLElement
   }
+
   // Валидация display name aka имени пользователя
 
   makeOnchangeName (): void {
@@ -104,6 +125,7 @@ export class Validation {
       const re = /^[+][0-9]{11}$/
       return re.test(String(phone))
     }
+
     const phoneVal = this.phoneNumber.value
     if (!validatePhone(phoneVal)) {
       if (this.validationBlocks[1].children.length === 1) {
@@ -136,6 +158,7 @@ export class Validation {
       }
       return addressFlag
     }
+
     const addressVal = this.personAddress.value
     if (!validateAddress(addressVal)) {
       if (this.validationBlocks[2].children.length === 1) {
@@ -155,9 +178,12 @@ export class Validation {
 
   validateEmail (): void {
     function validateEmail (email: string): boolean {
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const re =
+        // eslint-disable-next-line max-len
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(String(email).toLowerCase())
     }
+
     const emailVal = this.personEmail.value
     if (!validateEmail(emailVal)) {
       if (this.validationBlocks[3].children.length === 1) {
@@ -174,27 +200,47 @@ export class Validation {
   makeCreditCartEvent (): void {
     this.creditCart.addEventListener('input', (ev) => {
       const cardImg = {
-        nologo: 'https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71',
-        mastercard: 'https://www.mastercard.hu/content/dam/public/mastercardcom/eu/hu/images/mc-logo-52.svg',
+        nologo:
+          'https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71',
+        mastercard:
+          'https://www.mastercard.hu/content/dam/public/mastercardcom/eu/hu/images/mc-logo-52.svg',
         visa: 'https://cdn.visa.com/v2/assets/images/logos/visa/blue/logo.png',
-        americanExpress: 'https://www.aexp-static.com/cdaas/one/statics/axp-static-assets/1.8.0/package/dist/img/logos/dls-logo-stack.svg',
-        unionPay: 'https://m.unionpayintl.com/imp_file/global/wap/en/static/images/logo.png'
+        americanExpress:
+          'https://www.aexp-static.com/cdaas/one/statics/axp-static-assets/1.8.0/package/dist/img/logos/dls-logo-stack.svg',
+        unionPay:
+          'https://m.unionpayintl.com/imp_file/global/wap/en/static/images/logo.png'
       }
       const numbers = /[0-9]/
       const regExp = /[0-9]{4}/
       // не позволяем ввести ничего, кроме цифр 0-9, ограничиваем размер поля 19-ю символами
-      if (((ev as InputEvent).inputType === 'insertText' && !numbers.test(((ev as InputEvent).data) as string)) || this.creditCart.value.length > 19) {
-        this.creditCart.value = this.creditCart.value.slice(0, this.creditCart.value.length - 1)
+      if (
+        ((ev as InputEvent).inputType === 'insertText' &&
+          !numbers.test((ev as InputEvent).data as string)) ||
+        this.creditCart.value.length > 19
+      ) {
+        this.creditCart.value = this.creditCart.value.slice(
+          0,
+          this.creditCart.value.length - 1
+        )
         return
       }
       // обеспечиваем работу клавиш "backspace","delete"
       const value = this.creditCart.value
-      if ((ev as InputEvent).inputType === 'deleteContentBackward' && regExp.test(value.slice(-4))) {
-        this.creditCart.value = this.creditCart.value.slice(0, this.creditCart.value.length - 1)
+      if (
+        (ev as InputEvent).inputType === 'deleteContentBackward' &&
+        regExp.test(value.slice(-4))
+      ) {
+        this.creditCart.value = this.creditCart.value.slice(
+          0,
+          this.creditCart.value.length - 1
+        )
         return
       }
       // добавяем пробел после 4 цифр подряд
-      if (regExp.test(this.creditCart.value.slice(-4)) && this.creditCart.value.length < 19) {
+      if (
+        regExp.test(this.creditCart.value.slice(-4)) &&
+        this.creditCart.value.length < 19
+      ) {
         this.creditCart.value += ' '
       }
       // меняем фотографию банка
@@ -240,6 +286,7 @@ export class Validation {
       }
       return creditCardFlag
     }
+
     const creditCardVal = this.creditCart.value
     if (!validateCreditCard(creditCardVal)) {
       if (document.getElementById('number') === null) {
@@ -258,18 +305,34 @@ export class Validation {
       const numbers = /[0-9]/
       const regExp = /[0-9]{2}/
       // не позволяем ввести ничего, кроме цифр 0-9, ограничиваем размер поля 5 символами
-      if (((ev as InputEvent).inputType === 'insertText' && !numbers.test(((ev as InputEvent).data) as string)) || this.creditCartData.value.length > 5) {
-        this.creditCartData.value = this.creditCartData.value.slice(0, this.creditCartData.value.length - 1)
+      if (
+        ((ev as InputEvent).inputType === 'insertText' &&
+          !numbers.test((ev as InputEvent).data as string)) ||
+        this.creditCartData.value.length > 5
+      ) {
+        this.creditCartData.value = this.creditCartData.value.slice(
+          0,
+          this.creditCartData.value.length - 1
+        )
         return
       }
       // обеспечиваем работу клавиш "backspace","delete"
       const value = this.creditCartData.value
-      if ((ev as InputEvent).inputType === 'deleteContentBackward' && regExp.test(value.slice(-2))) {
-        this.creditCartData.value = this.creditCart.value.slice(0, this.creditCartData.value.length - 1)
+      if (
+        (ev as InputEvent).inputType === 'deleteContentBackward' &&
+        regExp.test(value.slice(-2))
+      ) {
+        this.creditCartData.value = this.creditCart.value.slice(
+          0,
+          this.creditCartData.value.length - 1
+        )
         return
       }
       // добавяем '/' после 2 цифр подряд
-      if (regExp.test(this.creditCartData.value.slice(-2)) && this.creditCartData.value.length < 5) {
+      if (
+        regExp.test(this.creditCartData.value.slice(-2)) &&
+        this.creditCartData.value.length < 5
+      ) {
         this.creditCartData.value += '/'
       }
     })
@@ -293,6 +356,7 @@ export class Validation {
       }
       return flag
     }
+
     const dataValue = this.creditCartData.value
     if (!validateCardData(dataValue)) {
       if (document.getElementById('valid thru') === null) {
@@ -311,14 +375,27 @@ export class Validation {
       const numbers = /[0-9]/
       const regExp = /[0-9]{2}/
       // не позволяем ввести ничего, кроме цифр 0-9, ограничиваем размер поля 3 символами
-      if (((ev as InputEvent).inputType === 'insertText' && !numbers.test(((ev as InputEvent).data) as string)) || this.cartCVV.value.length > 3) {
-        this.cartCVV.value = this.cartCVV.value.slice(0, this.cartCVV.value.length - 1)
+      if (
+        ((ev as InputEvent).inputType === 'insertText' &&
+          !numbers.test((ev as InputEvent).data as string)) ||
+        this.cartCVV.value.length > 3
+      ) {
+        this.cartCVV.value = this.cartCVV.value.slice(
+          0,
+          this.cartCVV.value.length - 1
+        )
         return
       }
       // обеспечиваем работу клавиш "backspace","delete"
       const value = this.cartCVV.value
-      if ((ev as InputEvent).inputType === 'deleteContentBackward' && regExp.test(value.slice(-2))) {
-        this.cartCVV.value = this.cartCVV.value.slice(0, this.cartCVV.value.length - 1)
+      if (
+        (ev as InputEvent).inputType === 'deleteContentBackward' &&
+        regExp.test(value.slice(-2))
+      ) {
+        this.cartCVV.value = this.cartCVV.value.slice(
+          0,
+          this.cartCVV.value.length - 1
+        )
       }
     })
   }
@@ -335,6 +412,7 @@ export class Validation {
       }
       return flag
     }
+
     const valueCVV = this.cartCVV.value
     if (!validateCardCvv(valueCVV)) {
       if (document.getElementById('CVV') === null) {
