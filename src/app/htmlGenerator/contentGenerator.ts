@@ -3,6 +3,7 @@ import { app } from '../../index'
 
 export class Cart {
   headerCart: HTMLElement
+
   constructor () {
     this.headerCart = document.querySelector('.header__basket') as HTMLElement
     this.showCart()
@@ -109,9 +110,9 @@ export class ContentGenerator extends Cart {
     for (let i = 0; i < brands.length; i++) {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__brand-item')
-      child.classList.add('item-active')
+      child.classList.add('item-not-active')
       child.innerHTML = `<input type="checkbox" id="brand${i.toString()}" />
-                         <label for="${i.toString()}">${brands[i]}</label>
+                         <label for="brand${i.toString()}">${brands[i]}</label>
                          <span>(0/3)</span>`
       element.append(child)
     }
@@ -122,11 +123,11 @@ export class ContentGenerator extends Cart {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__category-item')
       child.classList.add('item-not-active')
-      child.innerHTML = `<input type="checkbox" id="category${i.toString()}">
-                           <label for="category${i.toString()}">${categories[
-        i
-      ].toString()}</label>
-                           <span>(${i.toString()}/${categories.length.toString()})</span>`
+      child.innerHTML = `<input type="checkbox" id="category${i.toString()}" />
+                         <label for="category${i.toString()}">${
+        categories[i]
+      }</label>
+                         <span>(0/3)</span>`
       element.append(child)
     }
   }
@@ -160,6 +161,7 @@ export class ContentGenerator extends Cart {
         block.appendChild(newP)
       }
     }
+
     for (let i = 0; i < products.length; i++) {
       // основной div, который мы добавляем в контейер
       const child = document.createElement('div') as HTMLElement
