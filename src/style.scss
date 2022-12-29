@@ -58,6 +58,10 @@ body {
   display: flex;
   gap: 5px;
   cursor: pointer;
+  a {
+    text-decoration: none;
+    align-self: center;
+  }
 }
 
 h1 {
