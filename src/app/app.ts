@@ -8,7 +8,7 @@ import { Validation } from './htmlGenerator/validator'
 export class App {
   private readonly loader: Loader
   private readonly generator: ContentGenerator
-  private readonly brandsBlock: HTMLElement
+  readonly brandsBlock: HTMLElement
   readonly categoriesBlock: HTMLElement
   private readonly productsBlock: HTMLElement // create by me
   private readonly clickChangeView: ClickChangeView // by me
