@@ -854,6 +854,7 @@ select {
       height: 100%;
       border-radius: 0.5rem;
       border: 0.2px solid gainsboro;
+      background: 0% 0% / cover;
     }
 
     .cart-item__detail {
@@ -921,6 +922,11 @@ select {
         border: none;
         cursor: pointer;
         border: 1px solid gainsboro;
+
+        &:active {
+          box-shadow: 0 0 5px 2px green;
+          color: green;
+        }
       }
     }
   }

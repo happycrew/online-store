@@ -3,61 +3,85 @@ import { app } from '../../index'
 
 export class Cart {
   headerCart: HTMLElement
+  cartCounter: HTMLElement
+  totalPrice: HTMLElement[]
+  totalPriceCart: HTMLElement
+  totalProductsInCart: HTMLElement
   constructor () {
     this.headerCart = document.querySelector('.header__basket') as HTMLElement
     this.showCart()
+    this.cartCounter = document.querySelector(
+      '.header__total-content'
+    ) as HTMLElement
+    this.totalPrice = Array.from(
+      document.querySelectorAll('.header__total-price span')
+    )
+    this.totalPriceCart = document.querySelector('.total-cart__price span') as HTMLElement
+    this.totalProductsInCart = document.querySelector('.total-cart__products span') as HTMLElement
   }
 
-  createProdInCart (ev: Event): void {
+  createProdInCart (): void {
     const mainContainer = document.querySelector(
       '.main__container'
     ) as HTMLElement
     const mainPopup = document.querySelector('.main__popup') as HTMLElement
     const mainCart = document.querySelector('.main__cart') as HTMLElement
     const mainCartItemsLength = (document.querySelector('.main__cart-items') as HTMLElement).childElementCount
-    if (ev.target instanceof Element) {
-      if (
-        ev.target.classList.contains('header__basket') ||
-        ev.target.classList.contains('header__total-content')
-      ) {
-        mainContainer.style.display = 'none'
-        mainPopup.style.display = 'none'
-        if (mainCartItemsLength === 0) {
-          (mainCart.children[0] as HTMLElement).style.display = 'flex';
-          (mainCart.children[1] as HTMLElement).style.display = 'none'
-        } else {
-          (mainCart.children[0] as HTMLElement).style.display = 'none';
-          (mainCart.children[1] as HTMLElement).style.display = 'flex'
-        }
-        mainCart.style.display = 'flex'
-      }
+    mainContainer.style.display = 'none'
+    mainPopup.style.display = 'none'
+    mainCart.style.display = 'flex'
+    if (mainCartItemsLength === 0) {
+      (mainCart.children[0] as HTMLElement).style.display = 'flex';
+      (mainCart.children[1] as HTMLElement).style.display = 'none'
+    } else {
+      (mainCart.children[0] as HTMLElement).style.display = 'none';
+      (mainCart.children[1] as HTMLElement).style.display = 'flex'
     }
   }
 
   showCart (): void {
-    this.headerCart.onclick = (ev) => this.createProdInCart(ev)
+    this.headerCart.onclick = () => this.createProdInCart()
+  }
+
+  changeBtnsCart (product: Product, value: string, stock: number): void {
+    const totalPriceNumber = this.totalPrice[1].innerHTML
+    const test = document.getElementById(`cart${product.id}`) as HTMLElement
+    const countProd = test.querySelector('.product-controls span') as HTMLElement
+    if (value === 'add') {
+      if (+(countProd.innerHTML) === stock) {
+        return
+      }
+      countProd.innerHTML = String(Number(countProd.innerHTML) + 1)
+      this.cartCounter.innerHTML = String(Number(this.cartCounter.innerHTML) + 1)
+      this.totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
+      this.totalPriceCart.innerHTML = `€ ${this.totalPrice[1].innerHTML}.00`
+      this.totalProductsInCart.innerHTML = this.cartCounter.innerHTML
+    } else {
+      if (countProd.innerHTML === '1') {
+        this.dropProdFromCart(product)
+        this.createProdInCart()
+        return
+      }
+      countProd.innerHTML = String(Number(countProd.innerHTML) - 1)
+      this.cartCounter.innerHTML = String(Number(this.cartCounter.innerHTML) - 1)
+      this.totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
+      this.totalPriceCart.innerHTML = `€ ${this.totalPrice[1].innerHTML}.00`
+      this.totalProductsInCart.innerHTML = this.cartCounter.innerHTML
+    }
   }
 
   changeCountAndPrice (product: Product, value: string): void {
-    const cartCounter = document.querySelector(
-      '.header__total-content'
-    ) as HTMLElement
-    const totalPrice = Array.from(
-      document.querySelectorAll('.header__total-price span')
-    )
-    const totalPriceNumber = totalPrice[1].innerHTML
-    const totalPriceCart = document.querySelector('.total-cart__price span') as HTMLElement
-    const totalProductsInCart = document.querySelector('.total-cart__products span') as HTMLElement
+    const totalPriceNumber = this.totalPrice[1].innerHTML
     if (value === 'add') {
-      cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
-      totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
-      totalPriceCart.innerHTML = `€ ${totalPrice[1].innerHTML}.00`
-      totalProductsInCart.innerHTML = cartCounter.innerHTML
+      this.cartCounter.innerHTML = String(Number(this.cartCounter.innerHTML) + 1)
+      this.totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
+      this.totalPriceCart.innerHTML = `€ ${this.totalPrice[1].innerHTML}.00`
+      this.totalProductsInCart.innerHTML = this.cartCounter.innerHTML
     } else {
-      cartCounter.innerHTML = String(Number(cartCounter.innerHTML) - 1)
-      totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
-      totalPriceCart.innerHTML = `€ ${totalPrice[1].innerHTML}.00`
-      totalProductsInCart.innerHTML = cartCounter.innerHTML
+      this.cartCounter.innerHTML = String(Number(this.cartCounter.innerHTML) - 1)
+      this.totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
+      this.totalPriceCart.innerHTML = `€ ${this.totalPrice[1].innerHTML}.00`
+      this.totalProductsInCart.innerHTML = this.cartCounter.innerHTML
     }
   }
 
@@ -115,8 +139,10 @@ export class Cart {
                                                   <span>1</span>
                                                   <button> - </button>`
     cartItemNumberControl.children[2].innerHTML = `Price: €${product.price}`
-    console.log(cartItemNumberControl.children[1].children[0])
-    console.log(cartItemNumberControl.children[1].children[2])
+    const btnPlus = cartItemNumberControl.children[1].children[0] as HTMLButtonElement
+    const btnMinus = cartItemNumberControl.children[1].children[2] as HTMLButtonElement
+    btnPlus.onclick = () => this.changeBtnsCart(product, 'add', product.stock)
+    btnMinus.onclick = () => this.changeBtnsCart(product, 'drop', product.stock)
     cartItemInfo.append(itemIMG, itemDetails)
     cartItem.append(cartItemId, cartItemInfo, cartItemNumberControl)
     cartWrapper.append(cartItem)
