@@ -10,7 +10,13 @@ export const generator: ContentGenerator = new ContentGenerator()
 const changeView: ClickChangeView = new ClickChangeView()
 const validator: Validation = new Validation() // add 25.12
 const cartGenerator: Cart = new Cart()
-export const app = new App(loader, generator, changeView, validator, cartGenerator)
+export const app = new App(
+  loader,
+  generator,
+  changeView,
+  validator,
+  cartGenerator
+)
 app
   .start()
   .catch((err: Error) => {
