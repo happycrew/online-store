@@ -72,10 +72,33 @@ export class Router {
       )
   }
 
+  clickBCListener (ev: MouseEvent, CB: string): void {
+    if ((ev.target as HTMLElement).hasAttribute('for')) {
+      ev.stopImmediatePropagation()
+    } else {
+      const element = (ev.target as HTMLElement).parentElement as HTMLElement
+      const arr = Array.from(element.children) as HTMLElement[]
+      const inputElement = arr[0] as HTMLInputElement
+      inputElement.checked
+        ? element.classList.remove('item-not-active')
+        : element.classList.add('item-not-active')
+      inputElement.checked
+        ? this.url.searchParams.append(CB, arr[1].innerText)
+        : this.removeSearchParam(CB, arr[1].innerText)
+      this.setState(
+        this.states[0],
+        this.url.search.length > 0 ? this.url.search : '/'
+      )
+      this.start()
+    }
+  }
+
   addListenersForRouting (): void {
+    // popstate listener back or forward button
     window.addEventListener('popstate', (): void => {
       window.history.state === null ? alert('wrong') : app.router.start()
     })
+    // sorting listener
     const selectSort = document.getElementById(
       'selectSort'
     ) as HTMLSelectElement
@@ -86,11 +109,34 @@ export class Router {
       app.router.setState(app.router.states[0], app.router.url.search)
       app.router.start()
     })
+    // category select listener
     app.categoriesBlock.addEventListener('click', (ev) => {
-      const element = (ev.target as HTMLElement).parentElement as HTMLElement
-      element.classList.contains('item-not-active')
-        ? element.classList.remove('item-not-active')
-        : element.classList.add('item-not-active')
+      this.clickBCListener(ev, 'category')
+    })
+    // brand select listener
+    app.brandsBlock.addEventListener('click', (ev) => {
+      this.clickBCListener(ev, 'brand')
+    })
+    // reset filters listener
+    ;(document.querySelector('.main__btn') as HTMLElement).addEventListener(
+      'click',
+      () => {
+        // this.url.search = ''
+        console.log('ok')
+        // this.setState(this.states[0], '')
+        // console.log(this.url.searchParams.toString())
+        // console.log(this.url.search)
+        // app.router.start()
+      }
+    )
+  }
+
+  removeSearchParam (paramName: string, value: string): void {
+    const searchParam = this.url.searchParams.getAll(paramName)
+    this.url.searchParams.delete(paramName)
+    searchParam.splice(searchParam.indexOf(value), 1)
+    searchParam.forEach((val) => {
+      this.url.searchParams.append(paramName, val)
     })
   }
 
