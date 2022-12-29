@@ -19,10 +19,6 @@ app
   .then(() => console.log('App successful running!'))
   .catch(() => 'Something wrong...')
 
-window.addEventListener('popstate', (): void => {
-  window.history.state === null ? alert('wrong') : app.router.start()
-})
-
 // Test genius function //
 let rangeInput: HTMLElement[] = []
 rangeInput = document.querySelectorAll(
@@ -68,19 +64,10 @@ rangeInput.forEach((input) => {
   })
 })
 
-// Сортировка тест
-const selectSort = document.getElementById('selectSort') as HTMLSelectElement
-
-selectSort.addEventListener('change', () => {
-  app.router.url.searchParams.has('sort')
-    ? app.router.url.searchParams.set('sort', selectSort.value)
-    : app.router.url.searchParams.append('sort', selectSort.value)
-  app.router.setState(app.router.states[0], app.router.url.search)
-  app.router.start()
-})
-
 // Cкрыл все блоки кроме корзины
-const displayContainer = document.querySelector('.main__container') as HTMLElement
+const displayContainer = document.querySelector(
+  '.main__container'
+) as HTMLElement
 displayContainer.style.display = 'flex'
 const cartEmpty = document.querySelector('.main__cart h1') as HTMLHeadingElement
 cartEmpty.style.display = 'none'

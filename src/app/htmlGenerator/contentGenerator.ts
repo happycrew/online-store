@@ -9,11 +9,16 @@ export class Cart {
   }
 
   createProdInCart (ev: Event): void {
-    const mainContainer = document.querySelector('.main__container') as HTMLElement
+    const mainContainer = document.querySelector(
+      '.main__container'
+    ) as HTMLElement
     const mainPopup = document.querySelector('.main__popup') as HTMLElement
     const mainCart = document.querySelector('.main__cart') as HTMLElement
     if (ev.target instanceof Element) {
-      if (ev.target.classList.contains('header__basket') || ev.target.classList.contains('header__total-content')) {
+      if (
+        ev.target.classList.contains('header__basket') ||
+        ev.target.classList.contains('header__total-content')
+      ) {
         mainContainer.style.display = 'none'
         mainPopup.style.display = 'none'
         mainCart.style.display = 'flex'
@@ -48,7 +53,11 @@ export class Cart {
     // Details
     const itemDetails = document.createElement('div')
     itemDetails.classList.add('cart-item__detail')
-    const detailsClasses = ['product-title', 'product-description', 'product-other']
+    const detailsClasses = [
+      'product-title',
+      'product-description',
+      'product-other'
+    ]
     for (let i = 0; i < 3; i++) {
       const div = document.createElement('div')
       div.classList.add(`${detailsClasses[i]}`)
@@ -60,7 +69,11 @@ export class Cart {
                                          <div>Discount: ${product.discountPercentage}%</div>`
     const cartItemNumberControl = document.createElement('div') as HTMLElement
     cartItemNumberControl.classList.add('cart-item__number-control')
-    const numberControlClasses = ['product-stock', 'product-controls', 'product-price']
+    const numberControlClasses = [
+      'product-stock',
+      'product-controls',
+      'product-price'
+    ]
     for (let i = 0; i < 3; i++) {
       const div = document.createElement('div')
       div.classList.add(`${numberControlClasses[i]}`)
@@ -155,15 +168,17 @@ export class ContentGenerator extends Cart {
       child.onclick = (ev: Event) => {
         if (ev.target instanceof Element) {
           if (ev.target.id === 'addCartBtn') return false
-          const popupBtn = document.querySelector('.product__price-btns button') as HTMLButtonElement
-          (ev.target.closest('.main__item') as HTMLElement)?.classList.contains('prod-in-cart')
-            ? popupBtn.innerHTML = 'DROP FROM CART'
-            : popupBtn.innerHTML = 'ADD TO CART'
+          const popupBtn = document.querySelector(
+            '.product__price-btns button'
+          ) as HTMLButtonElement
+          ;(
+            ev.target.closest('.main__item') as HTMLElement
+          )?.classList.contains('prod-in-cart')
+            ? (popupBtn.innerHTML = 'DROP FROM CART')
+            : (popupBtn.innerHTML = 'ADD TO CART')
         }
-        // const elem = ev.target as HTMLElement
-        // const idNumber = (elem.closest('.main__item')?.getAttribute('id')?.slice(7)) as string
         app.router.setState(app.router.states[2], `?product=${products[i].id}`)
-        this.showSingleProduct(products[i])
+        app.router.start()
       }
       // div с товаром
       const mainProductItem = document.createElement('div') as HTMLElement
@@ -250,7 +265,9 @@ export class ContentGenerator extends Cart {
       '.product__price-btns span'
     ) as HTMLElement
     // Вешаем обработчик на кнопку
-    const productAddBtn = document.querySelector('.product__price-btns button') as HTMLButtonElement
+    const productAddBtn = document.querySelector(
+      '.product__price-btns button'
+    ) as HTMLButtonElement
     productAddBtn.onclick = (ev) => this.addProdToCartCount(ev, product)
     productPrice.innerHTML = `€${product.price}`
     // Меняем изображение
@@ -278,41 +295,68 @@ export class ContentGenerator extends Cart {
 
   addProdToCartCount (ev: Event, product: Product): void {
     // Количество товаров в корзине
-    const cartCounter = document.querySelector('.header__total-content') as HTMLElement
+    const cartCounter = document.querySelector(
+      '.header__total-content'
+    ) as HTMLElement
     // Общая сумма
-    const totalPrice = Array.from(document.querySelectorAll('.header__total-price span'))
+    const totalPrice = Array.from(
+      document.querySelectorAll('.header__total-price span')
+    )
     const totalPriceNumber = totalPrice[1].innerHTML
     // Ищем родителя кнопки, по которой клацнули
     const pressedBtn = ev.target as HTMLButtonElement
-    const idPopup = document.querySelector('.main__popup')?.getAttribute('id') as string
+    const idPopup = document
+      .querySelector('.main__popup')
+      ?.getAttribute('id') as string
     const mainProd = document.getElementById(`product${idPopup}`) as HTMLElement
-    if ((document.querySelector('.main__popup') as HTMLElement).style.display === 'flex') {
-      const mainProdBtn = mainProd.querySelector('.main__item-btns button') as HTMLButtonElement
-      if (!(mainProd.classList.contains('prod-in-cart'))) {
+    if (
+      (document.querySelector('.main__popup') as HTMLElement).style.display ===
+      'flex'
+    ) {
+      const mainProdBtn = mainProd.querySelector(
+        '.main__item-btns button'
+      ) as HTMLButtonElement
+      if (!mainProd.classList.contains('prod-in-cart')) {
         mainProd.classList.toggle('prod-in-cart')
         pressedBtn.innerHTML = 'Drop from cart'.toUpperCase()
         mainProdBtn.innerHTML = 'Drop from cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
-        totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
+        totalPrice[1].innerHTML = String(
+          Number(totalPriceNumber) + product.price
+        )
       } else {
         mainProd.classList.toggle('prod-in-cart')
         pressedBtn.innerHTML = 'Add to cart'.toUpperCase()
         mainProdBtn.innerHTML = 'Add to cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) - 1)
-        totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
+        totalPrice[1].innerHTML = String(
+          Number(totalPriceNumber) - product.price
+        )
       }
     } else {
-      if (!(pressedBtn.closest('.main__item') as HTMLElement).classList.contains('prod-in-cart')) {
-        (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle('prod-in-cart')
+      if (
+        !(pressedBtn.closest('.main__item') as HTMLElement).classList.contains(
+          'prod-in-cart'
+        )
+      ) {
+        (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle(
+          'prod-in-cart'
+        )
         pressedBtn.innerHTML = 'Drop from cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) + 1)
-        totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
+        totalPrice[1].innerHTML = String(
+          Number(totalPriceNumber) + product.price
+        )
         this.setProdToCart(product)
       } else {
-        (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle('prod-in-cart')
+        (pressedBtn.closest('.main__item') as HTMLElement).classList.toggle(
+          'prod-in-cart'
+        )
         pressedBtn.innerHTML = 'Add to cart'.toUpperCase()
         cartCounter.innerHTML = String(Number(cartCounter.innerHTML) - 1)
-        totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
+        totalPrice[1].innerHTML = String(
+          Number(totalPriceNumber) - product.price
+        )
         this.dropProdFromCart(product)
       }
     }
