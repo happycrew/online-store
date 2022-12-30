@@ -117,32 +117,26 @@ export class Router {
     app.brandsBlock.addEventListener('click', (ev) => {
       this.clickBCListener(ev, 'brand')
     })
-    function setPrice (): string {
-      return `${(document.querySelector('.input-min') as HTMLInputElement).value}↕${(document.querySelector('.input-max') as HTMLInputElement).value}`
+    const setPrice = (): void => {
+      this.url.searchParams.set('price', `${(document.querySelector('.input-min') as HTMLInputElement).value}↕${(document.querySelector('.input-max') as HTMLInputElement).value}`)
+      this.setState(this.states[0], this.url.search)
+      this.start()
     }
     (document.querySelector('.input-min') as HTMLInputElement).addEventListener('input', () => {
       (document.querySelector('.range-min') as HTMLInputElement).value = (document.querySelector('.input-min') as HTMLInputElement).value
-      this.url.searchParams.set('price', setPrice())
-      this.setState(this.states[0], this.url.search)
-      this.start()
+      setPrice()
     });
     (document.querySelector('.input-max') as HTMLInputElement).addEventListener('input', () => {
       (document.querySelector('.range-max') as HTMLInputElement).value = (document.querySelector('.input-max') as HTMLInputElement).value
-      this.url.searchParams.set('price', setPrice())
-      this.setState(this.states[0], this.url.search)
-      this.start()
+      setPrice()
     });
     (document.querySelector('.range-min') as HTMLInputElement).addEventListener('input', () => {
       (document.querySelector('.input-min') as HTMLInputElement).value = (document.querySelector('.range-min') as HTMLInputElement).value
-      this.url.searchParams.set('price', setPrice())
-      this.setState(this.states[0], this.url.search)
-      this.start()
+      setPrice()
     });
     (document.querySelector('.range-max') as HTMLInputElement).addEventListener('input', () => {
       (document.querySelector('.input-max') as HTMLInputElement).value = (document.querySelector('.range-max') as HTMLInputElement).value
-      this.url.searchParams.set('price', setPrice())
-      this.setState(this.states[0], this.url.search)
-      this.start()
+      setPrice()
     })
   }
 
