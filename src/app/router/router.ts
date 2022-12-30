@@ -157,8 +157,8 @@ export class Router {
         } else {
           let arr: Product[] = app.products
           if (
-            this.url.searchParams.has('category') ||
-            this.url.searchParams.has('brand')
+            arr.length > 0 && (this.url.searchParams.has('category') ||
+            this.url.searchParams.has('brand'))
           ) {
             arr = this.filterProducts(
               arr,
@@ -166,23 +166,25 @@ export class Router {
               this.url.searchParams.getAll('category')
             )
           }
-          if (this.url.searchParams.has('sort')) {
+          if (arr.length > 0 && this.url.searchParams.has('sort')) {
             arr = this.sortProducts(arr, this.getSortingMethod(this.url))
           }
-          if (this.url.searchParams.has('price')) {
+          if (arr.length > 0 && this.url.searchParams.has('price')) {
             const price: string[] = (this.url.searchParams.get('price') as string).split('↕')
             arr = arr.filter(value => value.price >= parseInt(price[0], 10) && value.price <= parseInt(price[1], 10))
           }
           this.productsBlock.innerHTML = ''
           generator.generateProductItems(arr, this.productsBlock)
-          const min: number = arr.reduce(function (p, v) {
-            return (p.price < v.price ? p : v)
-          }).price
-          const max: number = arr.reduce(function (p, v) {
-            return (p.price > v.price ? p : v)
-          }).price;
-          (document.querySelector('.input-min') as HTMLInputElement).value = min.toString();
-          (document.querySelector('.input-max') as HTMLInputElement).value = max.toString()
+          if (arr.length > 0) {
+            const min: number = arr.reduce(function (p, v) {
+              return (p.price < v.price ? p : v)
+            }).price
+            const max: number = arr.reduce(function (p, v) {
+              return (p.price > v.price ? p : v)
+            }).price;
+            (document.querySelector('.input-min') as HTMLInputElement).value = min.toString();
+            (document.querySelector('.input-max') as HTMLInputElement).value = max.toString()
+          }
         }
         break
       case 1: // cart
