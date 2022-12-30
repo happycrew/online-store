@@ -153,11 +153,16 @@ export class Router {
         element.innerText = 'Copying failed with error: ' + err.message
       })
       setTimeout(() => (element.style.display = 'none'), 2000)
+    });
+    (document.getElementById('productsSearch') as HTMLInputElement).addEventListener('input', (ev) => {
+      this.url.searchParams.set('search', (ev.target as HTMLInputElement).value)
+      this.setState(this.states[0], this.url.search)
+      this.start()
     })
   }
 
   clearSerchParam (): void {
-    ['price', 'sort', 'brand', 'category'].forEach(value => this.url.searchParams.delete(value))
+    ['price', 'sort', 'brand', 'category', 'search'].forEach(value => this.url.searchParams.delete(value))
     this.setState(this.states[0], '/')
     this.start()
   }
@@ -200,6 +205,13 @@ export class Router {
             const price: string[] = (this.url.searchParams.get('price') as string).split('↕')
             arr = arr.filter(value => value.price >= parseInt(price[0], 10) && value.price <= parseInt(price[1], 10))
           }
+          if (arr.length > 0 && this.url.searchParams.has('search')) {
+            const searchString = this.url.searchParams.get('search') as string
+            arr = arr.filter(value => value.brand.includes(searchString) ||
+              value.category.includes(searchString) ||
+              value.title.includes(searchString) ||
+              value.description.includes(searchString))
+          }
           this.productsBlock.innerHTML = ''
           generator.generateProductItems(arr, this.productsBlock)
           if (arr.length > 0) {
@@ -211,6 +223,8 @@ export class Router {
             }).price;
             (document.querySelector('.input-min') as HTMLInputElement).value = min.toString();
             (document.querySelector('.input-max') as HTMLInputElement).value = max.toString()
+          } else {
+            this.productsBlock.innerHTML = 'No products found 😏'
           }
         }
         break
