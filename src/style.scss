@@ -103,9 +103,9 @@ h1 {
   }
 
   span {
-   &:last-child {
-    color: wheat;
-   } 
+    &:last-child {
+      color: wheat;
+    }
   }
 }
 
@@ -766,18 +766,25 @@ select {
   }
 
   .total-cart__price,
+  .total-cart__new-price,
   .total-cart__products {
     width: 90%;
-    font-size: 110%;
+    font-size: 170%;
     text-align: center;
     margin: 4%;
 
     span {
-      font-size: 170%;
       color: goldenrod;
     }
   }
 
+  .total-cart__new-price {
+    display: none;
+  }
+
+  .old-price {
+    text-decoration: line-through;
+  }
   .total-cart__promocode {
     display: flex;
     align-items: center;
@@ -794,6 +801,68 @@ select {
       text-shadow: $shadow-text;
       width: 70%;
       font-size: 100%;
+    }
+  }
+
+  .total-cart__appl-codes {
+    width: 80%;
+    margin: 6% auto;
+    border: 1px solid gainsboro;
+    border-radius: 0.3rem;
+    overflow: hidden;
+    display: none;
+    h3 {
+      text-shadow: $shadow-text;
+      text-align: center;
+      border-bottom: 1px solid gainsboro;
+      padding: 2%;
+    }
+    .total-cart__applied-promo {
+      color: rgb(233, 233, 202);
+      text-align: center;
+      border-bottom: 1px solid gainsboro;
+      padding: 2%;
+      span {
+        color: rgb(233, 233, 202);
+        background-color: rgb(78, 104, 144);
+        border: 1px solid gainsboro;
+        border-radius: 0.3rem;
+        padding: 1%;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(10, 62, 167, 0.592);
+          color: green;
+        }
+
+        &:active {
+          box-shadow: 0 0 4px black;
+        }
+      }
+    }
+  }
+
+  .total-cart__promo-value {
+    color: rgb(233, 233, 202);
+    margin-top: 4%;
+    text-align: center;
+
+    span {
+      color: rgb(233, 233, 202);
+      background-color: rgb(78, 104, 144);
+      border: 1px solid gainsboro;
+      border-radius: 0.3rem;
+      padding: 1%;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(10, 62, 167, 0.592);
+        color: green;
+      }
+
+      &:active {
+        box-shadow: 0 0 4px black;
+      }
     }
   }
 
@@ -1096,7 +1165,7 @@ select {
       button {
         width: 40%;
         font-size: 90%;
-        background-color:#2d3388;
+        background-color: #2d3388;
         border: 1px solid gainsboro;
         border-radius: 0.5rem;
         padding: 1%;
