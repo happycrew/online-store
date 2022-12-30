@@ -103,9 +103,9 @@ h1 {
   }
 
   span {
-   &:last-child {
-    color: wheat;
-   } 
+    &:last-child {
+      color: wheat;
+    }
   }
 }
 
@@ -796,6 +796,29 @@ select {
       font-size: 100%;
     }
   }
+  .total-cart__promo-value {
+    color: rgb(233, 233, 202);
+    margin-top: 4%;
+    text-align: center;
+
+    span {
+      color: rgb(233, 233, 202);
+      background-color:rgb(78, 104, 144);
+      border: 1px solid gainsboro;
+      border-radius: 0.3rem;
+      padding: 1%;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(10, 62, 167, 0.592);
+        color: green;
+      }
+
+      &:active {
+        box-shadow: 0 0 4px black;
+      }
+    }
+  }
 
   .total-cart__promo-example {
     display: block;
@@ -1096,7 +1119,7 @@ select {
       button {
         width: 40%;
         font-size: 90%;
-        background-color:#2d3388;
+        background-color: #2d3388;
         border: 1px solid gainsboro;
         border-radius: 0.5rem;
         padding: 1%;

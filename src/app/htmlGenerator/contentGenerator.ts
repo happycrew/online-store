@@ -7,6 +7,7 @@ export class Cart {
   totalPrice: HTMLElement[]
   totalPriceCart: HTMLElement
   totalProductsInCart: HTMLElement
+  promoCodeInput: HTMLInputElement
   constructor () {
     this.headerCart = document.querySelector('.header__basket') as HTMLElement
     this.showCart()
@@ -18,6 +19,49 @@ export class Cart {
     )
     this.totalPriceCart = document.querySelector('.total-cart__price span') as HTMLElement
     this.totalProductsInCart = document.querySelector('.total-cart__products span') as HTMLElement
+    this.promoCodeInput = document.querySelector('.total-cart__promocode input') as HTMLInputElement
+    this.makeOnChangePromoCode()
+  }
+
+  createOrDeletePromoCodeDiv (value: string, event: string): void {
+    const parent = document.querySelector('.main__total-cart') as HTMLElement
+    const before = document.querySelector('.total-cart__promo-example') as HTMLElement
+    const elem = document.createElement('div') as HTMLElement
+    const span = document.createElement('span') as HTMLElement
+    span.innerHTML = 'ADD'
+    elem.classList.add('total-cart__promo-value')
+    if (event === 'ADD') {
+      if (value === 'RS') {
+        if ((document.querySelector('.RS') as HTMLElement) !== null) return
+        elem.innerHTML = 'Rolling Scopes School - 10% '
+        elem.classList.add('RS')
+      } else {
+        if ((document.querySelector('.EPAM') as HTMLElement) !== null) return
+        elem.innerHTML = 'EPAM Systems - 10% '
+        elem.classList.add('EPAM')
+      }
+      elem.append(span)
+      parent.insertBefore(elem, before)
+    } else if (event === 'DEL') {
+      const divForDelete = document.querySelector('.total-cart__promo-value') as HTMLElement
+      if (divForDelete !== null) divForDelete.remove()
+    }
+  }
+
+  validatePromoCode (): void {
+    function validatePromo (promo: string): boolean {
+      return !!(promo.toUpperCase() === 'RS' || promo.toUpperCase() === 'EPM')
+    }
+    const promoValue = this.promoCodeInput.value
+    if (!validatePromo(promoValue)) {
+      return this.createOrDeletePromoCodeDiv('RS', 'DEL')
+    } else {
+      return promoValue.toUpperCase() === 'RS' ? this.createOrDeletePromoCodeDiv('RS', 'ADD') : this.createOrDeletePromoCodeDiv('EPAM', 'ADD')
+    }
+  }
+
+  makeOnChangePromoCode (): void {
+    this.promoCodeInput.oninput = this.validatePromoCode.bind(this)
   }
 
   createProdInCart (): void {
