@@ -117,18 +117,33 @@ export class Router {
     app.brandsBlock.addEventListener('click', (ev) => {
       this.clickBCListener(ev, 'brand')
     })
-    // reset filters listener
-    ;(document.querySelector('.main__btn') as HTMLElement).addEventListener(
-      'click',
-      () => {
-        // this.url.search = ''
-        console.log('ok')
-        // this.setState(this.states[0], '')
-        // console.log(this.url.searchParams.toString())
-        // console.log(this.url.search)
-        // app.router.start()
-      }
-    )
+    function setPrice (): string {
+      return `${(document.querySelector('.input-min') as HTMLInputElement).value}↕${(document.querySelector('.input-max') as HTMLInputElement).value}`
+    }
+    (document.querySelector('.input-min') as HTMLInputElement).addEventListener('input', () => {
+      (document.querySelector('.range-min') as HTMLInputElement).value = (document.querySelector('.input-min') as HTMLInputElement).value
+      this.url.searchParams.set('price', setPrice())
+      this.setState(this.states[0], this.url.search)
+      this.start()
+    });
+    (document.querySelector('.input-max') as HTMLInputElement).addEventListener('input', () => {
+      (document.querySelector('.range-max') as HTMLInputElement).value = (document.querySelector('.input-max') as HTMLInputElement).value
+      this.url.searchParams.set('price', setPrice())
+      this.setState(this.states[0], this.url.search)
+      this.start()
+    });
+    (document.querySelector('.range-min') as HTMLInputElement).addEventListener('input', () => {
+      (document.querySelector('.input-min') as HTMLInputElement).value = (document.querySelector('.range-min') as HTMLInputElement).value
+      this.url.searchParams.set('price', setPrice())
+      this.setState(this.states[0], this.url.search)
+      this.start()
+    });
+    (document.querySelector('.range-max') as HTMLInputElement).addEventListener('input', () => {
+      (document.querySelector('.input-max') as HTMLInputElement).value = (document.querySelector('.range-max') as HTMLInputElement).value
+      this.url.searchParams.set('price', setPrice())
+      this.setState(this.states[0], this.url.search)
+      this.start()
+    })
   }
 
   removeSearchParam (paramName: string, value: string): void {
@@ -160,8 +175,20 @@ export class Router {
           if (this.url.searchParams.has('sort')) {
             arr = this.sortProducts(arr, this.getSortingMethod(this.url))
           }
+          if (this.url.searchParams.has('price')) {
+            const price: string[] = (this.url.searchParams.get('price') as string).split('↕')
+            arr = arr.filter(value => value.price >= parseInt(price[0], 10) && value.price <= parseInt(price[1], 10))
+          }
           this.productsBlock.innerHTML = ''
           generator.generateProductItems(arr, this.productsBlock)
+          const min: number = arr.reduce(function (p, v) {
+            return (p.price < v.price ? p : v)
+          }).price
+          const max: number = arr.reduce(function (p, v) {
+            return (p.price > v.price ? p : v)
+          }).price;
+          (document.querySelector('.input-min') as HTMLInputElement).value = min.toString();
+          (document.querySelector('.input-max') as HTMLInputElement).value = max.toString()
         }
         break
       case 1: // cart
