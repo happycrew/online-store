@@ -190,6 +190,7 @@ export class ContentGenerator extends Cart {
 
   generateProductItems (products: Product[], element: HTMLElement): void {
     // create by me
+    (document.querySelector('.main__sort-stat') as HTMLElement).innerText = `Found: ${products.length}`
     function createElementInfo (block: HTMLElement, iter: number): void {
       const itemInfo: string[] = [
         'Category',
