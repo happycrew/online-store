@@ -34,7 +34,7 @@ export class Router {
     categories: string[]
   ): Product[] {
     return products.filter(
-      (value) => value.brand in brands || value.category in categories
+      (value) => brands.includes(value.brand) || categories.includes(value.category)
     )
   }
 
