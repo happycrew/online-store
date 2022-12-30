@@ -8,7 +8,7 @@ import { Validation } from './htmlGenerator/validator'
 export class App {
   private readonly loader: Loader
   private readonly generator: ContentGenerator
-  private readonly brandsBlock: HTMLElement
+  readonly brandsBlock: HTMLElement
   readonly categoriesBlock: HTMLElement
   private readonly productsBlock: HTMLElement // create by me
   private readonly clickChangeView: ClickChangeView // by me
@@ -16,6 +16,7 @@ export class App {
   private readonly validator: Validation // add 25.12
   private readonly cartGenerator: Cart // ad 27.12
   products: Product[]
+  categories: string[]
 
   constructor (
     loader: Loader,
@@ -28,6 +29,7 @@ export class App {
     this.router = new Router()
     this.generator = generator
     this.products = []
+    this.categories = []
     this.brandsBlock = document.querySelector(
       '.main__brand-list'
     ) as HTMLElement
@@ -43,12 +45,10 @@ export class App {
   }
 
   async start (): Promise<void> {
-    const categories: string[] = (await this.loader.getCategorise()).sort()
+    this.categories = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
     this.products = products.products
     this.router.addListenersForRouting()
     this.router.start()
-    this.generator.generateBrandItems(products.products, this.brandsBlock)
-    this.generator.generateCategoryItems(categories, this.categoriesBlock)
   }
 }

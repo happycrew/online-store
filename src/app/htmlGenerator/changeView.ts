@@ -1,5 +1,6 @@
 export class ClickChangeView {
   private readonly btns: HTMLElement[]
+
   constructor () {
     this.btns = Array.from(document.querySelectorAll('.main__view span'))
     this.makeEvent()

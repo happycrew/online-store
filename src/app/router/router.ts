@@ -34,7 +34,7 @@ export class Router {
     categories: string[]
   ): Product[] {
     return products.filter(
-      (value) => value.brand in brands || value.category in categories
+      (value) => brands.includes(value.brand) || categories.includes(value.category)
     )
   }
 
@@ -72,10 +72,33 @@ export class Router {
       )
   }
 
+  clickBCListener (ev: MouseEvent, CB: string): void {
+    if ((ev.target as HTMLElement).hasAttribute('for')) {
+      ev.stopImmediatePropagation()
+    } else {
+      const element = (ev.target as HTMLElement).parentElement as HTMLElement
+      const arr = Array.from(element.children) as HTMLElement[]
+      const inputElement = arr[0] as HTMLInputElement
+      inputElement.checked
+        ? element.classList.remove('item-not-active')
+        : element.classList.add('item-not-active')
+      inputElement.checked
+        ? this.url.searchParams.append(CB, arr[1].innerText)
+        : this.removeSearchParam(CB, arr[1].innerText)
+      this.setState(
+        this.states[0],
+        this.url.search.length > 0 ? this.url.search : '/'
+      )
+      this.start()
+    }
+  }
+
   addListenersForRouting (): void {
+    // popstate listener back or forward button
     window.addEventListener('popstate', (): void => {
       window.history.state === null ? alert('wrong') : app.router.start()
     })
+    // sorting listener
     const selectSort = document.getElementById(
       'selectSort'
     ) as HTMLSelectElement
@@ -86,11 +109,70 @@ export class Router {
       app.router.setState(app.router.states[0], app.router.url.search)
       app.router.start()
     })
+    // category select listener
     app.categoriesBlock.addEventListener('click', (ev) => {
-      const element = (ev.target as HTMLElement).parentElement as HTMLElement
-      element.classList.contains('item-not-active')
-        ? element.classList.remove('item-not-active')
-        : element.classList.add('item-not-active')
+      this.clickBCListener(ev, 'category')
+    })
+    // brand select listener
+    app.brandsBlock.addEventListener('click', (ev) => {
+      this.clickBCListener(ev, 'brand')
+    })
+    const setPrice = (): void => {
+      this.url.searchParams.set('price', `${(document.querySelector('.input-min') as HTMLInputElement).value}↕${(document.querySelector('.input-max') as HTMLInputElement).value}`)
+      this.setState(this.states[0], this.url.search)
+      this.start()
+    }
+    (document.querySelector('.input-min') as HTMLInputElement).addEventListener('input', () => {
+      (document.querySelector('.range-min') as HTMLInputElement).value = (document.querySelector('.input-min') as HTMLInputElement).value
+      setPrice()
+    });
+    (document.querySelector('.input-max') as HTMLInputElement).addEventListener('input', () => {
+      (document.querySelector('.range-max') as HTMLInputElement).value = (document.querySelector('.input-max') as HTMLInputElement).value
+      setPrice()
+    });
+    (document.querySelector('.range-min') as HTMLInputElement).addEventListener('input', () => {
+      (document.querySelector('.input-min') as HTMLInputElement).value = (document.querySelector('.range-min') as HTMLInputElement).value
+      setPrice()
+    });
+    (document.querySelector('.range-max') as HTMLInputElement).addEventListener('input', () => {
+      (document.querySelector('.input-max') as HTMLInputElement).value = (document.querySelector('.range-max') as HTMLInputElement).value
+      setPrice()
+    });
+    (document.querySelector('.main__btn-reset') as HTMLInputElement).addEventListener('click', () => {
+      this.clearSerchParam()
+    });
+    (document.querySelector('.header__div-logo') as HTMLInputElement).addEventListener('click', () => {
+      this.clearSerchParam()
+    });
+    (document.querySelector('.main__btn-copy') as HTMLInputElement).addEventListener('click', () => {
+      const element = (document.querySelector('.copied-popup') as HTMLElement)
+      element.style.display = 'block'
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        element.innerText = 'Link copied to clipboard successful!'
+      }, (err: Error) => {
+        element.innerText = 'Copying failed with error: ' + err.message
+      })
+      setTimeout(() => (element.style.display = 'none'), 2000)
+    });
+    (document.getElementById('productsSearch') as HTMLInputElement).addEventListener('input', (ev) => {
+      this.url.searchParams.set('search', (ev.target as HTMLInputElement).value)
+      this.setState(this.states[0], this.url.search)
+      this.start()
+    })
+  }
+
+  clearSerchParam (): void {
+    ['price', 'sort', 'brand', 'category', 'search'].forEach(value => this.url.searchParams.delete(value))
+    this.setState(this.states[0], '/')
+    this.start()
+  }
+
+  removeSearchParam (paramName: string, value: string): void {
+    const searchParam = this.url.searchParams.getAll(paramName)
+    this.url.searchParams.delete(paramName)
+    searchParam.splice(searchParam.indexOf(value), 1)
+    searchParam.forEach((val) => {
+      this.url.searchParams.append(paramName, val)
     })
   }
 
@@ -98,12 +180,17 @@ export class Router {
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search === '') {
+          this.productsBlock.innerHTML = ''
+          app.categoriesBlock.innerHTML = ''
+          app.brandsBlock.innerHTML = ''
           generator.generateProductItems(app.products, this.productsBlock)
+          generator.generateBrandItems(app.products, app.brandsBlock)
+          generator.generateCategoryItems(app.categories, app.categoriesBlock)
         } else {
           let arr: Product[] = app.products
           if (
-            this.url.searchParams.has('category') ||
-            this.url.searchParams.has('brand')
+            arr.length > 0 && (this.url.searchParams.has('category') ||
+            this.url.searchParams.has('brand'))
           ) {
             arr = this.filterProducts(
               arr,
@@ -111,11 +198,34 @@ export class Router {
               this.url.searchParams.getAll('category')
             )
           }
-          if (this.url.searchParams.has('sort')) {
+          if (arr.length > 0 && this.url.searchParams.has('sort')) {
             arr = this.sortProducts(arr, this.getSortingMethod(this.url))
+          }
+          if (arr.length > 0 && this.url.searchParams.has('price')) {
+            const price: string[] = (this.url.searchParams.get('price') as string).split('↕')
+            arr = arr.filter(value => value.price >= parseInt(price[0], 10) && value.price <= parseInt(price[1], 10))
+          }
+          if (arr.length > 0 && this.url.searchParams.has('search')) {
+            const searchString = this.url.searchParams.get('search') as string
+            arr = arr.filter(value => value.brand.includes(searchString) ||
+              value.category.includes(searchString) ||
+              value.title.includes(searchString) ||
+              value.description.includes(searchString))
           }
           this.productsBlock.innerHTML = ''
           generator.generateProductItems(arr, this.productsBlock)
+          if (arr.length > 0) {
+            const min: number = arr.reduce(function (p, v) {
+              return (p.price < v.price ? p : v)
+            }).price
+            const max: number = arr.reduce(function (p, v) {
+              return (p.price > v.price ? p : v)
+            }).price;
+            (document.querySelector('.input-min') as HTMLInputElement).value = min.toString();
+            (document.querySelector('.input-max') as HTMLInputElement).value = max.toString()
+          } else {
+            this.productsBlock.innerHTML = 'No products found 😏'
+          }
         }
         break
       case 1: // cart

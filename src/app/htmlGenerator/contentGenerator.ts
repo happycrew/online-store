@@ -225,10 +225,6 @@ export class Cart {
                                                   <span>1</span>
                                                   <button> - </button>`
     cartItemNumberControl.children[2].innerHTML = `Price: €${product.price}`
-    const btnPlus = cartItemNumberControl.children[1].children[0] as HTMLButtonElement
-    const btnMinus = cartItemNumberControl.children[1].children[2] as HTMLButtonElement
-    btnPlus.onclick = () => this.changeBtnsCart(product, 'add', product.stock)
-    btnMinus.onclick = () => this.changeBtnsCart(product, 'drop', product.stock)
     cartItemInfo.append(itemIMG, itemDetails)
     cartItem.append(cartItemId, cartItemInfo, cartItemNumberControl)
     cartWrapper.append(cartItem)
@@ -256,9 +252,9 @@ export class ContentGenerator extends Cart {
     for (let i = 0; i < brands.length; i++) {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__brand-item')
-      child.classList.add('item-active')
+      child.classList.add('item-not-active')
       child.innerHTML = `<input type="checkbox" id="brand${i.toString()}" />
-                         <label for="${i.toString()}">${brands[i]}</label>
+                         <label for="brand${i.toString()}">${brands[i]}</label>
                          <span>(0/3)</span>`
       element.append(child)
     }
@@ -269,17 +265,18 @@ export class ContentGenerator extends Cart {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__category-item')
       child.classList.add('item-not-active')
-      child.innerHTML = `<input type="checkbox" id="category${i.toString()}">
-                           <label for="category${i.toString()}">${categories[
-        i
-      ].toString()}</label>
-                           <span>(${i.toString()}/${categories.length.toString()})</span>`
+      child.innerHTML = `<input type="checkbox" id="category${i.toString()}" />
+                         <label for="category${i.toString()}">${
+        categories[i]
+      }</label>
+                         <span>(0/3)</span>`
       element.append(child)
     }
   }
 
   generateProductItems (products: Product[], element: HTMLElement): void {
     // create by me
+    (document.querySelector('.main__sort-stat') as HTMLElement).innerText = `Found: ${products.length}`
     function createElementInfo (block: HTMLElement, iter: number): void {
       const itemInfo: string[] = [
         'Category',

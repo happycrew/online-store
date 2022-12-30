@@ -21,14 +21,16 @@
           <div class="header__total-content">0</div>
         </div>
       </div>
+      <div class="copied-popup">
+      </div>
     </header>
 
     <main class="main">
       <div class="main__container">
         <div class="main__filter">
           <div class="main__reset-copy">
-            <button class="main__btn">Reset Filters</button>
-            <button class="main__btn">Copy Link</button>
+            <button class="main__btn-reset">Reset Filters</button>
+            <button class="main__btn-copy">Copy Link</button>
           </div>
           <div class="main__category">
             <h3>Category</h3>
@@ -106,7 +108,7 @@
             </div>
             <div class="main__sort-stat">Found: 100</div>
             <div class="main__search-bar">
-              <input type="search" placeholder="Search product" />
+              <input id="productsSearch" type="search" placeholder="Search product" />
             </div>
             <div class="main__view">
               <span class="view__small">6x6</span>
@@ -287,17 +289,10 @@
               Total:
               <span>€00.00</span>
             </div>
-            <div class="total-cart__new-price">
-              Total:
-              <span>€00.00</span>
-            </div>
-            <div class="total-cart__appl-codes">
-              <h3>Applied codes</h3>
-            </div>
             <div class="total-cart__promocode">
               <input type="search" placeholder="Enter promo code">
             </div>
-            <span class="total-cart__promo-example">Promo for test: 'RS', 'EPM'</span>
+            <span class="total-cart__promo-example">Promo for test: 'RS', 'EPM', 'Konareyka'</span>
             <button>BUY NOW</button>
           </div>
         </div>
@@ -308,7 +303,7 @@
                 <div class="modal-form__personal-details">
                   <h2>Personal details</h2>
                   <div class="person-name">
-                    <input type="text" placeholder="Full name">
+                    <input type="text" placeholder="Name">
                   </div>
                   <div class="person-phone">
                     <input type="text" placeholder="Phone number" maxlength="12">
