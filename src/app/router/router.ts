@@ -138,19 +138,27 @@ export class Router {
       (document.querySelector('.input-max') as HTMLInputElement).value = (document.querySelector('.range-max') as HTMLInputElement).value
       setPrice()
     });
-    (document.querySelector('.main__btn') as HTMLInputElement).addEventListener('click', () => {
+    (document.querySelector('.main__btn-reset') as HTMLInputElement).addEventListener('click', () => {
       this.clearSerchParam()
     });
     (document.querySelector('.header__div-logo') as HTMLInputElement).addEventListener('click', () => {
       this.clearSerchParam()
+    });
+    (document.querySelector('.main__btn-copy') as HTMLInputElement).addEventListener('click', () => {
+      const element = (document.querySelector('.copied-popup') as HTMLElement)
+      element.style.display = 'block'
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        element.innerText = 'Link copied to clipboard successful!'
+      }, (err: Error) => {
+        element.innerText = 'Copying failed with error: ' + err.message
+      })
+      setTimeout(() => (element.style.display = 'none'), 2000)
     })
   }
 
   clearSerchParam (): void {
     ['price', 'sort', 'brand', 'category'].forEach(value => this.url.searchParams.delete(value))
-    console.log(this.url.searchParams)
     this.setState(this.states[0], '/')
-    console.log(this.url.search)
     this.start()
   }
 
