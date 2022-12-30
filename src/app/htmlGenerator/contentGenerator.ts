@@ -8,6 +8,7 @@ export class Cart {
   totalPriceCart: HTMLElement
   totalProductsInCart: HTMLElement
   promoCodeInput: HTMLInputElement
+  totalPriceCartNew: HTMLElement
   constructor () {
     this.headerCart = document.querySelector('.header__basket') as HTMLElement
     this.showCart()
@@ -18,9 +19,37 @@ export class Cart {
       document.querySelectorAll('.header__total-price span')
     )
     this.totalPriceCart = document.querySelector('.total-cart__price span') as HTMLElement
+    this.totalPriceCartNew = document.querySelector('.total-cart__new-price span') as HTMLElement
     this.totalProductsInCart = document.querySelector('.total-cart__products span') as HTMLElement
     this.promoCodeInput = document.querySelector('.total-cart__promocode input') as HTMLInputElement
     this.makeOnChangePromoCode()
+  }
+
+  deletePromoCode (elem: HTMLElement, promo: string): void {
+    elem.remove()
+    const totalPriceNew = document.querySelector('.total-cart__new-price') as HTMLElement
+    const totalPrice = document.querySelector('.total-cart__price') as HTMLElement
+    const applCodes = document.querySelector('.total-cart__appl-codes') as HTMLElement
+    if (applCodes.childElementCount === 1) {
+      totalPriceNew.style.display = 'none'
+      totalPrice.classList.remove('old-price')
+      applCodes.style.display = 'none'
+    }
+  }
+
+  addPromoCode (elem: HTMLElement, value: string, promo: string): void {
+    const totalPrice = document.querySelector('.total-cart__price') as HTMLElement
+    const totalPriceNew = document.querySelector('.total-cart__new-price') as HTMLElement
+    totalPrice.classList.add('old-price')
+    totalPriceNew.style.display = 'block'
+    const parent = document.querySelector('.total-cart__appl-codes') as HTMLElement
+    elem.removeAttribute('class')
+    elem.classList.add('total-cart__applied-promo')
+    elem.classList.add(`${promo}-promo`)
+    parent.append(elem)
+    parent.style.display = 'block'
+    const span = elem.querySelector('span') as HTMLElement
+    span.onclick = () => this.deletePromoCode(elem, promo)
   }
 
   createOrDeletePromoCodeDiv (value: string, event: string): void {
@@ -35,12 +64,25 @@ export class Cart {
         if ((document.querySelector('.RS') as HTMLElement) !== null) return
         elem.innerHTML = 'Rolling Scopes School - 10% '
         elem.classList.add('RS')
+        span.onclick = () => {
+          this.addPromoCode(elem, `${elem.innerHTML}`, 'RS')
+          span.innerHTML = 'DROP'
+        }
+        if (document.querySelector('.RS-promo') === null) {
+          elem.append(span)
+        }
       } else {
         if ((document.querySelector('.EPAM') as HTMLElement) !== null) return
         elem.innerHTML = 'EPAM Systems - 10% '
         elem.classList.add('EPAM')
+        span.onclick = () => {
+          this.addPromoCode(elem, `${elem.innerHTML}`, 'EPAM')
+          span.innerHTML = 'DROP'
+        }
+        if (document.querySelector('.EPAM-promo') === null) {
+          elem.append(span)
+        }
       }
-      elem.append(span)
       parent.insertBefore(elem, before)
     } else if (event === 'DEL') {
       const divForDelete = document.querySelector('.total-cart__promo-value') as HTMLElement
