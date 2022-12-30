@@ -137,7 +137,21 @@ export class Router {
     (document.querySelector('.range-max') as HTMLInputElement).addEventListener('input', () => {
       (document.querySelector('.input-max') as HTMLInputElement).value = (document.querySelector('.range-max') as HTMLInputElement).value
       setPrice()
+    });
+    (document.querySelector('.main__btn') as HTMLInputElement).addEventListener('click', () => {
+      this.clearSerchParam()
+    });
+    (document.querySelector('.header__div-logo') as HTMLInputElement).addEventListener('click', () => {
+      this.clearSerchParam()
     })
+  }
+
+  clearSerchParam (): void {
+    ['price', 'sort', 'brand', 'category'].forEach(value => this.url.searchParams.delete(value))
+    console.log(this.url.searchParams)
+    this.setState(this.states[0], '/')
+    console.log(this.url.search)
+    this.start()
   }
 
   removeSearchParam (paramName: string, value: string): void {
@@ -153,7 +167,12 @@ export class Router {
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search === '') {
+          this.productsBlock.innerHTML = ''
+          app.categoriesBlock.innerHTML = ''
+          app.brandsBlock.innerHTML = ''
           generator.generateProductItems(app.products, this.productsBlock)
+          generator.generateBrandItems(app.products, app.brandsBlock)
+          generator.generateCategoryItems(app.categories, app.categoriesBlock)
         } else {
           let arr: Product[] = app.products
           if (
