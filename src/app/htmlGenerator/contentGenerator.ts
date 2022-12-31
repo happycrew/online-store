@@ -225,6 +225,10 @@ export class Cart {
                                                   <span>1</span>
                                                   <button> - </button>`
     cartItemNumberControl.children[2].innerHTML = `Price: €${product.price}`
+    const btnPlus = cartItemNumberControl.children[1].children[0] as HTMLButtonElement
+    const btnMinus = cartItemNumberControl.children[1].children[2] as HTMLButtonElement
+    btnPlus.onclick = () => this.changeBtnsCart(product, 'add', product.stock)
+    btnMinus.onclick = () => this.changeBtnsCart(product, 'drop', product.stock)
     cartItemInfo.append(itemIMG, itemDetails)
     cartItem.append(cartItemId, cartItemInfo, cartItemNumberControl)
     cartWrapper.append(cartItem)
