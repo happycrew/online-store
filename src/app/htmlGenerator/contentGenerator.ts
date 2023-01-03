@@ -8,7 +8,8 @@ export class Cart {
   totalPriceCart: HTMLElement
   totalProductsInCart: HTMLElement
   promoCodeInput: HTMLInputElement
-  totalPriceCartNew: HTMLElement
+  totalPriceCartNewValue: HTMLElement
+  promoCodeCount: number
   constructor () {
     this.headerCart = document.querySelector('.header__basket') as HTMLElement
     this.showCart()
@@ -19,10 +20,48 @@ export class Cart {
       document.querySelectorAll('.header__total-price span')
     )
     this.totalPriceCart = document.querySelector('.total-cart__price span') as HTMLElement
-    this.totalPriceCartNew = document.querySelector('.total-cart__new-price span') as HTMLElement
+    this.totalPriceCartNewValue = document.querySelector('.total-cart__new-price span') as HTMLElement
     this.totalProductsInCart = document.querySelector('.total-cart__products span') as HTMLElement
     this.promoCodeInput = document.querySelector('.total-cart__promocode input') as HTMLInputElement
     this.makeOnChangePromoCode()
+    this.promoCodeCount = 0
+  }
+
+  promoCodeActive (promo: number): void {
+    const allProdsInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
+    allProdsInCart.forEach((el) => {
+      const btnCartPrice = Number(el.querySelector('.product-price')?.innerHTML.slice(8) as string)
+      const btnCartPriceOnePromo = Math.floor(btnCartPrice * 0.9)
+      const btnCartPriceTwoPromo = Math.floor(btnCartPrice * 0.8)
+      const btnCartPlus = el.querySelector('.btnCartPlus') as HTMLButtonElement
+      const btnCartMinus = el.querySelector('.btnCartMinus') as HTMLButtonElement
+      if (promo === 1) {
+        btnCartPlus.onclick = () => {
+          const elStock = Number(el.querySelector('.product-stock')?.innerHTML.slice(7) as string)
+          const elCount = Number(el.querySelector('.product-controls span')?.innerHTML as string)
+          console.log(elStock, ' - Stock', elCount, ' - Count')
+          if (elCount === elStock) {
+            return false
+          } else {
+            this.totalPriceCartNewValue.innerHTML = `€ ${(String(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) + btnCartPriceOnePromo))}.00`
+          }
+        }
+        btnCartMinus.onclick = () => {
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) - btnCartPriceOnePromo))}.00`
+        }
+      }
+      if (promo === 2) {
+        btnCartPlus.onclick = () => {
+          const elStock = Number(el.querySelector('.product-stock')?.innerHTML.slice(7) as string)
+          const elCount = Number(el.querySelector('.product-controls span')?.innerHTML as string)
+          if (elCount === elStock) return
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) + btnCartPriceTwoPromo))}.00`
+        }
+        btnCartMinus.onclick = () => {
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) - btnCartPriceTwoPromo))}.00`
+        }
+      }
+    })
   }
 
   deletePromoCode (elem: HTMLElement, promo: string): void {
@@ -35,11 +74,17 @@ export class Cart {
       totalPrice.classList.remove('old-price')
       applCodes.style.display = 'none'
     }
+    this.promoCodeCount -= 1
+    console.log('Количество активных прокомодов: ', this.promoCodeCount)
+    if (this.promoCodeCount === 1) {
+      this.totalPriceCartNewValue.innerHTML = `€ ${Math.floor(Number(this.totalPrice[1].innerHTML) * 0.9)}.00`
+    }
   }
 
   addPromoCode (elem: HTMLElement, value: string, promo: string): void {
     const totalPrice = document.querySelector('.total-cart__price') as HTMLElement
     const totalPriceNew = document.querySelector('.total-cart__new-price') as HTMLElement
+    // const allPlusProdButtons = Array.from(document.querySelectorAll('.product-controls'))
     totalPrice.classList.add('old-price')
     totalPriceNew.style.display = 'block'
     const parent = document.querySelector('.total-cart__appl-codes') as HTMLElement
@@ -50,6 +95,15 @@ export class Cart {
     parent.style.display = 'block'
     const span = elem.querySelector('span') as HTMLElement
     span.onclick = () => this.deletePromoCode(elem, promo)
+    this.promoCodeCount += 1
+    console.log('Количество активных прокомодов: ', this.promoCodeCount)
+    if (this.promoCodeCount === 1) {
+      this.totalPriceCartNewValue.innerHTML = `€ ${Math.floor(Number(this.totalPrice[1].innerHTML) * 0.9)}.00`
+      this.promoCodeActive(1)
+    } else if (this.promoCodeCount === 2) {
+      this.totalPriceCartNewValue.innerHTML = `€ ${Math.floor(Number(this.totalPrice[1].innerHTML) * 0.8)}.00`
+      this.promoCodeActive(2)
+    }
   }
 
   createOrDeletePromoCodeDiv (value: string, event: string): void {
@@ -225,6 +279,16 @@ export class Cart {
                                                   <span>1</span>
                                                   <button> - </button>`
     cartItemNumberControl.children[2].innerHTML = `Price: €${product.price}`
+    const btnPlus = cartItemNumberControl.children[1].children[0] as HTMLButtonElement
+    btnPlus.classList.add('btnCartPlus')
+    const btnMinus = cartItemNumberControl.children[1].children[2] as HTMLButtonElement
+    btnMinus.classList.add('btnCartMinus')
+    // btnPlus.addEventListener('click', function (): void {
+    //   this.changeBtnsCart(product, 'add', product.stock, this)
+    btnPlus.addEventListener('click', () => this.changeBtnsCart(product, 'add', product.stock))
+    // btnPlus.onclick = () => this.changeBtnsCart(product, 'add', product.stock)
+    btnMinus.addEventListener('click', () => this.changeBtnsCart(product, 'drop', product.stock))
+    // btnMinus.onclick = () => this.changeBtnsCart(product, 'drop', product.stock)
     cartItemInfo.append(itemIMG, itemDetails)
     cartItem.append(cartItemId, cartItemInfo, cartItemNumberControl)
     cartWrapper.append(cartItem)
