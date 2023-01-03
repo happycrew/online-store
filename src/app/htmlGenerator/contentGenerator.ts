@@ -319,7 +319,7 @@ export class ContentGenerator extends Cart {
       child.classList.add('item-not-active')
       child.innerHTML = `<input type="checkbox" id="brand${i.toString()}" />
                          <label for="brand${i.toString()}">${brands[i]}</label>
-                         <span>(0/3)</span>`
+                         <span>(${products.filter(value => value.brand === brands[i]).length}/${app.products.filter(value => value.brand === brands[i]).length})</span>`
       element.append(child)
     }
   }
@@ -333,7 +333,7 @@ export class ContentGenerator extends Cart {
                          <label for="category${i.toString()}">${
         categories[i]
       }</label>
-                         <span>(0/3)</span>`
+                         <span>(${categories.filter(value => value === categories[i]).length}/${app.products.filter(value => value.category === categories[i]).length})</span>`
       element.append(child)
     }
   }
@@ -383,9 +383,8 @@ export class ContentGenerator extends Cart {
             ? (popupBtn.innerHTML = 'ADD TO CART')
             : (popupBtn.innerHTML = 'DROP FROM CART')
         }
-        app.router.setState(app.router.states[2], `?product=${products[i].id}`)
+        app.router.setState(app.router.states[2], `/product-details/${products[i].id}`)
         app.router.start()
-        this.showSingleProduct(products[i])
       }
       // div с товаром
       const mainProductItem = document.createElement('div') as HTMLElement
