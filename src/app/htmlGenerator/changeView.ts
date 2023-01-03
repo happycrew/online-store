@@ -1,3 +1,5 @@
+import { app } from '../../index'
+
 export class ClickChangeView {
   private readonly btns: HTMLElement[]
 
@@ -20,6 +22,7 @@ export class ClickChangeView {
       currentActive.classList.remove('active-view')
       ;(event.target as HTMLElement).classList.add('active-view')
       if ((event.target as HTMLElement).classList.contains('view__small')) {
+        app.router.url.searchParams.set('big', 'false')
         const bigItemsArr = Array.from(document.querySelectorAll('.big-item'))
         const itemInfoArr = Array.from(document.querySelectorAll('.item__info'))
         itemInfoArr.forEach((el) => el.classList.toggle('info-hidden'))
@@ -27,11 +30,13 @@ export class ClickChangeView {
       } else if (
         (event.target as HTMLElement).classList.contains('view__big')
       ) {
+        app.router.url.searchParams.set('big', 'true')
         const bigItemsArr = Array.from(document.querySelectorAll('.main__item'))
         bigItemsArr.forEach((el) => el.classList.add('big-item'))
         const itemInfoArr = Array.from(document.querySelectorAll('.item__info'))
         itemInfoArr.forEach((el) => el.classList.toggle('info-hidden'))
       }
+      app.router.setState(app.router.states[0], app.router.url.search)
     }
   }
 }
