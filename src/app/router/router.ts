@@ -8,19 +8,20 @@ export class Router {
 
   constructor () {
     this.url = new URL(window.location.href)
-    if (this.url.search.includes('product=')) {
+    if (this.url.pathname.includes('/product-details/')) {
       this.setState(this.states[2], this.url.search)
+    } else if (this.url.pathname.includes('cart')) {
+      this.setState(this.states[1], this.url.search)
     } else if (
       this.url.search === '' ||
       this.url.search.includes('sort=') ||
       this.url.search.includes('category=') ||
-      this.url.search.includes('brand=')
+      this.url.search.includes('brand=') ||
+      this.url.search.includes('big=')
     ) {
       this.setState(this.states[0], this.url.search)
-    } else if (this.url.search.includes('cart')) {
-      this.setState(this.states[2], this.url.search)
     } else {
-      this.setState(this.states[4], this.url.search)
+      this.setState(this.states[3], this.url.search)
     }
   }
 
@@ -96,7 +97,7 @@ export class Router {
   addListenersForRouting (): void {
     // popstate listener back or forward button
     window.addEventListener('popstate', (): void => {
-      window.history.state === null ? alert('wrong') : app.router.start()
+      window.history.state === null ? this.setState(this.states[0], '/') : app.router.start()
     })
     // sorting listener
     const selectSort = document.getElementById(
@@ -162,7 +163,9 @@ export class Router {
   }
 
   clearSerchParam (): void {
-    ['price', 'sort', 'brand', 'category', 'search'].forEach(value => this.url.searchParams.delete(value))
+    ['price', 'sort', 'brand', 'category', 'search', 'big'].forEach(value => this.url.searchParams.delete(value));
+    (document.getElementById('selectSort') as HTMLSelectElement).options[0].selected = true
+    this.url.search = ''
     this.setState(this.states[0], '/')
     this.start()
   }
@@ -179,7 +182,7 @@ export class Router {
   start (): void {
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
-        if (this.url.search === '') {
+        if (this.url.search.length === 0) {
           this.productsBlock.innerHTML = ''
           app.categoriesBlock.innerHTML = ''
           app.brandsBlock.innerHTML = ''
@@ -235,8 +238,8 @@ export class Router {
         generator.showSingleProduct(
           app.products.filter(
             (value) =>
-              (value.id = parseInt(
-                window.location.search.replace('?product=', ''),
+              (value.id === parseInt(
+                window.location.pathname.replace('/product-details/', ''),
                 10
               ))
           )[0]
