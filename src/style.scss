@@ -693,7 +693,7 @@ select {
 
 .main__cart {
   width: 100%;
-  display: flex;
+  display: none;
   justify-content: center;
   height: -moz-fit-content;
   height: fit-content;
@@ -1021,7 +1021,7 @@ select {
   width: 100%;
   height: 100%;
   background: rgba(13, 13, 13, 0.8);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   text-shadow: $shadow-text;
