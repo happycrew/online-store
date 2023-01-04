@@ -34,7 +34,7 @@ export class Router {
     brands: string[],
     categories: string[]
   ): Product[] {
-    if (brands.length > 0 && (categories.length > 0)) {
+    if (brands.length > 0 && categories.length > 0) {
       return products
         .filter((value) => categories.includes(value.category))
         .filter((value) => brands.includes(value.brand))
@@ -171,12 +171,12 @@ export class Router {
     ;(
       document.querySelector('.main__btn-reset') as HTMLInputElement
     ).addEventListener('click', () => {
-      this.clearSerchParam()
+      this.clearSearchParam()
     })
     ;(
       document.querySelector('.header__div-logo') as HTMLInputElement
     ).addEventListener('click', () => {
-      this.clearSerchParam()
+      this.clearSearchParam()
     })
     ;(
       document.querySelector('.main__btn-copy') as HTMLInputElement
@@ -202,7 +202,7 @@ export class Router {
     })
   }
 
-  clearSerchParam (): void {
+  clearSearchParam (): void {
     ['price', 'sort', 'brand', 'category', 'search', 'big'].forEach((value) =>
       this.url.searchParams.delete(value)
     )
