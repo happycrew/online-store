@@ -17,6 +17,7 @@ export class App {
   private readonly cartGenerator: Cart // ad 27.12
   products: Product[]
   categories: string[]
+  brands: string[]
 
   constructor (
     loader: Loader,
@@ -30,6 +31,7 @@ export class App {
     this.generator = generator
     this.products = []
     this.categories = []
+    this.brands = []
     this.brandsBlock = document.querySelector(
       '.main__brand-list'
     ) as HTMLElement
@@ -48,6 +50,12 @@ export class App {
     this.categories = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
     this.products = products.products
+    this.products.forEach((el) => {
+      if (!this.brands.includes(el.brand)) {
+        this.brands.push(el.brand.trim())
+      }
+    })
+    this.brands.sort()
     this.router.addListenersForRouting()
     this.router.start()
   }
