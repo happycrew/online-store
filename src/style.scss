@@ -535,6 +535,10 @@ select {
 
     &:first-child {
       cursor: pointer;
+      
+      &:hover {
+        color: goldenrod;
+      }
     }
   }
 
@@ -896,6 +900,19 @@ select {
     cursor: pointer;
     width: 50%;
     margin: 3rem auto 1rem;
+
+    &:hover {
+      transform: scale(103%);
+      color: goldenrod;
+      border: 2px solid goldenrod;
+    }
+
+    &:active {
+      box-shadow: 2px 2px 3px #2d3388;
+      transform: translateY(-0.25em);
+      color: gainsboro;
+      border: 2px solid gainsboro;
+    }
   }
 }
 

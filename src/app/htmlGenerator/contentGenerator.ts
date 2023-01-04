@@ -10,6 +10,8 @@ export class Cart {
   promoCodeInput: HTMLInputElement
   totalPriceCartNewValue: HTMLElement
   promoCodeCount: number
+  buyNowButton: HTMLButtonElement
+  mainModal: HTMLElement
   constructor () {
     this.headerCart = document.querySelector('.header__basket') as HTMLElement
     this.showCart()
@@ -25,40 +27,46 @@ export class Cart {
     this.promoCodeInput = document.querySelector('.total-cart__promocode input') as HTMLInputElement
     this.makeOnChangePromoCode()
     this.promoCodeCount = 0
+    this.buyNowButton = document.querySelector('.main__total-cart button') as HTMLButtonElement
+    this.makeOrderOnlick()
+    this.mainModal = document.querySelector('.main__modal') as HTMLElement
+  }
+
+  makeOrderOnlick (): void {
+    this.buyNowButton.onclick = () => this.makeOrder()
+  }
+
+  makeOrder (): void {
+    this.mainModal.style.display = 'flex'
+    this.mainModal.addEventListener('click', (ev: Event) => {
+      if (ev.target instanceof Element) {
+        if (ev.target.classList.contains('main__modal')) this.mainModal.style.display = 'none'
+      }
+    })
   }
 
   promoCodeActive (promo: number): void {
     const allProdsInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
     allProdsInCart.forEach((el) => {
-      const btnCartPrice = Number(el.querySelector('.product-price')?.innerHTML.slice(8) as string)
-      const btnCartPriceOnePromo = Math.floor(btnCartPrice * 0.9)
-      const btnCartPriceTwoPromo = Math.floor(btnCartPrice * 0.8)
+      // const btnCartPrice = Number(el.querySelector('.product-price')?.innerHTML.slice(8) as string)
+      // const btnCartPriceOnePromo = Math.floor(btnCartPrice * 0.9)
+      // const btnCartPriceTwoPromo = Math.floor(btnCartPrice * 0.8)
       const btnCartPlus = el.querySelector('.btnCartPlus') as HTMLButtonElement
       const btnCartMinus = el.querySelector('.btnCartMinus') as HTMLButtonElement
       if (promo === 1) {
         btnCartPlus.onclick = () => {
-          const elStock = Number(el.querySelector('.product-stock')?.innerHTML.slice(7) as string)
-          const elCount = Number(el.querySelector('.product-controls span')?.innerHTML as string)
-          console.log(elStock, ' - Stock', elCount, ' - Count')
-          if (elCount === elStock) {
-            return false
-          } else {
-            this.totalPriceCartNewValue.innerHTML = `€ ${(String(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) + btnCartPriceOnePromo))}.00`
-          }
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCart.innerHTML.slice(2)) * 0.9)))}.00`
         }
         btnCartMinus.onclick = () => {
-          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) - btnCartPriceOnePromo))}.00`
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) * 0.9)))}.00`
         }
       }
       if (promo === 2) {
         btnCartPlus.onclick = () => {
-          const elStock = Number(el.querySelector('.product-stock')?.innerHTML.slice(7) as string)
-          const elCount = Number(el.querySelector('.product-controls span')?.innerHTML as string)
-          if (elCount === elStock) return
-          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) + btnCartPriceTwoPromo))}.00`
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCart.innerHTML.slice(2)) * 0.8)))}.00`
         }
         btnCartMinus.onclick = () => {
-          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) - btnCartPriceTwoPromo))}.00`
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) * 0.8)))}.00`
         }
       }
     })
@@ -451,9 +459,7 @@ export class ContentGenerator extends Cart {
       mainContainer.style.display = 'flex'
     }
     // Меняем navigation
-    const navPopup = Array.from(
-      document.querySelectorAll('.main__popup-navigation a')
-    )
+    const navPopup = Array.from(document.querySelectorAll('.main__popup-navigation a'))
     navPopup[1].innerHTML = product.category.toUpperCase()
     navPopup[2].innerHTML = product.brand.toUpperCase()
     navPopup[3].innerHTML = product.title.toUpperCase()
