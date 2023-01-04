@@ -373,6 +373,9 @@ export class ContentGenerator extends Cart {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__item', 'big-item')
       child.id = `product${products[i].id}`
+      if (document.getElementById(`cart${products[i].id}`) !== null) {
+        child.classList.add('prod-in-cart')
+      }
       child.onclick = (ev: Event) => {
         if (ev.target instanceof Element) {
           if (ev.target.id === 'addCartBtn') return false
@@ -414,7 +417,10 @@ export class ContentGenerator extends Cart {
       mainItemBtns.classList.add('main__item-btns')
       const itemBtn1 = document.createElement('button') as HTMLElement
       itemBtn1.setAttribute('id', 'addCartBtn')
-      itemBtn1.innerHTML = 'ADD TO CART'
+      document.getElementById(`cart${products[i].id}`) === null
+        ? (itemBtn1.innerHTML = 'ADD TO CART')
+        : (itemBtn1.innerHTML = 'DROP FROM CART')
+      // itemBtn1.innerHTML = 'ADD TO CART'
       itemBtn1.onclick = (ev) => this.addProdToCartCount(ev, products[i])
       const itemBtn2 = document.createElement('button') as HTMLElement
       itemBtn2.innerHTML = 'DETAILS'
