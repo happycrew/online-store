@@ -294,6 +294,10 @@ export class Router {
               min.toString()
             ;(document.querySelector('.input-max') as HTMLInputElement).value =
               max.toString()
+            ;(document.querySelector('.range-min') as HTMLInputElement).value =
+              min === max ? (min - 20).toString() : min.toString()
+            ;(document.querySelector('.range-max') as HTMLInputElement).value =
+              min === max ? (max + 20).toString() : max.toString()
           } else {
             this.productsBlock.innerHTML = 'No products found 😏'
           }
