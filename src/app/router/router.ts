@@ -188,7 +188,7 @@ export class Router {
           app.brandsBlock.innerHTML = ''
           generator.generateProductItems(app.products, this.productsBlock)
           generator.generateBrandItems(app.products, app.brandsBlock)
-          generator.generateCategoryItems(app.categories, app.categoriesBlock)
+          generator.generateCategoryItems(app.categories, app.categoriesBlock, app.products)
         } else {
           let arr: Product[] = app.products
           if (
@@ -216,7 +216,11 @@ export class Router {
               value.description.includes(searchString))
           }
           this.productsBlock.innerHTML = ''
+          app.categoriesBlock.innerHTML = ''
+          app.brandsBlock.innerHTML = ''
           generator.generateProductItems(arr, this.productsBlock)
+          generator.generateCategoryItems(app.categories, app.categoriesBlock, arr)
+          generator.generateBrandItems(arr, app.brandsBlock)
           if (arr.length > 0) {
             const min: number = arr.reduce(function (p, v) {
               return (p.price < v.price ? p : v)
