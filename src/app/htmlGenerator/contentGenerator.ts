@@ -48,9 +48,6 @@ export class Cart {
   promoCodeActive (promo: number): void {
     const allProdsInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
     allProdsInCart.forEach((el) => {
-      // const btnCartPrice = Number(el.querySelector('.product-price')?.innerHTML.slice(8) as string)
-      // const btnCartPriceOnePromo = Math.floor(btnCartPrice * 0.9)
-      // const btnCartPriceTwoPromo = Math.floor(btnCartPrice * 0.8)
       const btnCartPlus = el.querySelector('.btnCartPlus') as HTMLButtonElement
       const btnCartMinus = el.querySelector('.btnCartMinus') as HTMLButtonElement
       if (promo === 1) {
@@ -92,7 +89,6 @@ export class Cart {
   addPromoCode (elem: HTMLElement, value: string, promo: string): void {
     const totalPrice = document.querySelector('.total-cart__price') as HTMLElement
     const totalPriceNew = document.querySelector('.total-cart__new-price') as HTMLElement
-    // const allPlusProdButtons = Array.from(document.querySelectorAll('.product-controls'))
     totalPrice.classList.add('old-price')
     totalPriceNew.style.display = 'block'
     const parent = document.querySelector('.total-cart__appl-codes') as HTMLElement
@@ -240,6 +236,7 @@ export class Cart {
     const cartWrapper = document.createElement('div') as HTMLElement
     cartWrapper.classList.add('cart-item__wrapper')
     cartWrapper.setAttribute('id', `cart${product.id}`)
+    if (document.getElementById(`cart${product.id}`) !== null) return
     const cartItem = document.createElement('div') as HTMLElement
     cartItem.classList.add('cart-item')
     // Cоздаем id (номер товара в списке)
@@ -429,7 +426,7 @@ export class ContentGenerator extends Cart {
         ? (itemBtn1.innerHTML = 'ADD TO CART')
         : (itemBtn1.innerHTML = 'DROP FROM CART')
       // itemBtn1.innerHTML = 'ADD TO CART'
-      itemBtn1.onclick = (ev) => this.addProdToCartCount(ev, products[i])
+      itemBtn1.onclick = (ev) => this.addProdToCartCount(products[i], ev)
       const itemBtn2 = document.createElement('button') as HTMLElement
       itemBtn2.innerHTML = 'DETAILS'
       // устраиваем матрешку, закидываем одно в другое затем в третье
@@ -486,7 +483,7 @@ export class ContentGenerator extends Cart {
     const productAddBtn = document.querySelector(
       '.product__price-btns button'
     ) as HTMLButtonElement
-    productAddBtn.onclick = (ev) => this.addProdToCartCount(ev, product)
+    productAddBtn.onclick = (ev) => this.addProdToCartCount(product, ev)
     productPrice.innerHTML = `€${product.price}`
     // Меняем изображение
     const productSlide = document.querySelector('.popup__slide') as HTMLElement
@@ -509,9 +506,18 @@ export class ContentGenerator extends Cart {
         productBigImg.src = `${(img as HTMLImageElement).src}`
       })
     })
+    const buyNowBtn = document.getElementById('buyNowBtn') as HTMLButtonElement
+    buyNowBtn.addEventListener('click', () => {
+      element.style.display = 'none'
+      const mainCart = document.querySelector('.main__cart') as HTMLElement
+      mainCart.style.display = 'flex'
+      this.setProdToCart(product)
+      this.makeOrder()
+    })
+    console.log(buyNowBtn)
   }
 
-  addProdToCartCount (ev: Event, product: Product): void {
+  addProdToCartCount (product: Product, ev: Event): void {
     const pressedBtn = ev.target as HTMLButtonElement
     const idPopup = document
       .querySelector('.main__popup')
