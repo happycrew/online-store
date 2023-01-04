@@ -17,7 +17,9 @@ export class Router {
       this.url.search.includes('sort=') ||
       this.url.search.includes('category=') ||
       this.url.search.includes('brand=') ||
-      this.url.search.includes('big=')
+      this.url.search.includes('big=') ||
+      this.url.search.includes('stock=') ||
+      this.url.search.includes('price=')
     ) {
       this.setState(this.states[0], this.url.search)
     } else {
@@ -136,6 +138,16 @@ export class Router {
       this.setState(this.states[0], this.url.search)
       this.start()
     }
+    const setStock = (): void => {
+      this.url.searchParams.set(
+        'stock',
+          `${(document.querySelector('.stock-input-min') as HTMLInputElement).value}↕${
+            (document.querySelector('.stock-input-max') as HTMLInputElement).value
+          }`
+      )
+      this.setState(this.states[0], this.url.search)
+      this.start()
+    }
     ;(
       document.querySelector('.input-min') as HTMLInputElement
     ).addEventListener('input', () => {
@@ -167,6 +179,38 @@ export class Router {
         document.querySelector('.range-max') as HTMLInputElement
       ).value
       setPrice()
+    });
+    (
+      document.querySelector('.stock-input-min') as HTMLInputElement
+    ).addEventListener('input', () => {
+      (document.querySelector('.stock-range-min') as HTMLInputElement).value = (
+        document.querySelector('.stock-input-min') as HTMLInputElement
+      ).value
+      setStock()
+    })
+    ;(
+      document.querySelector('.stock-input-max') as HTMLInputElement
+    ).addEventListener('input', () => {
+      (document.querySelector('.stock-range-max') as HTMLInputElement).value = (
+        document.querySelector('.stock-input-max') as HTMLInputElement
+      ).value
+      setStock()
+    })
+    ;(
+      document.querySelector('.stock-range-min') as HTMLInputElement
+    ).addEventListener('input', () => {
+      (document.querySelector('.stock-input-min') as HTMLInputElement).value = (
+        document.querySelector('.stock-range-min') as HTMLInputElement
+      ).value
+      setStock()
+    })
+    ;(
+      document.querySelector('.stock-range-max') as HTMLInputElement
+    ).addEventListener('input', () => {
+      (document.querySelector('.stock-input-max') as HTMLInputElement).value = (
+        document.querySelector('.stock-range-max') as HTMLInputElement
+      ).value
+      setStock()
     })
     ;(
       document.querySelector('.main__btn-reset') as HTMLInputElement
@@ -203,7 +247,7 @@ export class Router {
   }
 
   clearSearchParam (): void {
-    ['price', 'sort', 'brand', 'category', 'search', 'big'].forEach((value) =>
+    ['price', 'sort', 'brand', 'category', 'search', 'big', 'stock'].forEach((value) =>
       this.url.searchParams.delete(value)
     )
     ;(
@@ -238,6 +282,20 @@ export class Router {
       min === max ? (min - 20).toString() : min.toString()
     ;(document.querySelector('.range-max') as HTMLInputElement).value =
       min === max ? (max + 20).toString() : max.toString()
+    const minStock: number = arr.reduce(function (p, v) {
+      return p.stock < v.stock ? p : v
+    }).stock
+    const maxStock: number = arr.reduce(function (p, v) {
+      return p.stock > v.stock ? p : v
+    }).stock
+    ;(document.querySelector('.stock-input-min') as HTMLInputElement).value =
+      minStock.toString()
+    ;(document.querySelector('.stock-input-max') as HTMLInputElement).value =
+      maxStock.toString()
+    ;(document.querySelector('.stock-range-min') as HTMLInputElement).value =
+      minStock === maxStock ? (minStock - 3).toString() : minStock.toString()
+    ;(document.querySelector('.stock-range-max') as HTMLInputElement).value =
+      minStock === maxStock ? (maxStock + 3).toString() : maxStock.toString()
   }
 
   start (): void {
@@ -279,6 +337,16 @@ export class Router {
               (value) =>
                 value.price >= parseInt(price[0], 10) &&
                 value.price <= parseInt(price[1], 10)
+            )
+          }
+          if (arr.length > 0 && this.url.searchParams.has('stock')) {
+            const stock: string[] = (
+              this.url.searchParams.get('stock') as string
+            ).split('↕')
+            arr = arr.filter(
+              (value) =>
+                value.stock >= parseInt(stock[0], 10) &&
+                value.stock <= parseInt(stock[1], 10)
             )
           }
           if (arr.length > 0 && this.url.searchParams.has('search')) {
