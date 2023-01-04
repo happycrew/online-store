@@ -165,12 +165,24 @@ export class Cart {
   }
 
   createProdInCart (): void {
+    // function changeCartSize (array: HTMLElement, count: number): void {
+    //   array.removeChild(array.lastChild as Node)
+    // }
     const mainContainer = document.querySelector(
       '.main__container'
     ) as HTMLElement
     const mainPopup = document.querySelector('.main__popup') as HTMLElement
     const mainCart = document.querySelector('.main__cart') as HTMLElement
-    const mainCartItemsLength = (document.querySelector('.main__cart-items') as HTMLElement).childElementCount
+    const mainCartItems = document.querySelector('.main__cart-items') as HTMLElement
+    // const test = Array.from(mainCartItems.children)
+    const mainCartItemsLength = mainCartItems.childElementCount
+    const pageLimitInput = document.querySelector('.page-limit input') as HTMLInputElement
+    pageLimitInput.setAttribute('max', String(mainCartItemsLength))
+    pageLimitInput.setAttribute('value', String(mainCartItemsLength))
+    // const inpValue = pageLimitInput.value
+    // pageLimitInput.onchange = () => {
+    //   changeCartSize(mainCartItems, +inpValue)
+    // }
     mainContainer.style.display = 'none'
     mainPopup.style.display = 'none'
     mainCart.style.display = 'flex'
