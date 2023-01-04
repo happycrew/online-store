@@ -223,6 +223,23 @@ export class Router {
     })
   }
 
+  setSelectorsValues (arr: Product[]): void {
+    const min: number = arr.reduce(function (p, v) {
+      return p.price < v.price ? p : v
+    }).price
+    const max: number = arr.reduce(function (p, v) {
+      return p.price > v.price ? p : v
+    }).price
+    ;(document.querySelector('.input-min') as HTMLInputElement).value =
+      min.toString()
+    ;(document.querySelector('.input-max') as HTMLInputElement).value =
+      max.toString()
+    ;(document.querySelector('.range-min') as HTMLInputElement).value =
+      min === max ? (min - 20).toString() : min.toString()
+    ;(document.querySelector('.range-max') as HTMLInputElement).value =
+      min === max ? (max + 20).toString() : max.toString()
+  }
+
   start (): void {
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
@@ -230,6 +247,7 @@ export class Router {
           this.productsBlock.innerHTML = ''
           app.categoriesBlock.innerHTML = ''
           app.brandsBlock.innerHTML = ''
+          this.setSelectorsValues(app.products)
           generator.generateProductItems(app.products, this.productsBlock)
           generator.generateBrandItems(app.products, app.brandsBlock)
           generator.generateCategoryItems(
@@ -283,24 +301,7 @@ export class Router {
             arr
           )
           generator.generateBrandItems(arr, app.brandsBlock)
-          if (arr.length > 0) {
-            const min: number = arr.reduce(function (p, v) {
-              return p.price < v.price ? p : v
-            }).price
-            const max: number = arr.reduce(function (p, v) {
-              return p.price > v.price ? p : v
-            }).price
-            ;(document.querySelector('.input-min') as HTMLInputElement).value =
-              min.toString()
-            ;(document.querySelector('.input-max') as HTMLInputElement).value =
-              max.toString()
-            ;(document.querySelector('.range-min') as HTMLInputElement).value =
-              min === max ? (min - 20).toString() : min.toString()
-            ;(document.querySelector('.range-max') as HTMLInputElement).value =
-              min === max ? (max + 20).toString() : max.toString()
-          } else {
-            this.productsBlock.innerHTML = 'No products found 😏'
-          }
+          arr.length > 0 ? this.setSelectorsValues(arr) : this.productsBlock.innerHTML = 'No products found 😏'
         }
         break
       case 1: // cart
