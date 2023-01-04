@@ -82,16 +82,35 @@
           </div>
           <div class="main__stock">
             <h3>Stock</h3>
-            <div class="main__data">
-              <div class="main__from-data">2</div>
+            <div class="stock-input">
+              <div class="stock-field">
+                <input type="number" class="stock-input-min" value="2">
+              </div>
               ⟷
-              <div class="main__to-data">150</div>
+              <div class="stock-field">
+                <input type="number" class="stock-input-max" value="150">
+              </div>
             </div>
-            <!-- <div class="main__multi-range"> -->
-              <!-- <input type="range" min="0" max="48" /> -->
-              <!-- <input type="range" min="0" max="48"> -->
-            <!-- </div> -->
+            <div class="stock-slider">
+              <div class="stock-progress"></div>
+            </div>
+            <div class="stock-range-input">
+              <input type="range" class="stock-range-min" min="2" max="150" value="2" step="1" />
+              <input type="range" class="stock-range-max" min="2" max="150" value="150" step="1">
+            </div>
           </div>
+<!--          <div class="main__stock">-->
+<!--            <h3>Stock</h3>-->
+<!--            <div class="main__data">-->
+<!--              <div class="main__from-data">2</div>-->
+<!--              ⟷-->
+<!--              <div class="main__to-data">150</div>-->
+<!--            </div>-->
+<!--&lt;!&ndash;             <div class="main__multi-range">&ndash;&gt;-->
+<!--&lt;!&ndash;               <input type="range" min="0" max="48" />&ndash;&gt;-->
+<!--&lt;!&ndash;               <input type="range" min="0" max="48">&ndash;&gt;-->
+<!--&lt;!&ndash;             </div>&ndash;&gt;-->
+<!--          </div>-->
         </div>
         <div class="main__products">
           <div class="main__sort-products">
