@@ -113,9 +113,9 @@ h1 {
   }
 
   span {
-   &:last-child {
-    color: wheat;
-   }
+    &:last-child {
+      color: wheat;
+    }
   }
 }
 
@@ -205,7 +205,8 @@ h1 {
   // }
 }
 
-.main__btn-reset, .main__btn-copy {
+.main__btn-reset,
+.main__btn-copy {
   background-color: $sub-color-bg;
   text-shadow: $shadow-text;
   border: 1px solid black;
@@ -535,6 +536,10 @@ select {
 
     &:first-child {
       cursor: pointer;
+
+      &:hover {
+        color: goldenrod;
+      }
     }
   }
 
@@ -736,14 +741,15 @@ select {
 }
 
 .page-limit {
-  input {
-    width: 2rem;
+  input[type='number'] {
+    width: 2.5rem;
     text-align: center;
     outline: none;
     border: 1px solid gainsboro;
     border-radius: 0.2rem;
-    background-color: green;
+    background-color: #3b65ad;
     font-size: 140%;
+    color: white;
   }
 }
 
@@ -896,6 +902,19 @@ select {
     cursor: pointer;
     width: 50%;
     margin: 3rem auto 1rem;
+
+    &:hover {
+      transform: scale(103%);
+      color: goldenrod;
+      border: 2px solid goldenrod;
+    }
+
+    &:active {
+      box-shadow: 2px 2px 3px #2d3388;
+      transform: translateY(-0.25em);
+      color: gainsboro;
+      border: 2px solid gainsboro;
+    }
   }
 }
 
@@ -1176,7 +1195,7 @@ select {
       button {
         width: 40%;
         font-size: 90%;
-        background-color:#2d3388;
+        background-color: #2d3388;
         border: 1px solid gainsboro;
         border-radius: 0.5rem;
         padding: 1%;
@@ -1300,12 +1319,11 @@ input[type='number'] {
       text-align: center;
       outline: none;
     }
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
   }
-}
-
-input[type='number']::-webkit-outer-spin-button,
-input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
 }
 
 .slider {
