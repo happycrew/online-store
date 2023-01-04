@@ -323,34 +323,27 @@ export class Cart {
 
 export class ContentGenerator extends Cart {
   generateBrandItems (products: Product[], element: HTMLElement): void {
-    const brands: string[] = []
-    products.forEach((el) => {
-      if (!brands.includes(el.brand.toString())) {
-        brands.push(el.brand.trim())
-      }
-    })
-    brands.sort()
-    for (let i = 0; i < brands.length; i++) {
+    for (let i = 0; i < app.brands.length; i++) {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__brand-item')
-      child.classList.add('item-not-active')
+      products.filter(value => value.brand === app.brands[i]).length !== 0 ? child.classList.add('item-active') : child.classList.add('item-not-active')
       child.innerHTML = `<input type="checkbox" id="brand${i.toString()}" />
-                         <label for="brand${i.toString()}">${brands[i]}</label>
-                         <span>(${products.filter(value => value.brand === brands[i]).length}/${app.products.filter(value => value.brand === brands[i]).length})</span>`
+                         <label for="brand${i.toString()}">${app.brands[i]}</label>
+                         <span>(${products.filter(value => value.brand === app.brands[i]).length}/${app.products.filter(value => value.brand === app.brands[i]).length})</span>`
       element.append(child)
     }
   }
 
-  generateCategoryItems (categories: string[], element: HTMLElement): void {
+  generateCategoryItems (categories: string[], element: HTMLElement, products: Product[]): void {
     for (let i = 0; i < categories.length; i++) {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__category-item')
-      child.classList.add('item-not-active')
+      products.filter(value => value.category === categories[i]).length !== 0 ? child.classList.add('item-active') : child.classList.add('item-not-active')
       child.innerHTML = `<input type="checkbox" id="category${i.toString()}" />
                          <label for="category${i.toString()}">${
         categories[i]
       }</label>
-                         <span>(${categories.filter(value => value === categories[i]).length}/${app.products.filter(value => value.category === categories[i]).length})</span>`
+                         <span>(${products.filter(value => value.category === categories[i]).length}/${app.products.filter(value => value.category === categories[i]).length})</span>`
       element.append(child)
     }
   }
