@@ -327,8 +327,8 @@ export class ContentGenerator extends Cart {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__brand-item')
       products.filter(value => value.brand === app.brands[i]).length !== 0 ? child.classList.add('item-active') : child.classList.add('item-not-active')
-      child.innerHTML = `<input type="checkbox" id="brand${i.toString()}" />
-                         <label for="brand${i.toString()}">${app.brands[i]}</label>
+      child.innerHTML = `<input type="checkbox" id="brand${i}" ${app.router.url.searchParams.getAll('brand').includes(app.brands[i]) ? 'checked="true"' : ''}/>
+                         <label for="brand${i}">${app.brands[i]}</label>
                          <span>(${products.filter(value => value.brand === app.brands[i]).length}/${app.products.filter(value => value.brand === app.brands[i]).length})</span>`
       element.append(child)
     }
@@ -339,7 +339,7 @@ export class ContentGenerator extends Cart {
       const child = document.createElement('div') as HTMLElement
       child.classList.add('main__category-item')
       products.filter(value => value.category === categories[i]).length !== 0 ? child.classList.add('item-active') : child.classList.add('item-not-active')
-      child.innerHTML = `<input type="checkbox" id="category${i.toString()}" />
+      child.innerHTML = `<input type="checkbox" id="category${i}" ${app.router.url.searchParams.getAll('category').includes(categories[i]) ? 'checked="true"' : ''}/>
                          <label for="category${i.toString()}">${
         categories[i]
       }</label>
@@ -449,7 +449,7 @@ export class ContentGenerator extends Cart {
     const element: HTMLElement = document.querySelector(
       '.main__popup'
     ) as HTMLElement
-    element.setAttribute('id', `${product.id.toString()}`)
+    element.setAttribute('id', `${product.id}`)
     const mainContainer = document.querySelector(
       '.main__container'
     ) as HTMLElement

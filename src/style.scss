@@ -1301,13 +1301,13 @@ input[type='number'] {
   color: black;
 }
 
-.price-input {
+.price-input, .stock-input {
   margin-top: 5%;
   margin-bottom: 5%;
   display: flex;
   justify-content: space-around;
 
-  .field {
+  .field, .stock-field {
     display: flex;
     align-items: center;
 
@@ -1326,7 +1326,7 @@ input[type='number'] {
   }
 }
 
-.slider {
+.slider, .stock-slider {
   height: 5px;
   background: #ddd;
   border-radius: 5px;
@@ -1334,7 +1334,7 @@ input[type='number'] {
   margin-right: 3%;
   position: relative;
 
-  .progress {
+  .progress, .stock-progress {
     height: 5px;
     width: 100%;
     left: 0%;
@@ -1346,7 +1346,7 @@ input[type='number'] {
   }
 }
 
-.range-input {
+.range-input, .stock-range-input {
   position: relative;
   height: 1rem;
   margin-left: 3%;
