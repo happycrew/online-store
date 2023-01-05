@@ -12,6 +12,8 @@ export class Cart {
   promoCodeCount: number
   buyNowButton: HTMLButtonElement
   mainModal: HTMLElement
+  pageLimitInput: HTMLInputElement
+  productsInCart: Element[]
   constructor () {
     this.headerCart = document.querySelector('.header__basket') as HTMLElement
     this.showCart()
@@ -30,6 +32,9 @@ export class Cart {
     this.buyNowButton = document.querySelector('.main__total-cart button') as HTMLButtonElement
     this.makeOrderOnlick()
     this.mainModal = document.querySelector('.main__modal') as HTMLElement
+    this.pageLimitInput = document.querySelector('.page-limit input') as HTMLInputElement
+    // this.paginationMakeEvent()
+    this.productsInCart = []
   }
 
   makeOrderOnlick (): void {
@@ -80,7 +85,6 @@ export class Cart {
       applCodes.style.display = 'none'
     }
     this.promoCodeCount -= 1
-    console.log('Количество активных прокомодов: ', this.promoCodeCount)
     if (this.promoCodeCount === 1) {
       this.totalPriceCartNewValue.innerHTML = `€ ${Math.floor(Number(this.totalPrice[1].innerHTML) * 0.9)}.00`
     }
@@ -100,7 +104,6 @@ export class Cart {
     const span = elem.querySelector('span') as HTMLElement
     span.onclick = () => this.deletePromoCode(elem, promo)
     this.promoCodeCount += 1
-    console.log('Количество активных прокомодов: ', this.promoCodeCount)
     if (this.promoCodeCount === 1) {
       this.totalPriceCartNewValue.innerHTML = `€ ${Math.floor(Number(this.totalPrice[1].innerHTML) * 0.9)}.00`
       this.promoCodeActive(1)
@@ -164,25 +167,63 @@ export class Cart {
     this.promoCodeInput.oninput = this.validatePromoCode.bind(this)
   }
 
+  // paginationMakeEvent (): void {
+  //   this.pageLimitInput.onchange = this.pagination.bind(this)
+  // }
+
+  pagination (): void {
+    const inpValue = Number(this.pageLimitInput.value)
+    // const cartItemWrapperInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
+    const pageNumbersBtns = Array.from(document.querySelectorAll('.page-numbers button'))
+    const pageNumbersSpan = (document.querySelectorAll('.page-numbers span')[1]) as HTMLSpanElement
+    const newArray: Element[][] = []
+    for (let i = 0; i < Math.ceil(this.productsInCart.length / inpValue); i++) {
+      newArray[i] = this.productsInCart.slice((i * inpValue), (i * inpValue) + inpValue)
+    }
+    console.log(newArray)
+    const mainCartItems = document.querySelector('.main__cart-items') as HTMLElement
+    mainCartItems.innerHTML = '';
+    (pageNumbersBtns[0] as HTMLButtonElement).onclick = () => {
+      if (+pageNumbersSpan.innerHTML === 1) return
+      pageNumbersSpan.innerHTML = String(+pageNumbersSpan.innerHTML - 1)
+      mainCartItems.innerHTML = ''
+      for (let i = 0; i < newArray[+pageNumbersSpan.innerHTML - 1].length; i++) {
+        mainCartItems.appendChild(newArray[+pageNumbersSpan.innerHTML - 1][i])
+      }
+    }
+
+    (pageNumbersBtns[1] as HTMLButtonElement).onclick = () => {
+      if (+pageNumbersSpan.innerHTML === newArray.length) return
+      pageNumbersSpan.innerHTML = String(+pageNumbersSpan.innerHTML + 1)
+      mainCartItems.innerHTML = ''
+      for (let i = 0; i < newArray[+pageNumbersSpan.innerHTML - 1].length; i++) {
+        mainCartItems.appendChild(newArray[+pageNumbersSpan.innerHTML - 1][i])
+      }
+    }
+
+    // console.log(this.productsInCart)
+    // const mainCartItems = document.querySelector('.main__cart-items') as HTMLElement
+    // mainCartItems.innerHTML = ''
+    for (let i = 0; i < newArray[+pageNumbersSpan.innerHTML - 1].length; i++) {
+      mainCartItems.appendChild(newArray[+pageNumbersSpan.innerHTML - 1][i])
+    }
+  }
+
+  setInputParametres (): void {
+    const cartItemWrapperInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
+    this.pageLimitInput.setAttribute('max', String(cartItemWrapperInCart.length))
+    this.pageLimitInput.setAttribute('value', String(cartItemWrapperInCart.length))
+  }
+
   createProdInCart (): void {
-    // function changeCartSize (array: HTMLElement, count: number): void {
-    //   array.removeChild(array.lastChild as Node)
-    // }
     const mainContainer = document.querySelector(
       '.main__container'
     ) as HTMLElement
     const mainPopup = document.querySelector('.main__popup') as HTMLElement
     const mainCart = document.querySelector('.main__cart') as HTMLElement
     const mainCartItems = document.querySelector('.main__cart-items') as HTMLElement
-    // const test = Array.from(mainCartItems.children)
     const mainCartItemsLength = mainCartItems.childElementCount
-    const pageLimitInput = document.querySelector('.page-limit input') as HTMLInputElement
-    pageLimitInput.setAttribute('max', String(mainCartItemsLength))
-    pageLimitInput.setAttribute('value', String(mainCartItemsLength))
-    // const inpValue = pageLimitInput.value
-    // pageLimitInput.onchange = () => {
-    //   changeCartSize(mainCartItems, +inpValue)
-    // }
+    this.setInputParametres()
     mainContainer.style.display = 'none'
     mainPopup.style.display = 'none'
     mainCart.style.display = 'flex'
@@ -245,7 +286,7 @@ export class Cart {
     // все товары
     const cartItems = document.querySelector('.main__cart-items') as HTMLElement
     // товар, который добавляем
-    const cartWrapper = document.createElement('div') as HTMLElement
+    const cartWrapper = document.createElement('div') as Element
     cartWrapper.classList.add('cart-item__wrapper')
     cartWrapper.setAttribute('id', `cart${product.id}`)
     if (document.getElementById(`cart${product.id}`) !== null) return
@@ -300,23 +341,29 @@ export class Cart {
     btnPlus.classList.add('btnCartPlus')
     const btnMinus = cartItemNumberControl.children[1].children[2] as HTMLButtonElement
     btnMinus.classList.add('btnCartMinus')
-    // btnPlus.addEventListener('click', function (): void {
-    //   this.changeBtnsCart(product, 'add', product.stock, this)
     btnPlus.addEventListener('click', () => this.changeBtnsCart(product, 'add', product.stock))
-    // btnPlus.onclick = () => this.changeBtnsCart(product, 'add', product.stock)
     btnMinus.addEventListener('click', () => this.changeBtnsCart(product, 'drop', product.stock))
-    // btnMinus.onclick = () => this.changeBtnsCart(product, 'drop', product.stock)
     cartItemInfo.append(itemIMG, itemDetails)
     cartItem.append(cartItemId, cartItemInfo, cartItemNumberControl)
     cartWrapper.append(cartItem)
     cartItems.append(cartWrapper)
     this.changeCountAndPrice(product, 'add')
+    this.productsInCart.push(cartWrapper)
+    console.log(this.productsInCart)
+    this.pageLimitInput.onclick = this.pagination.bind(this)
   }
 
   dropProdFromCart (product: Product): void {
     const cartItems = document.querySelector('.main__cart-items') as HTMLElement
     const element = document.getElementById(`cart${product.id}`) as HTMLElement
     cartItems.removeChild(element)
+    this.productsInCart.forEach((el, i) => {
+      if (el === element) {
+        this.productsInCart.splice(i, 1)
+      }
+    })
+    console.log(this.productsInCart)
+    this.setInputParametres()
     this.changeCountAndPrice(product, 'drop')
   }
 }
@@ -519,7 +566,6 @@ export class ContentGenerator extends Cart {
       this.setProdToCart(product)
       this.makeOrder()
     })
-    console.log(buyNowBtn)
   }
 
   addProdToCartCount (product: Product, ev: Event): void {

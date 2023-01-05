@@ -756,12 +756,19 @@ select {
 .page-numbers {
   margin-left: 2rem;
   button {
-    background-color: green;
+    background-color: #3b65ad;
     cursor: pointer;
     border: 1px solid gainsboro;
     border-radius: 0.2rem;
     padding: 0.1rem;
     font-size: 140%;
+    &:hover {
+      box-shadow: 0 0 3px 1px purple;
+    }
+    &:active {
+      box-shadow: 0 0 5px 2px purple;
+      color:#aabacc;
+    }
   }
 }
 .main__total-cart {
