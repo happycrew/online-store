@@ -530,12 +530,12 @@ select {
   text-shadow: $shadow-text;
   color: gray;
 
-  a {
+  p {
     text-decoration: none;
-    cursor: default;
+    cursor: pointer;
 
-    &:first-child {
-      cursor: pointer;
+    &:last-child {
+      cursor: default;
 
       &:hover {
         color: goldenrod;
