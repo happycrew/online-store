@@ -447,7 +447,7 @@ export class ContentGenerator extends Cart {
             ? (popupBtn.innerHTML = 'ADD TO CART')
             : (popupBtn.innerHTML = 'DROP FROM CART')
         }
-        app.router.setState(app.router.states[2], `/product-details/${products[i].id}`)
+        app.router.setState(app.router.states[2], `?product-details=${products[i].id}`)
         app.router.start()
       }
       // div с товаром
@@ -512,9 +512,32 @@ export class ContentGenerator extends Cart {
       mainContainer.style.display = 'flex'
     }
     // Меняем navigation
-    const navPopup = Array.from(document.querySelectorAll('.main__popup-navigation a'))
+    const navPopup = Array.from(document.querySelectorAll('.main__popup-navigation p'))
+    navPopup[0].addEventListener('click', () => {
+      app.router.clearSearchParam()
+      app.router.setState(app.router.states[0], '/')
+      element.style.display = 'none'
+      mainContainer.style.display = 'flex'
+      app.router.start()
+    })
     navPopup[1].innerHTML = product.category.toUpperCase()
+    navPopup[1].addEventListener('click', () => {
+      app.router.clearSearchParam()
+      app.router.url.searchParams.append('category', product.category)
+      app.router.setState(app.router.states[0], `?category=${product.category}`)
+      element.style.display = 'none'
+      mainContainer.style.display = 'flex'
+      app.router.start()
+    })
     navPopup[2].innerHTML = product.brand.toUpperCase()
+    navPopup[2].addEventListener('click', () => {
+      app.router.clearSearchParam()
+      app.router.url.searchParams.append('brand', product.brand)
+      app.router.setState(app.router.states[0], `/?brand=${product.brand}`)
+      element.style.display = 'none'
+      mainContainer.style.display = 'flex'
+      app.router.start()
+    })
     navPopup[3].innerHTML = product.title.toUpperCase()
     // Меняем title окна товара
     const titleProduct = document.querySelector(
