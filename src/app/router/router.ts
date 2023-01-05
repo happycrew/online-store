@@ -8,7 +8,7 @@ export class Router {
 
   constructor () {
     this.url = new URL(window.location.href)
-    if (this.url.pathname.includes('/product-details/')) {
+    if (this.url.search.includes('?product-details=')) {
       this.setState(this.states[2], this.url.search)
     } else if (this.url.pathname.includes('cart')) {
       this.setState(this.states[1], this.url.search)
@@ -105,9 +105,8 @@ export class Router {
   addListenersForRouting (): void {
     // popstate listener back or forward button
     window.addEventListener('popstate', (): void => {
-      window.history.state === null
-        ? this.setState(this.states[0], '/')
-        : app.router.start()
+      if (window.history.state === null) this.setState(this.states[0], '/')
+      app.router.start()
     })
     // sorting listener
     const selectSort = document.getElementById(
@@ -220,7 +219,8 @@ export class Router {
     ;(
       document.querySelector('.header__div-logo') as HTMLInputElement
     ).addEventListener('click', () => {
-      this.clearSearchParam()
+      this.setState(this.states[0], '/')
+      this.start()
     })
     ;(
       document.querySelector('.main__btn-copy') as HTMLInputElement
@@ -353,10 +353,10 @@ export class Router {
             const searchString = this.url.searchParams.get('search') as string
             arr = arr.filter(
               (value) =>
-                value.brand.includes(searchString) ||
-                value.category.includes(searchString) ||
-                value.title.includes(searchString) ||
-                value.description.includes(searchString)
+                value.brand.toLowerCase().includes(searchString.toLowerCase()) ||
+                value.category.toLowerCase().includes(searchString.toLowerCase()) ||
+                value.title.toLowerCase().includes(searchString.toLowerCase()) ||
+                value.description.toLowerCase().includes(searchString.toLowerCase())
             )
           }
           this.productsBlock.innerHTML = ''
@@ -381,7 +381,7 @@ export class Router {
             (value) =>
               value.id ===
               parseInt(
-                window.location.pathname.replace('/product-details/', ''),
+                window.location.search.replace('?product-details=', ''),
                 10
               )
           )[0]
