@@ -33,7 +33,6 @@ export class Cart {
     this.makeOrderOnlick()
     this.mainModal = document.querySelector('.main__modal') as HTMLElement
     this.pageLimitInput = document.querySelector('.page-limit input') as HTMLInputElement
-    // this.paginationMakeEvent()
     this.productsInCart = []
   }
 
@@ -167,22 +166,19 @@ export class Cart {
     this.promoCodeInput.oninput = this.validatePromoCode.bind(this)
   }
 
-  // paginationMakeEvent (): void {
-  //   this.pageLimitInput.onchange = this.pagination.bind(this)
-  // }
-
   pagination (): void {
     const inpValue = Number(this.pageLimitInput.value)
-    // const cartItemWrapperInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
     const pageNumbersBtns = Array.from(document.querySelectorAll('.page-numbers button'))
     const pageNumbersSpan = (document.querySelectorAll('.page-numbers span')[1]) as HTMLSpanElement
     const newArray: Element[][] = []
     for (let i = 0; i < Math.ceil(this.productsInCart.length / inpValue); i++) {
       newArray[i] = this.productsInCart.slice((i * inpValue), (i * inpValue) + inpValue)
     }
-    console.log(newArray)
+    // console.log(newArray)
+    // const count = String(newArray.flat().length)
     const mainCartItems = document.querySelector('.main__cart-items') as HTMLElement
     mainCartItems.innerHTML = '';
+
     (pageNumbersBtns[0] as HTMLButtonElement).onclick = () => {
       if (+pageNumbersSpan.innerHTML === 1) return
       pageNumbersSpan.innerHTML = String(+pageNumbersSpan.innerHTML - 1)
@@ -201,18 +197,15 @@ export class Cart {
       }
     }
 
-    // console.log(this.productsInCart)
-    // const mainCartItems = document.querySelector('.main__cart-items') as HTMLElement
-    // mainCartItems.innerHTML = ''
     for (let i = 0; i < newArray[+pageNumbersSpan.innerHTML - 1].length; i++) {
       mainCartItems.appendChild(newArray[+pageNumbersSpan.innerHTML - 1][i])
     }
   }
 
   setInputParametres (): void {
-    const cartItemWrapperInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
-    this.pageLimitInput.setAttribute('max', String(cartItemWrapperInCart.length))
-    this.pageLimitInput.setAttribute('value', String(cartItemWrapperInCart.length))
+    // const cartItemWrapperInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
+    this.pageLimitInput.setAttribute('max', String(this.productsInCart.length))
+    this.pageLimitInput.setAttribute('value', String(this.productsInCart.length))
   }
 
   createProdInCart (): void {
@@ -223,7 +216,6 @@ export class Cart {
     const mainCart = document.querySelector('.main__cart') as HTMLElement
     const mainCartItems = document.querySelector('.main__cart-items') as HTMLElement
     const mainCartItemsLength = mainCartItems.childElementCount
-    this.setInputParametres()
     mainContainer.style.display = 'none'
     mainPopup.style.display = 'none'
     mainCart.style.display = 'flex'
@@ -233,6 +225,16 @@ export class Cart {
     } else {
       (mainCart.children[0] as HTMLElement).style.display = 'none';
       (mainCart.children[1] as HTMLElement).style.display = 'flex'
+    }
+  }
+
+  checkLengthCart (countProds: number, test?: number): void {
+    const mainCart = document.querySelector('.main__cart') as HTMLElement
+    if (Number(this.productsInCart.length) === 0) {
+      (mainCart.children[0] as HTMLElement).style.display = 'flex';
+      (mainCart.children[1] as HTMLElement).style.display = 'none'
+    } else {
+      console.log('ne 0 dolboeb')
     }
   }
 
@@ -256,7 +258,8 @@ export class Cart {
     } else {
       if (countProd.innerHTML === '1') {
         this.dropProdFromCart(product)
-        this.createProdInCart()
+        // this.createProdInCart()
+        this.checkLengthCart(this.productsInCart.length)
         return
       }
       countProd.innerHTML = String(Number(countProd.innerHTML) - 1)
@@ -349,7 +352,8 @@ export class Cart {
     cartItems.append(cartWrapper)
     this.changeCountAndPrice(product, 'add')
     this.productsInCart.push(cartWrapper)
-    console.log(this.productsInCart)
+    // console.log(this.productsInCart)
+    this.setInputParametres()
     this.pageLimitInput.onclick = this.pagination.bind(this)
   }
 
