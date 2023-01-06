@@ -174,8 +174,6 @@ export class Cart {
     for (let i = 0; i < Math.ceil(this.productsInCart.length / inpValue); i++) {
       newArray[i] = this.productsInCart.slice((i * inpValue), (i * inpValue) + inpValue)
     }
-    // console.log(newArray)
-    // const count = String(newArray.flat().length)
     const mainCartItems = document.querySelector('.main__cart-items') as HTMLElement
     mainCartItems.innerHTML = '';
 
@@ -362,13 +360,25 @@ export class Cart {
     const element = document.getElementById(`cart${product.id}`) as HTMLElement
     cartItems.removeChild(element)
     this.productsInCart.forEach((el, i) => {
+      console.log(el)
       if (el === element) {
         this.productsInCart.splice(i, 1)
+        this.changeIdInCart()
+        this.pagination()
       }
     })
     console.log(this.productsInCart)
     this.setInputParametres()
     this.changeCountAndPrice(product, 'drop')
+  }
+
+  changeIdInCart (): void {
+    // const cartItemId = document.createElement('div') as HTMLElement
+    // cartItemId.classList.add('cart-item__id')
+    // cartItemId.innerHTML = `${cartItems.childElementCount + 1}`
+    this.productsInCart.forEach((el, i) => {
+      (el.querySelector('.cart-item__id') as HTMLElement).innerHTML = `${i + 1}`
+    })
   }
 }
 
@@ -591,6 +601,7 @@ export class ContentGenerator extends Cart {
       const mainCart = document.querySelector('.main__cart') as HTMLElement
       mainCart.style.display = 'flex'
       this.setProdToCart(product)
+      this.createProdInCart()
       this.makeOrder()
     })
   }
