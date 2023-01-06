@@ -1,5 +1,5 @@
 import { Product } from '../types'
-import { app, generator } from '../../index'
+import { app, generator, loadBlock } from '../../index'
 
 export class Router {
   url: URL
@@ -8,10 +8,10 @@ export class Router {
 
   constructor () {
     this.url = new URL(window.location.href)
-    if (this.url.pathname.includes('/product-details/')) {
-      this.setState(this.states[2], this.url.search)
+    if (this.url.search.includes('?product-details=')) {
+      this.setState(this.states[2], this.url.pathname.concat(this.url.search))
     } else if (this.url.pathname.includes('cart')) {
-      this.setState(this.states[1], this.url.search)
+      this.setState(this.states[1], this.url.pathname.concat(this.url.search))
     } else if (
       this.url.search === '' ||
       this.url.search.includes('sort=') ||
@@ -21,9 +21,9 @@ export class Router {
       this.url.search.includes('stock=') ||
       this.url.search.includes('price=')
     ) {
-      this.setState(this.states[0], this.url.search)
+      this.setState(this.states[0], this.url.pathname.concat(this.url.search))
     } else {
-      this.setState(this.states[3], this.url.search)
+      this.setState(this.states[3], this.url.pathname.concat(this.url.search))
     }
   }
 
@@ -57,7 +57,7 @@ export class Router {
     if (url.search.includes('sort=discount')) {
       return url.search.includes('-DESC') ? 'discount-DESC' : 'discount-ASC'
     }
-    this.setState(this.states[3], this.url.search)
+    this.setState(this.states[3], this.url.pathname.concat(this.url.search))
     return ''
   }
 
@@ -96,7 +96,7 @@ export class Router {
         : this.removeSearchParam(CB, arr[1].innerText)
       this.setState(
         this.states[0],
-        this.url.search.length > 0 ? this.url.search : '/'
+        this.url.search.length > 0 ? this.url.pathname.concat(this.url.search) : this.url.pathname
       )
       this.start()
     }
@@ -105,9 +105,8 @@ export class Router {
   addListenersForRouting (): void {
     // popstate listener back or forward button
     window.addEventListener('popstate', (): void => {
-      window.history.state === null
-        ? this.setState(this.states[0], '/')
-        : app.router.start()
+      if (window.history.state === null) this.setState(this.states[0], app.router.url.pathname)
+      app.router.start()
     })
     // sorting listener
     const selectSort = document.getElementById(
@@ -117,7 +116,7 @@ export class Router {
       app.router.url.searchParams.has('sort')
         ? app.router.url.searchParams.set('sort', selectSort.value)
         : app.router.url.searchParams.append('sort', selectSort.value)
-      app.router.setState(app.router.states[0], app.router.url.search)
+      app.router.setState(app.router.states[0], app.router.url.pathname.concat(app.router.url.search))
       app.router.start()
     })
     // category select listener
@@ -135,7 +134,7 @@ export class Router {
           (document.querySelector('.input-max') as HTMLInputElement).value
         }`
       )
-      this.setState(this.states[0], this.url.search)
+      this.setState(this.states[0], this.url.pathname.concat(this.url.search))
       this.start()
     }
     const setStock = (): void => {
@@ -145,7 +144,7 @@ export class Router {
             (document.querySelector('.stock-input-max') as HTMLInputElement).value
           }`
       )
-      this.setState(this.states[0], this.url.search)
+      this.setState(this.states[0], this.url.pathname.concat(this.url.search))
       this.start()
     }
     ;(
@@ -220,7 +219,8 @@ export class Router {
     ;(
       document.querySelector('.header__div-logo') as HTMLInputElement
     ).addEventListener('click', () => {
-      this.clearSearchParam()
+      this.setState(this.states[0], app.router.url.pathname)
+      this.start()
     })
     ;(
       document.querySelector('.main__btn-copy') as HTMLInputElement
@@ -241,7 +241,7 @@ export class Router {
       document.getElementById('productsSearch') as HTMLInputElement
     ).addEventListener('input', (ev) => {
       this.url.searchParams.set('search', (ev.target as HTMLInputElement).value)
-      this.setState(this.states[0], this.url.search)
+      this.setState(this.states[0], this.url.pathname.concat(this.url.search))
       this.start()
     })
   }
@@ -254,7 +254,7 @@ export class Router {
       document.getElementById('selectSort') as HTMLSelectElement
     ).options[0].selected = true
     this.url.search = ''
-    this.setState(this.states[0], '/')
+    this.setState(this.states[0], this.url.pathname)
     this.start()
   }
 
@@ -299,6 +299,7 @@ export class Router {
   }
 
   start (): void {
+    loadBlock.style.display = 'flex'
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search.length === 0) {
@@ -353,10 +354,10 @@ export class Router {
             const searchString = this.url.searchParams.get('search') as string
             arr = arr.filter(
               (value) =>
-                value.brand.includes(searchString) ||
-                value.category.includes(searchString) ||
-                value.title.includes(searchString) ||
-                value.description.includes(searchString)
+                value.brand.toLowerCase().includes(searchString.toLowerCase()) ||
+                value.category.toLowerCase().includes(searchString.toLowerCase()) ||
+                value.title.toLowerCase().includes(searchString.toLowerCase()) ||
+                value.description.toLowerCase().includes(searchString.toLowerCase())
             )
           }
           this.productsBlock.innerHTML = ''
@@ -381,7 +382,7 @@ export class Router {
             (value) =>
               value.id ===
               parseInt(
-                window.location.pathname.replace('/product-details/', ''),
+                window.location.search.replace('?product-details=', ''),
                 10
               )
           )[0]
@@ -393,5 +394,6 @@ export class Router {
         console.log('404')
         break
     }
+    loadBlock.style.display = 'none'
   }
 }

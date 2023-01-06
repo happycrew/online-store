@@ -1,21 +1,21 @@
 $main-color-bg: rgb(170, 186, 204);
 $main-color-bg-gradient: linear-gradient(
-  273deg,
-  rgba(170, 186, 204, 1) 16%,
-  rgba(213, 219, 224, 1) 32%,
-  rgba(171, 181, 191, 1) 89%
+                273deg,
+                rgba(170, 186, 204, 1) 16%,
+                rgba(213, 219, 224, 1) 32%,
+                rgba(171, 181, 191, 1) 89%
 );
 $sub-color-bg: rgb(78, 104, 144);
 $sub-color-bg-gradient: linear-gradient(
-  159deg,
-  rgba(78, 104, 144, 1) 10%,
-  rgba(63, 83, 105, 1) 19%,
-  rgba(179, 195, 209, 1) 35%,
-  rgba(72, 99, 130, 1) 89%
+                159deg,
+                rgba(78, 104, 144, 1) 10%,
+                rgba(63, 83, 105, 1) 19%,
+                rgba(179, 195, 209, 1) 35%,
+                rgba(72, 99, 130, 1) 89%
 );
 $shadow-text: 0px 1px 0 rgb(0, 0, 0), 0px -1px 0 rgb(0, 0, 0),
-  1px 0px 0 rgb(0, 0, 0), -1px 0px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0),
-  1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), -1px -1px 0 rgb(0, 0, 0);
+1px 0px 0 rgb(0, 0, 0), -1px 0px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0),
+1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), -1px -1px 0 rgb(0, 0, 0);
 $medium-size: 720px;
 $small-size: 520px;
 
@@ -30,6 +30,92 @@ $small-size: 520px;
 body {
   background: $main-color-bg;
   background: $main-color-bg-gradient;
+
+  .loader-container {
+    display: flex;
+    position: fixed;
+    z-index: 9999;
+    width: 100vw;
+    height: 100vh;
+    background-color: $main-color-bg;
+    justify-content: center;
+    align-items: center;
+
+    .loader {
+      transform: rotateZ(45deg);
+      perspective: 1000px;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      color: #fff;
+    }
+
+    .loader:before,
+    .loader:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      border-radius: 50%;
+      transform: rotateX(70deg);
+      animation: 1s spin linear infinite;
+    }
+
+    .loader:after {
+      color: $sub-color-bg;
+      transform: rotateY(70deg);
+      animation-delay: .4s;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: translate(-50%, -50%) rotateZ(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotateZ(360deg);
+      }
+    }
+
+    @keyframes rotateccw {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(-360deg);
+      }
+    }
+
+    @keyframes spin {
+      0%,
+      100% {
+        box-shadow: .2em 0px 0 0px currentcolor;
+      }
+      12% {
+        box-shadow: .2em .2em 0 0 currentcolor;
+      }
+      25% {
+        box-shadow: 0 .2em 0 0px currentcolor;
+      }
+      37% {
+        box-shadow: -.2em .2em 0 0 currentcolor;
+      }
+      50% {
+        box-shadow: -.2em 0 0 0 currentcolor;
+      }
+      62% {
+        box-shadow: -.2em -.2em 0 0 currentcolor;
+      }
+      75% {
+        box-shadow: 0px -.2em 0 0 currentcolor;
+      }
+      87% {
+        box-shadow: .2em -.2em 0 0 currentcolor;
+      }
+    }
+  }
 }
 
 // Header
@@ -68,6 +154,7 @@ body {
   display: flex;
   gap: 5px;
   cursor: pointer;
+
   a {
     text-decoration: none;
     align-self: center;
@@ -152,6 +239,7 @@ h1 {
   font-size: 120%;
   border-radius: 50%;
 }
+
 //main
 
 .main {
@@ -479,11 +567,13 @@ select {
     }
   }
 }
+
 // Main popup
 .main__popup {
   width: 100%;
   display: none;
   justify-content: center;
+
   .close {
     position: absolute;
     right: 50px;
@@ -530,12 +620,12 @@ select {
   text-shadow: $shadow-text;
   color: gray;
 
-  a {
+  p {
     text-decoration: none;
-    cursor: default;
+    cursor: pointer;
 
-    &:first-child {
-      cursor: pointer;
+    &:last-child {
+      cursor: default;
 
       &:hover {
         color: goldenrod;
@@ -687,6 +777,7 @@ select {
       box-shadow: 2px 2px 3px #2d3388;
       transform: translateY(-0.25em);
     }
+
     @media screen and (max-width: 800px) {
       width: 50%;
       padding: 2% 0;
@@ -755,6 +846,7 @@ select {
 
 .page-numbers {
   margin-left: 2rem;
+
   button {
     background-color: #3b65ad;
     cursor: pointer;
@@ -762,15 +854,18 @@ select {
     border-radius: 0.2rem;
     padding: 0.1rem;
     font-size: 140%;
+
     &:hover {
       box-shadow: 0 0 3px 1px purple;
     }
+
     &:active {
       box-shadow: 0 0 5px 2px purple;
-      color:#aabacc;
+      color: #aabacc;
     }
   }
 }
+
 .main__total-cart {
   width: 29%;
   border: 1px solid gainsboro;
@@ -835,17 +930,20 @@ select {
     border-radius: 0.3rem;
     overflow: hidden;
     display: none;
+
     h3 {
       text-shadow: $shadow-text;
       text-align: center;
       border-bottom: 1px solid gainsboro;
       padding: 2%;
     }
+
     .total-cart__applied-promo {
       color: rgb(233, 233, 202);
       text-align: center;
       border-bottom: 1px solid gainsboro;
       padding: 2%;
+
       span {
         color: rgb(233, 233, 202);
         background-color: rgb(78, 104, 144);
@@ -1010,6 +1108,7 @@ select {
       margin: 7%;
       text-shadow: $shadow-text;
     }
+
     .product-controls {
       display: flex;
       align-items: center;
@@ -1062,11 +1161,11 @@ select {
     position: absolute;
     background: rgb(78, 104, 144);
     background: linear-gradient(
-      159deg,
-      rgba(78, 104, 144, 1) 10%,
-      rgba(46, 23, 172, 1) 35%,
-      rgba(63, 83, 105, 1) 59%,
-      rgba(72, 99, 130, 1) 74%
+                    159deg,
+                    rgba(78, 104, 144, 1) 10%,
+                    rgba(46, 23, 172, 1) 35%,
+                    rgba(63, 83, 105, 1) 59%,
+                    rgba(72, 99, 130, 1) 74%
     );
   }
 
@@ -1103,6 +1202,7 @@ select {
           text-align: center;
           margin: 2% auto;
         }
+
         div {
           width: 100%;
           display: flex;
@@ -1110,6 +1210,7 @@ select {
           justify-content: center;
         }
       }
+
       .modal-form__card-details {
         margin-top: 1%;
         width: 100%;
@@ -1127,10 +1228,10 @@ select {
           border-radius: 0.5rem;
           background: rgb(78, 104, 144);
           background: linear-gradient(
-            225deg,
-            rgba(78, 104, 144, 1) 10%,
-            rgba(32, 235, 180, 1) 55%,
-            rgba(72, 99, 130, 1) 83%
+                          225deg,
+                          rgba(78, 104, 144, 1) 10%,
+                          rgba(32, 235, 180, 1) 55%,
+                          rgba(72, 99, 130, 1) 83%
           );
           width: 55%;
           height: 7rem;
@@ -1199,6 +1300,7 @@ select {
           }
         }
       }
+
       button {
         width: 40%;
         font-size: 90%;
@@ -1293,6 +1395,7 @@ select {
     font-size: 1.2rem;
     text-align: center;
   }
+
   a {
     text-decoration: none;
     text-shadow: $shadow-text;
@@ -1326,6 +1429,7 @@ input[type='number'] {
       text-align: center;
       outline: none;
     }
+
     input[type='number']::-webkit-outer-spin-button,
     input[type='number']::-webkit-inner-spin-button {
       -webkit-appearance: none;
