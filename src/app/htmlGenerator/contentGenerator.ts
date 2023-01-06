@@ -171,6 +171,7 @@ export class Cart {
     const pageNumbersBtns = Array.from(document.querySelectorAll('.page-numbers button'))
     const pageNumbersSpan = (document.querySelectorAll('.page-numbers span')[1]) as HTMLSpanElement
     const newArray: Element[][] = []
+    if (this.productsInCart.length === 0) return
     for (let i = 0; i < Math.ceil(this.productsInCart.length / inpValue); i++) {
       newArray[i] = this.productsInCart.slice((i * inpValue), (i * inpValue) + inpValue)
     }
@@ -195,13 +196,19 @@ export class Cart {
       }
     }
 
-    for (let i = 0; i < newArray[+pageNumbersSpan.innerHTML - 1].length; i++) {
-      mainCartItems.appendChild(newArray[+pageNumbersSpan.innerHTML - 1][i])
+    if (String(newArray[+pageNumbersSpan.innerHTML - 1]) !== 'undefined') {
+      for (let i = 0; i < newArray[+pageNumbersSpan.innerHTML - 1].length; i++) {
+        mainCartItems.appendChild(newArray[+pageNumbersSpan.innerHTML - 1][i])
+      }
+    } else {
+      pageNumbersSpan.innerHTML = String(+pageNumbersSpan.innerHTML - 1)
+      for (let i = 0; i < newArray[+pageNumbersSpan.innerHTML - 1].length; i++) {
+        mainCartItems.appendChild(newArray[+pageNumbersSpan.innerHTML - 1][i])
+      }
     }
   }
 
   setInputParametres (): void {
-    // const cartItemWrapperInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
     this.pageLimitInput.setAttribute('max', String(this.productsInCart.length))
     this.pageLimitInput.setAttribute('value', String(this.productsInCart.length))
   }
@@ -228,11 +235,13 @@ export class Cart {
 
   checkLengthCart (countProds: number, test?: number): void {
     const mainCart = document.querySelector('.main__cart') as HTMLElement
-    if (Number(this.productsInCart.length) === 0) {
+    if (countProds === 0) {
       (mainCart.children[0] as HTMLElement).style.display = 'flex';
       (mainCart.children[1] as HTMLElement).style.display = 'none'
     } else {
-      console.log('ne 0 dolboeb')
+      this.productsInCart.forEach((el, i) => {
+        (el.querySelector('.cart-item__id') as HTMLElement).innerHTML = `${i + 1}`
+      })
     }
   }
 
@@ -360,25 +369,14 @@ export class Cart {
     const element = document.getElementById(`cart${product.id}`) as HTMLElement
     cartItems.removeChild(element)
     this.productsInCart.forEach((el, i) => {
-      console.log(el)
       if (el === element) {
         this.productsInCart.splice(i, 1)
-        this.changeIdInCart()
         this.pagination()
       }
     })
-    console.log(this.productsInCart)
+    // console.log(this.productsInCart)
     this.setInputParametres()
     this.changeCountAndPrice(product, 'drop')
-  }
-
-  changeIdInCart (): void {
-    // const cartItemId = document.createElement('div') as HTMLElement
-    // cartItemId.classList.add('cart-item__id')
-    // cartItemId.innerHTML = `${cartItems.childElementCount + 1}`
-    this.productsInCart.forEach((el, i) => {
-      (el.querySelector('.cart-item__id') as HTMLElement).innerHTML = `${i + 1}`
-    })
   }
 }
 
