@@ -9,9 +9,9 @@ export class Router {
   constructor () {
     this.url = new URL(window.location.href)
     if (this.url.search.includes('?product-details=')) {
-      this.setState(this.states[2], this.url.search)
+      this.setState(this.states[2], this.url.pathname.concat(this.url.search))
     } else if (this.url.pathname.includes('cart')) {
-      this.setState(this.states[1], this.url.search)
+      this.setState(this.states[1], this.url.pathname.concat(this.url.search))
     } else if (
       this.url.search === '' ||
       this.url.search.includes('sort=') ||
@@ -21,9 +21,9 @@ export class Router {
       this.url.search.includes('stock=') ||
       this.url.search.includes('price=')
     ) {
-      this.setState(this.states[0], this.url.search)
+      this.setState(this.states[0], this.url.pathname.concat(this.url.search))
     } else {
-      this.setState(this.states[3], this.url.search)
+      this.setState(this.states[3], this.url.pathname.concat(this.url.search))
     }
   }
 
@@ -57,7 +57,7 @@ export class Router {
     if (url.search.includes('sort=discount')) {
       return url.search.includes('-DESC') ? 'discount-DESC' : 'discount-ASC'
     }
-    this.setState(this.states[3], this.url.search)
+    this.setState(this.states[3], this.url.pathname.concat(this.url.search))
     return ''
   }
 
@@ -96,7 +96,7 @@ export class Router {
         : this.removeSearchParam(CB, arr[1].innerText)
       this.setState(
         this.states[0],
-        this.url.search.length > 0 ? this.url.search : '/'
+        this.url.search.length > 0 ? this.url.pathname.concat(this.url.search) : this.url.pathname
       )
       this.start()
     }
@@ -105,7 +105,7 @@ export class Router {
   addListenersForRouting (): void {
     // popstate listener back or forward button
     window.addEventListener('popstate', (): void => {
-      if (window.history.state === null) this.setState(this.states[0], '/')
+      if (window.history.state === null) this.setState(this.states[0], app.router.url.pathname)
       app.router.start()
     })
     // sorting listener
@@ -116,7 +116,7 @@ export class Router {
       app.router.url.searchParams.has('sort')
         ? app.router.url.searchParams.set('sort', selectSort.value)
         : app.router.url.searchParams.append('sort', selectSort.value)
-      app.router.setState(app.router.states[0], app.router.url.search)
+      app.router.setState(app.router.states[0], app.router.url.pathname.concat(app.router.url.search))
       app.router.start()
     })
     // category select listener
@@ -134,7 +134,7 @@ export class Router {
           (document.querySelector('.input-max') as HTMLInputElement).value
         }`
       )
-      this.setState(this.states[0], this.url.search)
+      this.setState(this.states[0], this.url.pathname.concat(this.url.search))
       this.start()
     }
     const setStock = (): void => {
@@ -144,7 +144,7 @@ export class Router {
             (document.querySelector('.stock-input-max') as HTMLInputElement).value
           }`
       )
-      this.setState(this.states[0], this.url.search)
+      this.setState(this.states[0], this.url.pathname.concat(this.url.search))
       this.start()
     }
     ;(
@@ -219,7 +219,7 @@ export class Router {
     ;(
       document.querySelector('.header__div-logo') as HTMLInputElement
     ).addEventListener('click', () => {
-      this.setState(this.states[0], '/')
+      this.setState(this.states[0], app.router.url.pathname)
       this.start()
     })
     ;(
@@ -241,7 +241,7 @@ export class Router {
       document.getElementById('productsSearch') as HTMLInputElement
     ).addEventListener('input', (ev) => {
       this.url.searchParams.set('search', (ev.target as HTMLInputElement).value)
-      this.setState(this.states[0], this.url.search)
+      this.setState(this.states[0], this.url.pathname.concat(this.url.search))
       this.start()
     })
   }
@@ -254,7 +254,7 @@ export class Router {
       document.getElementById('selectSort') as HTMLSelectElement
     ).options[0].selected = true
     this.url.search = ''
-    this.setState(this.states[0], '/')
+    this.setState(this.states[0], this.url.pathname)
     this.start()
   }
 
