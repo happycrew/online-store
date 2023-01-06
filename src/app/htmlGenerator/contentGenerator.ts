@@ -50,8 +50,7 @@ export class Cart {
   }
 
   promoCodeActive (promo: number): void {
-    const allProdsInCart = Array.from(document.querySelectorAll('.cart-item__wrapper'))
-    allProdsInCart.forEach((el) => {
+    this.productsInCart.forEach((el) => {
       const btnCartPlus = el.querySelector('.btnCartPlus') as HTMLButtonElement
       const btnCartMinus = el.querySelector('.btnCartMinus') as HTMLButtonElement
       if (promo === 1) {
@@ -59,7 +58,7 @@ export class Cart {
           this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCart.innerHTML.slice(2)) * 0.9)))}.00`
         }
         btnCartMinus.onclick = () => {
-          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) * 0.9)))}.00`
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCart.innerHTML.slice(2)) * 0.9)))}.00`
         }
       }
       if (promo === 2) {
@@ -67,7 +66,7 @@ export class Cart {
           this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCart.innerHTML.slice(2)) * 0.8)))}.00`
         }
         btnCartMinus.onclick = () => {
-          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCartNewValue.innerHTML.slice(2)) * 0.8)))}.00`
+          this.totalPriceCartNewValue.innerHTML = `€ ${(String(Math.floor(Number(this.totalPriceCart.innerHTML.slice(2)) * 0.8)))}.00`
         }
       }
     })
@@ -163,7 +162,7 @@ export class Cart {
   }
 
   makeOnChangePromoCode (): void {
-    this.promoCodeInput.oninput = this.validatePromoCode.bind(this)
+    this.promoCodeInput.addEventListener('input', this.validatePromoCode.bind(this))
   }
 
   pagination (): void {
@@ -265,7 +264,6 @@ export class Cart {
     } else {
       if (countProd.innerHTML === '1') {
         this.dropProdFromCart(product)
-        // this.createProdInCart()
         this.checkLengthCart(this.productsInCart.length)
         return
       }
@@ -359,7 +357,6 @@ export class Cart {
     cartItems.append(cartWrapper)
     this.changeCountAndPrice(product, 'add')
     this.productsInCart.push(cartWrapper)
-    // console.log(this.productsInCart)
     this.setInputParametres()
     this.pageLimitInput.onclick = this.pagination.bind(this)
   }
@@ -374,7 +371,6 @@ export class Cart {
         this.pagination()
       }
     })
-    // console.log(this.productsInCart)
     this.setInputParametres()
     this.changeCountAndPrice(product, 'drop')
   }
