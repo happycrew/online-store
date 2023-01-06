@@ -1,5 +1,5 @@
 import { Product } from '../types'
-import { app, generator } from '../../index'
+import { app, generator, loadBlock } from '../../index'
 
 export class Router {
   url: URL
@@ -299,6 +299,7 @@ export class Router {
   }
 
   start (): void {
+    loadBlock.style.display = 'flex'
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search.length === 0) {
@@ -393,5 +394,6 @@ export class Router {
         console.log('404')
         break
     }
+    loadBlock.style.display = 'none'
   }
 }
