@@ -9,6 +9,8 @@ export class Validation {
   validationBlocks: HTMLElement[]
   validationCardBlock: HTMLElement
   cartCVV: HTMLInputElement
+  form: HTMLFormElement
+  errorCount: number
 
   constructor () {
     this.personName = document.querySelector(
@@ -51,6 +53,54 @@ export class Validation {
     this.validationCardBlock = document.querySelector(
       '.modal-form__card-details'
     ) as HTMLElement
+    this.form = document.querySelector('form') as HTMLFormElement
+    this.formMakeEvent()
+    this.errorCount = 0
+  }
+
+  formMakeEvent (): void {
+    this.form.addEventListener('submit', this.formEvent.bind(this))
+  }
+
+  formEvent (event: Event): void {
+    function printNumbers (from: number, to: number, block: HTMLElement): void {
+      let curr = from
+
+      function go (): void {
+        block.innerHTML = `Thanks for your order! Redirect to the store after ${curr} sec.`
+        if (curr === to) {
+          window.open(window.location.origin)
+          clearInterval(timerId)
+        }
+        curr--
+      }
+      go()
+      const timerId = setInterval(go, 1000)
+    }
+
+    event.preventDefault()
+
+    this.validatePersonName()
+    this.validatePhoneNumber()
+    this.validateAddress()
+    this.validateEmail()
+    this.validateCreditCart()
+    this.validateCreditCartData()
+    this.validateCreditCartCVV()
+
+    if (this.errorCount === 0) {
+      const headerBasketCount = document.querySelector('.header__total-content') as HTMLElement
+      headerBasketCount.innerHTML = '0'
+      const headerTotalPrice = Array.from(document.querySelectorAll('.header__total-price span'))
+      headerTotalPrice[1].innerHTML = '0'
+      const mainCartWrapper = document.querySelector('.main__cart-wrapper') as HTMLElement
+      mainCartWrapper.style.display = 'none'
+      const mainModalContent = document.querySelector('.main__modal-content') as HTMLElement
+      const mainModalFinish = document.querySelector('.main__modal-finish') as HTMLElement
+      mainModalContent.style.display = 'none'
+      mainModalFinish.style.display = 'block'
+      printNumbers(3, 0, mainModalFinish)
+    }
   }
 
   // Методы создания и удаления ошибок в инпутах с персональными данными
@@ -62,8 +112,8 @@ export class Validation {
     block.append(divError)
   }
 
-  deleteError (): HTMLElement {
-    const divError = document.querySelector('.error')
+  deleteError (block: HTMLElement): HTMLElement {
+    const divError = block.querySelector('.error')
     return divError as HTMLElement
   }
 
@@ -84,7 +134,8 @@ export class Validation {
   // Валидация display name aka имени пользователя
 
   makeOnchangeName (): void {
-    this.personName.onchange = this.validatePersonName.bind(this)
+    this.personName.addEventListener('change', this.validatePersonName.bind(this))
+    // this.personName.onchange = this.validatePersonName.bind(this)
   }
 
   validatePersonName (): void {
@@ -107,17 +158,20 @@ export class Validation {
     if (!validateName(nameVal)) {
       if (this.validationBlocks[0].children.length === 1) {
         this.createError(this.validationBlocks[0])
+        this.errorCount++
       }
     } else {
       if (this.validationBlocks[0].children.length !== 1) {
-        this.validationBlocks[0].removeChild(this.deleteError())
+        this.validationBlocks[0].removeChild(this.deleteError(this.validationBlocks[0]))
+        this.errorCount--
       }
     }
   }
 
   // Валидация телефонного номера
   makeOnchangePhone (): void {
-    this.phoneNumber.onchange = this.validatePhoneNumber.bind(this)
+    this.phoneNumber.addEventListener('change', this.validatePhoneNumber.bind(this))
+    // this.phoneNumber.onchange = this.validatePhoneNumber.bind(this)
   }
 
   validatePhoneNumber (): void {
@@ -130,50 +184,57 @@ export class Validation {
     if (!validatePhone(phoneVal)) {
       if (this.validationBlocks[1].children.length === 1) {
         this.createError(this.validationBlocks[1])
+        this.errorCount++
       }
     } else {
       if (this.validationBlocks[1].children.length !== 1) {
-        this.validationBlocks[1].removeChild(this.deleteError())
+        this.validationBlocks[1].removeChild(this.deleteError(this.validationBlocks[1]))
+        this.errorCount--
       }
     }
   }
 
   // Валидация адреса пользователя
   makeOnchangeAddress (): void {
-    this.personAddress.onchange = this.validateAddress.bind(this)
+    this.personAddress.addEventListener('change', this.validateAddress.bind(this))
+    // this.personAddress.onchange = this.validateAddress.bind(this)
   }
 
   validateAddress (): void {
     function validateAddress (address: string): boolean {
       const checkAddress: string[] = address.split(' ')
-      let addressFlag = true
       if (checkAddress.length < 3) {
         return false
       } else {
+        let count = 0
         checkAddress.forEach((el) => {
-          if (el.length < 5) {
-            addressFlag = false
+          if (el.length > 5) {
+            count++
           }
         })
+        if (count < 3) return false
       }
-      return addressFlag
+      return true
     }
 
     const addressVal = this.personAddress.value
     if (!validateAddress(addressVal)) {
       if (this.validationBlocks[2].children.length === 1) {
         this.createError(this.validationBlocks[2])
+        this.errorCount++
       }
     } else {
       if (this.validationBlocks[2].children.length !== 1) {
-        this.validationBlocks[2].removeChild(this.deleteError())
+        this.validationBlocks[2].removeChild(this.deleteError(this.validationBlocks[2]))
+        this.errorCount--
       }
     }
   }
 
   // Валидация электронной почты
   makeOnchangeEmail (): void {
-    this.personEmail.onchange = this.validateEmail.bind(this)
+    this.personEmail.addEventListener('change', this.validateEmail.bind(this))
+    // this.personEmail.onchange = this.validateEmail.bind(this)
   }
 
   validateEmail (): void {
@@ -188,10 +249,12 @@ export class Validation {
     if (!validateEmail(emailVal)) {
       if (this.validationBlocks[3].children.length === 1) {
         this.createError(this.validationBlocks[3])
+        this.errorCount++
       }
     } else {
       if (this.validationBlocks[3].children.length !== 1) {
-        this.validationBlocks[3].removeChild(this.deleteError())
+        this.validationBlocks[3].removeChild(this.deleteError(this.validationBlocks[3]))
+        this.errorCount--
       }
     }
   }
@@ -268,7 +331,8 @@ export class Validation {
   }
 
   makeCreditCartOnchange (): void {
-    this.creditCart.onchange = this.validateCreditCart.bind(this)
+    this.creditCart.addEventListener('change', this.validateCreditCart.bind(this))
+    // this.creditCart.onchange = this.validateCreditCart.bind(this)
   }
 
   validateCreditCart (): void {
@@ -291,10 +355,12 @@ export class Validation {
     if (!validateCreditCard(creditCardVal)) {
       if (document.getElementById('number') === null) {
         this.createCardError(this.validationCardBlock, 'number')
+        this.errorCount++
       }
     } else {
       if (document.getElementById('number') !== null) {
         this.validationCardBlock.removeChild(this.deleteCardError('number'))
+        this.errorCount--
       }
     }
   }
@@ -339,7 +405,8 @@ export class Validation {
   }
 
   makeCreditCartDataOnchange (): void {
-    this.creditCartData.onchange = this.validateCreditCartData.bind(this)
+    this.creditCartData.addEventListener('change', this.validateCreditCartData.bind(this))
+    // this.creditCartData.onchange = this.validateCreditCartData.bind(this)
   }
 
   validateCreditCartData (): void {
@@ -349,7 +416,7 @@ export class Validation {
       if (data.length < 5) {
         return false
       } else {
-        if (Number(creditData) > 12) {
+        if (Number(creditData) > 12 || Number(creditData) < 1) {
           flag = false
           return false
         }
@@ -361,10 +428,12 @@ export class Validation {
     if (!validateCardData(dataValue)) {
       if (document.getElementById('valid thru') === null) {
         this.createCardError(this.validationCardBlock, 'valid thru')
+        this.errorCount++
       }
     } else {
       if (document.getElementById('valid thru') !== null) {
         this.validationCardBlock.removeChild(this.deleteCardError('valid thru'))
+        this.errorCount--
       }
     }
   }
@@ -417,10 +486,12 @@ export class Validation {
     if (!validateCardCvv(valueCVV)) {
       if (document.getElementById('CVV') === null) {
         this.createCardError(this.validationCardBlock, 'CVV')
+        this.errorCount++
       }
     } else {
       if (document.getElementById('CVV') !== null) {
         this.validationCardBlock.removeChild(this.deleteCardError('CVV'))
+        this.errorCount--
       }
     }
   }

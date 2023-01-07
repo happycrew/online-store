@@ -622,11 +622,10 @@ select {
 
   p {
     text-decoration: none;
-    cursor: pointer;
+    cursor: default;
 
-    &:last-child {
-      cursor: default;
-
+    &:first-child {
+      cursor: pointer;
       &:hover {
         color: goldenrod;
       }
@@ -1152,6 +1151,7 @@ select {
   text-shadow: $shadow-text;
 
   .main__modal-content {
+    display: block;
     padding: 1%;
     border: 1px solid gainsboro;
     border-radius: 0.5rem;
@@ -1311,8 +1311,34 @@ select {
         cursor: pointer;
         display: block;
         margin: 5% auto;
+
+        &:hover {
+          transform: scale(107%);
+          border: 1px solid green;
+        }
+
+        &:active {
+          box-shadow: 2px 2px 5px #2d3388;
+        }
       }
     }
+  }
+
+  .main__modal-finish {
+    display: none;
+    padding: 2%;
+    border: 2px solid black;
+    border-radius: 15px;;
+    width: 40%;
+    z-index: 99;
+    position: absolute;
+    color: white;
+    text-shadow: $shadow-text;
+    text-align: center;
+    font-size: 120%;
+    background-color: $main-color-bg;
+    background-color: $sub-color-bg-gradient;
+    
   }
 }
 
