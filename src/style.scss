@@ -622,11 +622,10 @@ select {
 
   p {
     text-decoration: none;
-    cursor: pointer;
+    cursor: default;
 
-    &:last-child {
-      cursor: default;
-
+    &:first-child {
+      cursor: pointer;
       &:hover {
         color: goldenrod;
       }
@@ -1311,6 +1310,15 @@ select {
         cursor: pointer;
         display: block;
         margin: 5% auto;
+
+        &:hover {
+          transform: scale(107%);
+          border: 1px solid green;
+        }
+
+        &:active {
+          box-shadow: 2px 2px 5px #2d3388;
+        }
       }
     }
   }
