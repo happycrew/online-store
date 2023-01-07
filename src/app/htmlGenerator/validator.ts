@@ -63,6 +63,23 @@ export class Validation {
   }
 
   formEvent (event: Event): void {
+    function printNumbers (from: number, to: number, block: HTMLElement): void {
+      let curr = from
+
+      function go (): void {
+        block.innerHTML = `Thanks for your order! Redirect to the store after ${curr} sec.`
+        if (curr === to) {
+          window.open(window.location.origin)
+          clearInterval(timerId)
+        }
+        curr--
+      }
+      go()
+      const timerId = setInterval(go, 1000)
+    }
+
+    event.preventDefault()
+
     this.validatePersonName()
     this.validatePhoneNumber()
     this.validateAddress()
@@ -72,9 +89,17 @@ export class Validation {
     this.validateCreditCartCVV()
 
     if (this.errorCount === 0) {
-      console.log('Ошибок нет')
-    } else {
-      event.preventDefault()
+      const headerBasketCount = document.querySelector('.header__total-content') as HTMLElement
+      headerBasketCount.innerHTML = '0'
+      const headerTotalPrice = Array.from(document.querySelectorAll('.header__total-price span'))
+      headerTotalPrice[1].innerHTML = '0'
+      const mainCartWrapper = document.querySelector('.main__cart-wrapper') as HTMLElement
+      mainCartWrapper.style.display = 'none'
+      const mainModalContent = document.querySelector('.main__modal-content') as HTMLElement
+      const mainModalFinish = document.querySelector('.main__modal-finish') as HTMLElement
+      mainModalContent.style.display = 'none'
+      mainModalFinish.style.display = 'block'
+      printNumbers(3, 0, mainModalFinish)
     }
   }
 

@@ -1151,6 +1151,7 @@ select {
   text-shadow: $shadow-text;
 
   .main__modal-content {
+    display: block;
     padding: 1%;
     border: 1px solid gainsboro;
     border-radius: 0.5rem;
@@ -1321,6 +1322,23 @@ select {
         }
       }
     }
+  }
+
+  .main__modal-finish {
+    display: none;
+    padding: 2%;
+    border: 2px solid black;
+    border-radius: 15px;;
+    width: 40%;
+    z-index: 99;
+    position: absolute;
+    color: white;
+    text-shadow: $shadow-text;
+    text-align: center;
+    font-size: 120%;
+    background-color: $main-color-bg;
+    background-color: $sub-color-bg-gradient;
+    
   }
 }
 
