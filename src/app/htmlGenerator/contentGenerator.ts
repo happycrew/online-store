@@ -659,11 +659,11 @@ export class ContentGenerator extends Cart {
     ) as HTMLElement
     element.style.display = 'flex' as string
     mainContainer.style.display = 'none'
-    ;(element.firstChild?.nextSibling as HTMLElement).onclick = () => {
-      window.history.back()
-      element.style.display = 'none'
-      mainContainer.style.display = 'flex'
-    }
+    // ;(element.firstChild?.nextSibling as HTMLElement).onclick = () => {
+    //   window.history.back()
+    //   element.style.display = 'none'
+    //   mainContainer.style.display = 'flex'
+    // }
     // Меняем navigation
     const navPopup = Array.from(document.querySelectorAll('.main__popup-navigation p'))
     navPopup[0].addEventListener('click', () => {
