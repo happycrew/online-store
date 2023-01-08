@@ -1,5 +1,5 @@
 import { Product } from '../types'
-import { app, generator, loadBlock } from '../../index'
+import { app, cartGenerator, generator, loadBlock } from '../../index'
 
 export class Router {
   url: URL
@@ -10,7 +10,7 @@ export class Router {
     this.url = new URL(window.location.href)
     if (this.url.search.includes('?product-details=')) {
       this.setState(this.states[2], this.url.pathname.concat(this.url.search))
-    } else if (this.url.pathname.includes('cart')) {
+    } else if (this.url.search.includes('cart')) {
       this.setState(this.states[1], this.url.pathname.concat(this.url.search))
     } else if (
       this.url.search === '' ||
@@ -300,6 +300,8 @@ export class Router {
 
   start (): void {
     loadBlock.style.display = 'flex'
+    const cart: Product[] = JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
+    cartGenerator.cartCounter.innerHTML = cart.length.toString()
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search.length === 0) {
@@ -372,9 +374,16 @@ export class Router {
           generator.generateBrandItems(arr, app.brandsBlock)
           arr.length > 0 ? this.setSelectorsValues(arr) : this.productsBlock.innerHTML = 'No products found 😏'
         }
+        if (this.url.search.includes('big')) {
+          if (this.url.searchParams.get('big') === 'true') {
+            (document.querySelector('.view__big') as HTMLElement).click()
+          } else {
+            (document.querySelector('.view__small') as HTMLElement).click()
+          }
+        }
         break
       case 1: // cart
-        console.log('cart')
+        app.cartGenerator.createProdInCart()
         break
       case 2: // product
         generator.showSingleProduct(
