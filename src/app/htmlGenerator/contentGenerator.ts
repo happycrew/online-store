@@ -246,7 +246,7 @@ export class Cart {
   }
 
   showCart (): void {
-    this.headerCart.onclick = () => this.createProdInCart()
+    this.headerCart.addEventListener('click', this.createProdInCart.bind(this))
   }
 
   changeBtnsCart (product: Product, value: string, stock: number): void {
