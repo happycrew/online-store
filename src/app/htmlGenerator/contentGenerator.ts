@@ -571,10 +571,18 @@ export class ContentGenerator extends Cart {
     // Меняем изображение
     const productSlide = document.querySelector('.popup__slide') as HTMLElement
     productSlide.innerHTML = ''
-    for (let i = 0; i < product.images.length; i++) {
-      const productImg = document.createElement('img') as HTMLElement
-      ;(productImg as HTMLImageElement).src = `${product.images[i]}`
-      productSlide.append(productImg)
+    if (titleProduct.innerHTML === 'iPhone 9') {
+      for (let i = 2; i < product.images.length; i++) {
+        const productImg = document.createElement('img') as HTMLElement;
+        (productImg as HTMLImageElement).src = `${product.images[i]}`
+        productSlide.append(productImg)
+      }
+    } else {
+      for (let i = 0; i < product.images.length; i++) {
+        const productImg = document.createElement('img') as HTMLElement;
+        (productImg as HTMLImageElement).src = `${product.images[i]}`
+        productSlide.append(productImg)
+      }
     }
     const productBigImg = document.querySelector(
       '.popup__big-photo img'
