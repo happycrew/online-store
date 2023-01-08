@@ -41,10 +41,11 @@ export class Cart {
   }
 
   makeOrder (): void {
+    const mainModalFinish = document.querySelector('.main__modal-finish') as HTMLElement
     this.mainModal.style.display = 'flex'
     this.mainModal.addEventListener('click', (ev: Event) => {
       if (ev.target instanceof Element) {
-        if (ev.target.classList.contains('main__modal')) this.mainModal.style.display = 'none'
+        if (ev.target.classList.contains('main__modal') && mainModalFinish.style.display !== 'block') this.mainModal.style.display = 'none'
       }
     })
   }
