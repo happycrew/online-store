@@ -41,10 +41,11 @@ export class Cart {
   }
 
   makeOrder (): void {
+    const mainModalFinish = document.querySelector('.main__modal-finish') as HTMLElement
     this.mainModal.style.display = 'flex'
     this.mainModal.addEventListener('click', (ev: Event) => {
       if (ev.target instanceof Element) {
-        if (ev.target.classList.contains('main__modal')) this.mainModal.style.display = 'none'
+        if (ev.target.classList.contains('main__modal') && mainModalFinish.style.display !== 'block') this.mainModal.style.display = 'none'
       }
     })
   }
@@ -267,6 +268,7 @@ export class Cart {
     } else {
       if (countProd.innerHTML === '1') {
         this.dropProdFromCart(product)
+        this.checkLengthCart(this.productsInCart.length)
         return
       }
       countProd.innerHTML = String(Number(countProd.innerHTML) - 1)
@@ -593,10 +595,18 @@ export class ContentGenerator extends Cart {
     // Меняем изображение
     const productSlide = document.querySelector('.popup__slide') as HTMLElement
     productSlide.innerHTML = ''
-    for (let i = 0; i < product.images.length; i++) {
-      const productImg = document.createElement('img') as HTMLElement
-      ;(productImg as HTMLImageElement).src = `${product.images[i]}`
-      productSlide.append(productImg)
+    if (titleProduct.innerHTML === 'iPhone 9') {
+      for (let i = 2; i < product.images.length; i++) {
+        const productImg = document.createElement('img') as HTMLElement;
+        (productImg as HTMLImageElement).src = `${product.images[i]}`
+        productSlide.append(productImg)
+      }
+    } else {
+      for (let i = 0; i < product.images.length; i++) {
+        const productImg = document.createElement('img') as HTMLElement;
+        (productImg as HTMLImageElement).src = `${product.images[i]}`
+        productSlide.append(productImg)
+      }
     }
     const productBigImg = document.querySelector(
       '.popup__big-photo img'
