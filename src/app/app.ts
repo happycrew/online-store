@@ -14,7 +14,7 @@ export class App {
   private readonly clickChangeView: ClickChangeView // by me
   readonly router: Router
   private readonly validator: Validation // add 25.12
-  private readonly cartGenerator: Cart // ad 27.12
+  readonly cartGenerator: Cart // ad 27.12
   products: Product[]
   categories: string[]
   brands: string[]

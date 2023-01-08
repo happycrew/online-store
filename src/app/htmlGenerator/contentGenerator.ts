@@ -246,7 +246,10 @@ export class Cart {
   }
 
   showCart (): void {
-    this.headerCart.addEventListener('click', this.createProdInCart.bind(this))
+    this.headerCart.addEventListener('click', () => {
+      app.router.setState(app.router.states[1], '?cart')
+      app.router.start()
+    })
   }
 
   changeBtnsCart (product: Product, value: string, stock: number): void {
@@ -293,6 +296,7 @@ export class Cart {
 
   setProdToCart (product: Product): void {
     // все товары
+    this.addProductInLocalStorage(product)
     const cartItems = document.querySelector('.main__cart-items') as HTMLElement
     // товар, который добавляем
     const cartWrapper = document.createElement('div') as Element
@@ -373,7 +377,26 @@ export class Cart {
       }
     })
     this.setInputParametres()
+    this.removeProductInLocalStorage(product)
     this.changeCountAndPrice(product, 'drop')
+  }
+
+  // добавляет продут в корзину в локал сторадж
+  addProductInLocalStorage (product: Product): void {
+    const cart = window.localStorage.getItem('cart') === null ? [] : JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
+    cart.push(product)
+    window.localStorage.setItem('cart', JSON.stringify(cart))
+  }
+
+  removeProductInLocalStorage (product: Product): void {
+    const cart = window.localStorage.getItem('cart') === null ? [] : JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
+    cart.splice(cart.indexOf(product), 1)
+    window.localStorage.setItem('cart', JSON.stringify(cart))
+  }
+
+  getProductsTotalPrice (): number {
+    const cart = window.localStorage.getItem('cart') === null ? [] : JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
+    return cart.reduce((acc, val) => acc + val.price, 0)
   }
 }
 
