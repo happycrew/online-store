@@ -91,13 +91,13 @@ body {
     @keyframes spin {
       0%,
       100% {
-        box-shadow: .2em 0px 0 0px currentcolor;
+        box-shadow: .2em 0 0 0 currentcolor;
       }
       12% {
         box-shadow: .2em .2em 0 0 currentcolor;
       }
       25% {
-        box-shadow: 0 .2em 0 0px currentcolor;
+        box-shadow: 0 .2em 0 0 currentcolor;
       }
       37% {
         box-shadow: -.2em .2em 0 0 currentcolor;
@@ -1062,13 +1062,13 @@ select {
       height: 100%;
       border-radius: 0.5rem;
       border: 0.2px solid gainsboro;
-      background: 0% 0% / cover;
+      background: 0 0 / cover;
     }
 
     .cart-item__detail {
       width: 80%;
       height: 100%;
-      padding: 0%;
+      padding: 0;
       text-shadow: $shadow-text;
 
       .product-title {
@@ -1348,7 +1348,7 @@ select {
     font-size: 120%;
     background-color: $main-color-bg;
     background-color: $sub-color-bg-gradient;
-    
+
   }
 }
 
@@ -1425,7 +1425,6 @@ select {
   font-size: 1.4rem;
   font-weight: 500;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.9);
 
   @media screen and (max-width: $medium-size) {
     font-size: 1.2rem;
@@ -1484,8 +1483,8 @@ input[type='number'] {
   .progress, .stock-progress {
     height: 5px;
     width: 100%;
-    left: 0%;
-    right: 0%;
+    left: 0;
+    right: 0;
     border-radius: 5px;
     position: absolute;
     background: rgb(78, 104, 144);
@@ -1504,7 +1503,6 @@ input[type='number'] {
     width: 100%;
     top: -5px;
     height: 5px;
-    width: 100%;
     pointer-events: none;
     -webkit-appearance: none;
     appearance: none;
