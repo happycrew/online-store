@@ -300,8 +300,10 @@ export class Router {
 
   start (): void {
     loadBlock.style.display = 'flex'
-    const cart: Product[] = JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
-    cartGenerator.cartCounter.innerHTML = cart.length.toString()
+    if (window.localStorage.getItem('cart') !== null) {
+      const cart: Product[] = JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
+      cartGenerator.cartCounter.innerHTML = cart.length.toString()
+    }
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search.length === 0) {
