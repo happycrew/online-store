@@ -296,7 +296,7 @@ export class Cart {
 
   setProdToCart (product: Product): void {
     // все товары
-    this.addProductInLocalStorage(product)
+    // this.addProductInLocalStorage(product)
     const cartItems = document.querySelector('.main__cart-items') as HTMLElement
     // товар, который добавляем
     const cartWrapper = document.createElement('div') as Element
@@ -377,7 +377,7 @@ export class Cart {
       }
     })
     this.setInputParametres()
-    this.removeProductInLocalStorage(product)
+    // this.removeProductInLocalStorage(product)
     this.changeCountAndPrice(product, 'drop')
   }
 
@@ -534,11 +534,11 @@ export class ContentGenerator extends Cart {
     ) as HTMLElement
     element.style.display = 'flex' as string
     mainContainer.style.display = 'none'
-    ;(element.firstChild?.nextSibling as HTMLElement).onclick = () => {
-      window.history.back()
-      element.style.display = 'none'
-      mainContainer.style.display = 'flex'
-    }
+    // ;(element.firstChild?.nextSibling as HTMLElement).onclick = () => {
+    //   window.history.back()
+    //   element.style.display = 'none'
+    //   mainContainer.style.display = 'flex'
+    // }
     // Меняем navigation
     const navPopup = Array.from(document.querySelectorAll('.main__popup-navigation p'))
     navPopup[0].addEventListener('click', () => {
