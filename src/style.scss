@@ -473,6 +473,10 @@ select {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
+  &:hover {
+    transform: scale(102%);
+  }
 }
 
 .prod-in-cart {
@@ -624,7 +628,8 @@ select {
     text-decoration: none;
     cursor: default;
 
-    &:first-child {
+    &:nth-child(1),
+    &:nth-child(2) {
       cursor: pointer;
       &:hover {
         color: goldenrod;
@@ -1126,6 +1131,11 @@ select {
         border: none;
         cursor: pointer;
         border: 1px solid gainsboro;
+
+        &:hover {
+          color: gray;
+          border: 1px solid gray;
+        }
 
         &:active {
           box-shadow: 0 0 5px 2px green;
