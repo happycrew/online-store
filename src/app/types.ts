@@ -18,3 +18,9 @@ export interface ProductResponse {
   skip: number
   limit: number
 }
+
+export interface localStorageCart {
+  id: number
+  count: number
+  price: number
+}
