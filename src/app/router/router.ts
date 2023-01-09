@@ -305,6 +305,7 @@ export class Router {
 
   start (): void {
     loadBlock.style.display = 'flex'
+    let productId = 0
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search.length === 0) {
@@ -389,21 +390,32 @@ export class Router {
         app.cartGenerator.createProdInCart()
         break
       case 2: // product
-        generator.showSingleProduct(
-          app.products.filter(
-            (value) =>
-              value.id ===
-              parseInt(
-                window.location.search.replace('?product-details=', ''),
-                10
-              )
-          )[0]
+        productId = parseInt(
+          window.location.search.replace('?product-details=', ''),
+          10
         )
+        if (productId > app.products.length || productId < 1) {
+          this.setState(this.states[3], '?404')
+          this.start()
+        } else {
+          generator.showSingleProduct(
+            app.products.filter(
+              (value) =>
+                value.id ===
+                productId
+            )[0]
+          )
+        }
         break
       case 3: // error
-        (document.querySelector('body') as HTMLElement).innerHTML =
-          '<img src="https://repost.uz/storage/uploads/2-1642399910-nadira-post-material.jpeg" alt="404" height="100%">'
-        console.log('404')
+        setTimeout(() => {
+          this.setState(this.states[0], this.url.pathname);
+          (document.querySelector('main') as HTMLElement).style.display = 'flex' as string;
+          (document.querySelector('.error-page') as HTMLElement).style.display = 'none' as string
+          this.start()
+        }, 5000);
+        (document.querySelector('main') as HTMLElement).style.display = 'none' as string
+        (document.querySelector('.error-page') as HTMLElement).style.display = 'block' as string
         break
     }
     loadBlock.style.display = 'none'
