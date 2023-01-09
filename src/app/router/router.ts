@@ -1,5 +1,5 @@
 import { Product } from '../types'
-import { app, cartGenerator, generator, loadBlock } from '../../index'
+import { app, generator, loadBlock } from '../../index'
 
 export class Router {
   url: URL
@@ -305,10 +305,6 @@ export class Router {
 
   start (): void {
     loadBlock.style.display = 'flex'
-    if (window.localStorage.getItem('cart') !== null) {
-      const cart: Product[] = JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
-      cartGenerator.cartCounter.innerHTML = cart.length.toString()
-    }
     switch (this.states.indexOf(history.state as string)) {
       case 0: // home
         if (this.url.search.length === 0) {
