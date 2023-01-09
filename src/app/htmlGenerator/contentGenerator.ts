@@ -234,7 +234,6 @@ export class Cart {
   }
 
   checkLengthCart (countProds: number, test?: number): void {
-    console.log('cart length is ')
     const mainCart = document.querySelector('.main__cart') as HTMLElement
     if (countProds === 0) {
       (mainCart.children[0] as HTMLElement).style.display = 'flex';
@@ -280,12 +279,9 @@ export class Cart {
       this.totalPriceCart.innerHTML = `€ ${this.totalPrice[1].innerHTML}.00`
       this.totalProductsInCart.innerHTML = this.cartCounter.innerHTML
     }
-    console.log('product in cart'.concat(this.getProductsTotalCount().toString()))
   }
 
   changeCountAndPrice (product: Product, value: string): void {
-    console.log('total price is '.concat(this.getProductsTotalPrice().toString()))
-    console.log('total count is '.concat(this.getProductsTotalCount().toString()))
     const totalPriceNumber = this.totalPrice[1].innerHTML
     if (value === 'add') {
       this.cartCounter.innerHTML = String(Number(this.cartCounter.innerHTML) + 1)
