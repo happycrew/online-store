@@ -1,4 +1,4 @@
-import { Product } from '../types'
+import { Product, localStorageCart } from '../types'
 import { app } from '../../index'
 
 export class Cart {
@@ -234,6 +234,7 @@ export class Cart {
   }
 
   checkLengthCart (countProds: number, test?: number): void {
+    console.log('cart length is ')
     const mainCart = document.querySelector('.main__cart') as HTMLElement
     if (countProds === 0) {
       (mainCart.children[0] as HTMLElement).style.display = 'flex';
@@ -261,6 +262,7 @@ export class Cart {
         return
       }
       countProd.innerHTML = String(Number(countProd.innerHTML) + 1)
+      this.implementProductsCount(product)
       this.cartCounter.innerHTML = String(Number(this.cartCounter.innerHTML) + 1)
       this.totalPrice[1].innerHTML = String(Number(totalPriceNumber) + product.price)
       this.totalPriceCart.innerHTML = `€ ${this.totalPrice[1].innerHTML}.00`
@@ -272,14 +274,18 @@ export class Cart {
         return
       }
       countProd.innerHTML = String(Number(countProd.innerHTML) - 1)
+      this.deplementProductsCount(product)
       this.cartCounter.innerHTML = String(Number(this.cartCounter.innerHTML) - 1)
       this.totalPrice[1].innerHTML = String(Number(totalPriceNumber) - product.price)
       this.totalPriceCart.innerHTML = `€ ${this.totalPrice[1].innerHTML}.00`
       this.totalProductsInCart.innerHTML = this.cartCounter.innerHTML
     }
+    console.log('product in cart'.concat(this.getProductsTotalCount().toString()))
   }
 
   changeCountAndPrice (product: Product, value: string): void {
+    console.log('total price is '.concat(this.getProductsTotalPrice().toString()))
+    console.log('total count is '.concat(this.getProductsTotalCount().toString()))
     const totalPriceNumber = this.totalPrice[1].innerHTML
     if (value === 'add') {
       this.cartCounter.innerHTML = String(Number(this.cartCounter.innerHTML) + 1)
@@ -296,7 +302,7 @@ export class Cart {
 
   setProdToCart (product: Product): void {
     // все товары
-    // this.addProductInLocalStorage(product)
+    this.addProductInLocalStorage(product)
     const cartItems = document.querySelector('.main__cart-items') as HTMLElement
     // товар, который добавляем
     const cartWrapper = document.createElement('div') as Element
@@ -378,26 +384,102 @@ export class Cart {
       }
     })
     this.setInputParametres()
-    // this.removeProductInLocalStorage(product)
+    this.removeProductInLocalStorage(product)
     this.changeCountAndPrice(product, 'drop')
+  }
+
+  // проверяет есть ли товар в корзине localStorage
+  isProductInLocalStorageCart (product: Product): boolean {
+    let cart: localStorageCart[] = []
+    if (localStorage.getItem('cart') !== null) {
+      cart = JSON.parse(localStorage.getItem('cart') as string) as localStorageCart[]
+      for (const val of cart) {
+        if (val.id === product.id) {
+          return true
+        }
+      }
+    }
+    return false
   }
 
   // добавляет продут в корзину в локал сторадж
   addProductInLocalStorage (product: Product): void {
-    const cart = window.localStorage.getItem('cart') === null ? [] : JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
-    cart.push(product)
-    window.localStorage.setItem('cart', JSON.stringify(cart))
+    let cart: localStorageCart[] = []
+    if (localStorage.getItem('cart') !== null) {
+      cart = JSON.parse(localStorage.getItem('cart') as string) as localStorageCart[]
+    }
+    if (!this.isProductInLocalStorageCart(product)) {
+      const prodToPush: localStorageCart = { id: product.id, count: 1, price: product.price }
+      cart.push(prodToPush)
+    }
+    localStorage.setItem('cart', JSON.stringify(cart))
   }
 
+  // удаляет продут из корзины в локал сторадж
   removeProductInLocalStorage (product: Product): void {
-    const cart = window.localStorage.getItem('cart') === null ? [] : JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
-    cart.splice(cart.indexOf(product), 1)
-    window.localStorage.setItem('cart', JSON.stringify(cart))
+    let cart: localStorageCart[] = []
+    if (localStorage.getItem('cart') !== null) {
+      cart = JSON.parse(localStorage.getItem('cart') as string) as localStorageCart[]
+    }
+    if (this.isProductInLocalStorageCart(product)) {
+      localStorage.setItem('cart', JSON.stringify(cart.filter(value => value.id !== product.id)))
+    }
   }
 
+  // возвращает сумму покупок
   getProductsTotalPrice (): number {
-    const cart = window.localStorage.getItem('cart') === null ? [] : JSON.parse(window.localStorage.getItem('cart') as string) as Product[]
-    return cart.reduce((acc, val) => acc + val.price, 0)
+    let cart: localStorageCart[] = []
+    if (localStorage.getItem('cart') !== null) {
+      cart = JSON.parse(localStorage.getItem('cart') as string) as localStorageCart[]
+      let total = 0
+      for (const el of cart) {
+        total += (el.price * el.count)
+      }
+      return total
+    }
+    return 0
+  }
+
+  // возвращает количество товаров в корзине
+  getProductsTotalCount (): number {
+    let cart: localStorageCart[] = []
+    if (localStorage.getItem('cart') !== null) {
+      cart = JSON.parse(localStorage.getItem('cart') as string) as localStorageCart[]
+      let total = 0
+      for (const el of cart) {
+        total += el.count
+      }
+      return total
+    }
+    return 0
+  }
+
+  // добавляет количество конкретного продукта
+  implementProductsCount (product: Product): void {
+    let cart: localStorageCart[] = []
+    if (localStorage.getItem('cart') !== null) {
+      cart = JSON.parse(localStorage.getItem('cart') as string) as localStorageCart[]
+      for (const el of cart) {
+        if (el.id === product.id) {
+          el.count++
+        }
+      }
+      localStorage.setItem('cart', JSON.stringify(cart))
+    }
+  }
+
+  // удаляет единицу товара из корзины
+  deplementProductsCount (product: Product): void {
+    let cart: localStorageCart[] = []
+    if (localStorage.getItem('cart') !== null) {
+      cart = JSON.parse(localStorage.getItem('cart') as string) as localStorageCart[]
+      for (const el of cart) {
+        if (el.id === product.id) {
+          el.count <= 1 ? this.removeProductInLocalStorage(product) : el.count--
+        }
+      }
+      localStorage.setItem('cart', JSON.stringify(cart))
+    }
   }
 }
 

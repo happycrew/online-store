@@ -219,6 +219,11 @@ export class Router {
     ;(
       document.querySelector('.header__div-logo') as HTMLInputElement
     ).addEventListener('click', () => {
+      const displayFlex: string = 'flex' as string
+      const displayNone: string = 'none' as string;
+      (document.querySelector('.main__container') as HTMLElement).style.display = displayFlex;
+      (document.querySelector('.main__cart') as HTMLElement).style.display = displayNone;
+      (document.querySelector('.main__popup') as HTMLElement).style.display = displayNone
       this.setState(this.states[0], app.router.url.pathname)
       this.start()
     })
