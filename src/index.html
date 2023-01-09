@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link type="image/png" rel="icon" href="https://img.icons8.com/office/16/shop.png">
+    <title>Online Store</title>
+
+  </head>
+  <body>
+  <div class="loader-container">
+    <span class="loader"></span>
+  </div>
+    <header class="header">
+      <div class="header__div-logo">
+        <img class="header__logo" src="assets/pngegg.png" alt="logo" />
+        <a><h1>Online Store</h1></a>
+      </div>
+      <div class="header__total-price">
+        <span>Cart total:</span>
+        € <span>0</span>.00
+      </div>
+      <div class="header__basket">
+        <div class="header__total">
+          <div class="header__total-content">0</div>
+        </div>
+      </div>
+      <div class="copied-popup">
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="main__container">
+        <div class="main__filter">
+          <div class="main__reset-copy">
+            <button class="main__btn-reset">Reset Filters</button>
+            <button class="main__btn-copy">Copy Link</button>
+          </div>
+          <div class="main__category">
+            <h3>Category</h3>
+            <div class="main__category-list">
+            </div>
+          </div>
+          <div class="main__brand">
+            <h3>Brand</h3>
+            <div class="main__brand-list">
+            </div>
+          </div>
+          <div class="main__price">
+            <h3>Price</h3>
+            <div class="price-input">
+              <div class="field">
+                <input type="number" class="input-min" value="10">
+              </div>
+              ⟷
+              <div class="field">
+                <input type="number" class="input-max" value="1749">
+              </div>
+            </div>
+            <div class="slider">
+              <div class="progress"></div>
+            </div>
+            <div class="range-input">
+              <input type="range" class="range-min" min="10" max="1749" value="10" step="1" />
+              <input type="range" class="range-max" min="10" max="1749" value="1700" step="1">
+            </div>
+          </div>
+          <div class="main__stock">
+            <h3>Stock</h3>
+            <div class="stock-input">
+              <div class="stock-field">
+                <input type="number" class="stock-input-min" value="2">
+              </div>
+              ⟷
+              <div class="stock-field">
+                <input type="number" class="stock-input-max" value="150">
+              </div>
+            </div>
+            <div class="stock-slider">
+              <div class="stock-progress"></div>
+            </div>
+            <div class="stock-range-input">
+              <input type="range" class="stock-range-min" min="2" max="150" value="2" step="1" />
+              <input type="range" class="stock-range-max" min="2" max="150" value="150" step="1">
+            </div>
+          </div>
+        </div>
+        <div class="main__products">
+          <div class="main__sort-products">
+            <div class="main__sort-bar">
+              <select name="select" id="selectSort">
+                <option selected="selected" disabled>Sort options:</option>
+                <option value="price-ASC">Sort by price ASC</option>
+                <option value="price-DESC">Sort by price DESC</option>
+                <option value="rating-ASC">Sort by rating ASC</option>
+                <option value="rating-DESC">Sort by rating DESC</option>
+                <option value="discount-ASC">Sort by discount ASC</option>
+                <option value="discount-DESC">Sort by discount DESC</option>
+              </select>
+            </div>
+            <div class="main__sort-stat">Found: 100</div>
+            <div class="main__search-bar">
+              <input id="productsSearch" type="search" placeholder="Search product" />
+            </div>
+            <div class="main__view">
+              <span class="view__small">6x6</span>
+              <span class="view__big active-view">4x4</span>
+            </div>
+          </div>
+          <div class="main__product-items">
+          </div>
+        </div>
+      </div>
+      <div class="main__popup">
+        <div class="main__popup-item">
+          <div class="main__popup-navigation">
+            <p>STORE</p>
+            &#62 &#62
+            <p>SMARTPHONES</p>
+            &#62 &#62
+            <p>APPLE</p>
+            &#62 &#62
+            <p>IPHONE 9</p>
+          </div>
+          <div class="main__popup-detail">
+            <div class="main__popup-title">
+              <h3>Iphone 9</h3>
+            </div>
+            <div class="main__popup-data">
+              <div class="popup__photo">
+                <div class="popup__slide">
+                  <img src="https://i.dummyjson.com/data/products/1/1.jpg" alt="Product photo">
+                  <img src="https://i.dummyjson.com/data/products/1/3.jpg" alt="Product photo">
+                  <img src="https://i.dummyjson.com/data/products/1/4.jpg" alt="Product photo">
+                </div>
+                <div class="popup__big-photo">
+                  <img src="https://i.dummyjson.com/data/products/1/1.jpg" alt="Product photo">
+                </div>
+              </div>
+              <div class="popup__product-info">
+                <div class="product__detail">
+                  <h3>Description: </h3>
+                  <p>An Apple mobile which is nothing like Apple</p>
+                </div>
+                <div class="product__detail">
+                  <h3>Discount Percentage: </h3>
+                  <p>12.96</p>
+                </div>
+                <div class="product__detail">
+                  <h3>Rating: </h3>
+                  <p>4.69</p>
+                </div>
+                <div class="product__detail">
+                  <h3>Stock: </h3>
+                  <p>94</p>
+                </div>
+                <div class="product__detail">
+                  <h3>Brand: </h3>
+                  <p>Apple</p>
+                </div>
+                <div class="product__detail">
+                  <h3>Category: </h3>
+                  <p>smartphones</p>
+                </div>
+              </div>
+              <div class="popup__add-to-cart">
+                <div class="product__price-btns">
+                  <span>£549.00</span>
+                  <button>ADD TO CART</button>
+                  <button id="buyNowBtn">BUY NOW</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main__cart">
+        <h2>Cart is Empty :(</h2>
+        <div class="main__cart-wrapper">
+          <div class="main__prod-in-cart">
+            <div class="title-and-page-control">
+              <h2>Products In Cart</h2>
+              <div class="page-control">
+                <div class="page-limit">
+                  ITEMS:
+                  <input type="number" min="1" max="5">
+                </div>
+                <div class="page-numbers">
+                  <span>PAGE: </span>
+                  <button> &lt </button>
+                  <span>1</span>
+                  <button> &#62 </button>
+                </div>
+              </div>
+            </div>
+            <div class="main__cart-items">
+            </div>
+          </div>
+          <div class="main__total-cart">
+            <h2>Summary</h2>
+            <div class="total-cart__products">
+              Products:
+              <span>0</span>
+            </div>
+            <div class="total-cart__price">
+              Total:
+              <span>€00.00</span>
+            </div>
+            <div class="total-cart__new-price">
+              Total:
+              <span>€00.00</span>
+            </div>
+            <div class="total-cart__appl-codes">
+              <h3>Applied codes</h3>
+            </div>
+            <div class="total-cart__promocode">
+              <input type="search" placeholder="Enter promo code">
+            </div>
+            <span class="total-cart__promo-example">Promo for test: 'RS', 'EPM'</span>
+            <button>BUY NOW</button>
+          </div>
+        </div>
+        <div class="main__modal">
+          <div class="main__modal-content">
+            <div class="main__modal-form">
+              <form action="">
+                <div class="modal-form__personal-details">
+                  <h2>Personal details</h2>
+                  <div class="person-name">
+                    <input type="text" placeholder="Full name">
+                  </div>
+                  <div class="person-phone">
+                    <input type="text" placeholder="Phone number" maxlength="12">
+                  </div>
+                  <div class="person-adress">
+                    <input type="text" placeholder="Delivery address">
+                  </div>
+                  <div class="person-email">
+                    <input type="email" placeholder="Email">
+                  </div>
+                </div>
+                <div class="modal-form__card-details">
+                  <h2>Credit card details</h2>
+                  <div class="modal-form__card">
+                    <div class="card__number">
+                      <img src="https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71" alt="Card logo">
+                      <input type="text" placeholder="Card number">
+                    </div>
+                    <div class="card__other">
+                      <div class="card__valid">
+                        VALID:
+                        <input type="text" placeholder="Valid Thru">
+                      </div>
+                      <div class="card__data">
+                        CVV:
+                        <input type="text" placeholder="Code">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit">CONFIRM</button>
+              </form>
+            </div>
+          </div>
+          <div class="main__modal-finish">
+          </div>
+        </div>
+      </div>
+    </main>
+    <div class="error-page">
+      <div class="error">404</div>
+      <br /><br />
+      <span class="info">Page not found</span>
+      <img src="http://images2.layoutsparks.com/1/160030/too-much-tv-static.gif" class="static" />
+    </div>
+    <footer class="footer">
+      <div class="footer__github">
+        <span class="footer__github-link"
+          ><a href="https://github.com/Satancrew" target="_blank"
+            >Satancrew GitHub</a
+          ></span
+        >
+        <span class="footer__github-link"
+          ><a href="https://github.com/KirillDemyanenko" target="_blank"
+            >KirillDemyanenko GitHub</a
+          ></span
+        >
+      </div>
+      <div class="footer__info">
+        <a href="https://rs.school/" target="_blank"
+          ><img
+            class="footer__logo"
+            src="https://rollingscopes.com/images/logo_rs2.svg"
+            alt="logo_rsschool"
+        /></a>
+        <span class="footer__year">2022</span>
+      </div>
+    </footer>
+  </body>
+</html>
