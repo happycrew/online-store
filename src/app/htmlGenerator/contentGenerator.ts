@@ -37,7 +37,7 @@ export class Cart {
   }
 
   makeOrderOnlick (): void {
-    this.buyNowButton.onclick = () => this.makeOrder()
+    this.buyNowButton?.addEventListener('click', () => this.makeOrder())
   }
 
   makeOrder (): void {
@@ -163,7 +163,7 @@ export class Cart {
   }
 
   makeOnChangePromoCode (): void {
-    this.promoCodeInput.addEventListener('input', this.validatePromoCode.bind(this))
+    this.promoCodeInput?.addEventListener('input', this.validatePromoCode.bind(this))
   }
 
   pagination (): void {
@@ -246,7 +246,7 @@ export class Cart {
   }
 
   showCart (): void {
-    this.headerCart.addEventListener('click', () => {
+    this.headerCart?.addEventListener('click', () => {
       app.router.setState(app.router.states[1], '?cart')
       app.router.start()
     })

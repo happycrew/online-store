@@ -6,7 +6,7 @@ import { ClickChangeView } from './app/htmlGenerator/changeView'
 import { Validation } from './app/htmlGenerator/validator' // add 25.12
 
 const loader: Loader = new Loader()
-export const generator: ContentGenerator = new ContentGenerator()
+export const generator: ContentGenerator = Object(ContentGenerator) as ContentGenerator
 const changeView: ClickChangeView = new ClickChangeView()
 const validator: Validation = new Validation() // add 25.12
 export const cartGenerator: Cart = new Cart()

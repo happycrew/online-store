@@ -3,11 +3,13 @@ import { app, cartGenerator, generator, loadBlock } from '../../index'
 
 export class Router {
   url: URL
-  readonly states: string[] = ['home', 'cart', 'product', 'error']
-  productsBlock = document.querySelector('.main__product-items') as HTMLElement
+  readonly states: string[]
+  productsBlock: HTMLElement
 
   constructor () {
     this.url = new URL(window.location.href)
+    this.states = ['home', 'cart', 'product', 'error']
+    this.productsBlock = document.querySelector('.main__product-items') as HTMLElement
     if (this.url.search.includes('?product-details=')) {
       this.setState(this.states[2], this.url.pathname.concat(this.url.search))
     } else if (this.url.search.includes('cart')) {

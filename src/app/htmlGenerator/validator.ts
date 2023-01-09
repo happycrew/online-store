@@ -59,7 +59,7 @@ export class Validation {
   }
 
   formMakeEvent (): void {
-    this.form.addEventListener('submit', this.formEvent.bind(this))
+    this.form?.addEventListener('submit', this.formEvent.bind(this))
   }
 
   formEvent (event: Event): void {
@@ -134,7 +134,7 @@ export class Validation {
   // Валидация display name aka имени пользователя
 
   makeOnchangeName (): void {
-    this.personName.addEventListener('change', this.validatePersonName.bind(this))
+    this.personName?.addEventListener('change', this.validatePersonName.bind(this))
     // this.personName.onchange = this.validatePersonName.bind(this)
   }
 
@@ -170,7 +170,7 @@ export class Validation {
 
   // Валидация телефонного номера
   makeOnchangePhone (): void {
-    this.phoneNumber.addEventListener('change', this.validatePhoneNumber.bind(this))
+    this.phoneNumber?.addEventListener('change', this.validatePhoneNumber.bind(this))
     // this.phoneNumber.onchange = this.validatePhoneNumber.bind(this)
   }
 
@@ -196,7 +196,7 @@ export class Validation {
 
   // Валидация адреса пользователя
   makeOnchangeAddress (): void {
-    this.personAddress.addEventListener('change', this.validateAddress.bind(this))
+    this.personAddress?.addEventListener('change', this.validateAddress.bind(this))
     // this.personAddress.onchange = this.validateAddress.bind(this)
   }
 
@@ -233,7 +233,7 @@ export class Validation {
 
   // Валидация электронной почты
   makeOnchangeEmail (): void {
-    this.personEmail.addEventListener('change', this.validateEmail.bind(this))
+    this.personEmail?.addEventListener('change', this.validateEmail.bind(this))
     // this.personEmail.onchange = this.validateEmail.bind(this)
   }
 
@@ -261,7 +261,7 @@ export class Validation {
 
   // Валидация номера кредитной карты пользователя
   makeCreditCartEvent (): void {
-    this.creditCart.addEventListener('input', (ev) => {
+    this.creditCart?.addEventListener('input', (ev) => {
       const cardImg = {
         nologo:
           'https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71',
@@ -331,7 +331,7 @@ export class Validation {
   }
 
   makeCreditCartOnchange (): void {
-    this.creditCart.addEventListener('change', this.validateCreditCart.bind(this))
+    this.creditCart?.addEventListener('change', this.validateCreditCart.bind(this))
     // this.creditCart.onchange = this.validateCreditCart.bind(this)
   }
 
@@ -367,7 +367,7 @@ export class Validation {
 
   // Валидация срока действия кредитной карты пользователя
   makeCreditCartDataEvent (): void {
-    this.creditCartData.addEventListener('input', (ev) => {
+    this.creditCartData?.addEventListener('input', (ev) => {
       const numbers = /[0-9]/
       const regExp = /[0-9]{2}/
       // не позволяем ввести ничего, кроме цифр 0-9, ограничиваем размер поля 5 символами
@@ -405,7 +405,7 @@ export class Validation {
   }
 
   makeCreditCartDataOnchange (): void {
-    this.creditCartData.addEventListener('change', this.validateCreditCartData.bind(this))
+    this.creditCartData?.addEventListener('change', this.validateCreditCartData.bind(this))
     // this.creditCartData.onchange = this.validateCreditCartData.bind(this)
   }
 
@@ -440,7 +440,7 @@ export class Validation {
 
   // Валидация CVV
   makeCreditCartCVVEvent (): void {
-    this.cartCVV.addEventListener('input', (ev) => {
+    this.cartCVV?.addEventListener('input', (ev) => {
       const numbers = /[0-9]/
       const regExp = /[0-9]{2}/
       // не позволяем ввести ничего, кроме цифр 0-9, ограничиваем размер поля 3 символами
@@ -470,7 +470,7 @@ export class Validation {
   }
 
   makeCreditCartCVVOnchange (): void {
-    this.cartCVV.onchange = this.validateCreditCartCVV.bind(this)
+    if (this.cartCVV !== null) { this.cartCVV.onchange = this.validateCreditCartCVV.bind(this) }
   }
 
   validateCreditCartCVV (): void {

@@ -27,7 +27,7 @@ export class App {
     cartGenerator: Cart
   ) {
     this.loader = loader
-    this.router = Object(Router) as Router
+    this.router = new Router()
     this.generator = generator
     this.products = []
     this.categories = []
