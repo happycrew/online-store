@@ -370,15 +370,6 @@ export class Cart {
   dropProdFromCart (product: Product): void {
     const cartItems = document.querySelector('.main__cart-items') as HTMLElement
     const element = document.getElementById(`cart${product.id}`) as HTMLElement
-    // console.log(element)
-    // const mainPopup = document.querySelector('.main__popup') as HTMLElement
-    // if (mainPopup.style.display === 'flex') {
-    //   const prodCount = element.querySelector('.product-controls span') as HTMLSpanElement
-    //   this.cartCounter.innerHTML = String(+this.cartCounter.innerHTML - +prodCount.innerHTML + 1)
-    //   for (let i = 0; i < +prodCount.innerHTML - 1; i++) {
-    //     this.totalPrice[1].innerHTML = String(+this.totalPrice[1].innerHTML - product.price)
-    //   }
-    // }
     cartItems.removeChild(element)
     this.productsInCart.forEach((el, i) => {
       if (el === element) {
@@ -390,121 +381,6 @@ export class Cart {
     // this.removeProductInLocalStorage(product)
     this.changeCountAndPrice(product, 'drop')
   }
-
-  // showSingleProductFromCart (product: Product): void {
-  //   const element: HTMLElement = document.querySelector(
-  //     '.main__popup'
-  //   ) as HTMLElement
-  //   element.setAttribute('id', `${product.id}`)
-  //   const mainContainer = document.querySelector(
-  //     '.main__container'
-  //   ) as HTMLElement
-  //   const mainCart = document.querySelector('.main__cart') as HTMLElement
-  //   mainCart.style.display = 'none'
-  //   element.style.display = 'flex' as string
-  //   mainContainer.style.display = 'none'
-  //   // Меняем navigation
-  //   const navPopup = Array.from(document.querySelectorAll('.main__popup-navigation p'))
-  //   navPopup[0].addEventListener('click', () => {
-  //     app.router.clearSearchParam()
-  //     app.router.setState(app.router.states[0], app.router.url.pathname)
-  //     element.style.display = 'none'
-  //     mainContainer.style.display = 'flex'
-  //     app.router.start()
-  //   })
-  //   navPopup[1].innerHTML = product.category.toUpperCase()
-  //   navPopup[1].addEventListener('click', () => {
-  //     app.router.clearSearchParam()
-  //     app.router.url.searchParams.append('category', product.category)
-  //     app.router.setState(app.router.states[0], app.router.url.pathname.concat(`?category=${product.category}`))
-  //     element.style.display = 'none'
-  //     mainContainer.style.display = 'flex'
-  //     app.router.start()
-  //   })
-  //   navPopup[2].innerHTML = product.brand.toUpperCase()
-  //   navPopup[2].addEventListener('click', () => {
-  //     app.router.clearSearchParam()
-  //     app.router.url.searchParams.append('brand', product.brand)
-  //     app.router.setState(app.router.states[0], app.router.url.pathname.concat(`/?brand=${product.brand}`))
-  //     element.style.display = 'none'
-  //     mainContainer.style.display = 'flex'
-  //     app.router.start()
-  //   })
-  //   navPopup[3].innerHTML = product.title.toUpperCase()
-  //   // Меняем title окна товара
-  //   const titleProduct = document.querySelector(
-  //     '.main__popup-detail h3'
-  //   ) as HTMLElement
-  //   titleProduct.innerHTML = product.title
-  //   // Меняем данные в описании товара
-  //   const productDetails = Array.from(
-  //     document.querySelectorAll('.product__detail p')
-  //   )
-  //   productDetails[0].innerHTML = product.description
-  //   productDetails[1].innerHTML = String(product.discountPercentage)
-  //   productDetails[2].innerHTML = String(product.rating)
-  //   productDetails[3].innerHTML = String(product.stock)
-  //   productDetails[4].innerHTML = product.brand
-  //   productDetails[5].innerHTML = product.category
-  //   // Меняем цену
-  //   const productPrice = document.querySelector(
-  //     '.product__price-btns span'
-  //   ) as HTMLElement
-  //   // Вешаем обработчик на кнопку
-  //   const productAddBtn = document.querySelector(
-  //     '.product__price-btns button'
-  //   ) as HTMLButtonElement
-  //   productAddBtn.innerHTML = 'DROP FROM CART'
-  //   productAddBtn.addEventListener('click', () => {
-  //     if (productAddBtn.innerHTML === 'DROP FROM CART') {
-  //       this.dropProdFromCart(product)
-  //       productAddBtn.innerHTML = 'ADD TO CART'
-  //     } else if (productAddBtn.innerHTML === 'ADD TO CART') {
-  //       this.setProdToCart(product)
-  //       productAddBtn.innerHTML = 'DROP FROM CART'
-  //     }
-  //   })
-  //   // productAddBtn.onclick = (ev) => this.dropProdFromCart(product)
-  //   productPrice.innerHTML = `€${product.price}`
-  //   // Меняем изображение
-  //   const productSlide = document.querySelector('.popup__slide') as HTMLElement
-  //   productSlide.innerHTML = ''
-  //   if (titleProduct.innerHTML === 'iPhone 9') {
-  //     for (let i = 2; i < product.images.length; i++) {
-  //       const productImg = document.createElement('img') as HTMLElement;
-  //       (productImg as HTMLImageElement).src = `${product.images[i]}`
-  //       productSlide.append(productImg)
-  //     }
-  //   } else {
-  //     for (let i = 0; i < product.images.length; i++) {
-  //       const productImg = document.createElement('img') as HTMLElement;
-  //       (productImg as HTMLImageElement).src = `${product.images[i]}`
-  //       productSlide.append(productImg)
-  //     }
-  //   }
-  //   const productBigImg = document.querySelector(
-  //     '.popup__big-photo img'
-  //   ) as HTMLImageElement
-  //   productBigImg.src = `${product.thumbnail}`
-  //   // Cмена изображения при клике
-  //   const sliderImgs = Array.from(
-  //     document.querySelectorAll('.popup__slide img')
-  //   )
-  //   sliderImgs.forEach((img) => {
-  //     img.addEventListener('click', (): void => {
-  //       productBigImg.src = `${(img as HTMLImageElement).src}`
-  //     })
-  //   })
-  //   const buyNowBtn = document.getElementById('buyNowBtn') as HTMLButtonElement
-  //   buyNowBtn.addEventListener('click', () => {
-  //     element.style.display = 'none'
-  //     const mainCart = document.querySelector('.main__cart') as HTMLElement
-  //     mainCart.style.display = 'flex'
-  //     this.setProdToCart(product)
-  //     this.createProdInCart()
-  //     this.makeOrder()
-  //   })
-  // }
 
   // добавляет продут в корзину в локал сторадж
   addProductInLocalStorage (product: Product): void {
@@ -659,11 +535,6 @@ export class ContentGenerator extends Cart {
     ) as HTMLElement
     element.style.display = 'flex' as string
     mainContainer.style.display = 'none'
-    // ;(element.firstChild?.nextSibling as HTMLElement).onclick = () => {
-    //   window.history.back()
-    //   element.style.display = 'none'
-    //   mainContainer.style.display = 'flex'
-    // }
     // Меняем navigation
     const navPopup = Array.from(document.querySelectorAll('.main__popup-navigation p'))
     navPopup[0].addEventListener('click', () => {
