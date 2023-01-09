@@ -1,5 +1,5 @@
 import { Loader } from './loader/loader'
-import { Product, ProductResponse } from './types'
+import { localStorageCart, Product, ProductResponse } from './types'
 import { Cart, ContentGenerator } from './htmlGenerator/contentGenerator'
 import { Router } from './router/router'
 import { ClickChangeView } from './htmlGenerator/changeView'
@@ -46,6 +46,22 @@ export class App {
     this.cartGenerator = cartGenerator
   }
 
+  loadProductsFromLocalStorage (): void {
+    let cart: localStorageCart[] = []
+    if (localStorage.getItem('cart') !== null) {
+      cart = JSON.parse(localStorage.getItem('cart') as string) as localStorageCart[]
+    }
+    for (const el of cart) {
+      this.cartGenerator.setProdToCart(this.products.filter(value => value.id === el.id)[0])
+      if (el.count > 1) {
+        ((document.getElementById(`cart${el.id}`) as HTMLElement).querySelector('.product-controls span') as HTMLElement).innerHTML = el.count.toString()
+      }
+    }
+    this.cartGenerator.cartCounter.innerHTML = this.cartGenerator.getProductsTotalCount().toString()
+    this.cartGenerator.totalPriceCart.innerHTML = this.cartGenerator.getProductsTotalPrice().toString()
+    this.cartGenerator.totalPrice[1].innerHTML = this.cartGenerator.getProductsTotalPrice().toString()
+  }
+
   async start (): Promise<void> {
     this.categories = (await this.loader.getCategorise()).sort()
     const products: ProductResponse = await this.loader.getProducts()
@@ -57,6 +73,7 @@ export class App {
     })
     this.brands.sort()
     this.router.addListenersForRouting()
+    this.loadProductsFromLocalStorage()
     this.router.start()
   }
 }
