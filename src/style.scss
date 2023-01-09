@@ -194,9 +194,12 @@ h1 {
   text-shadow: $shadow-text;
 
   @media screen and (max-width: $medium-size) {
-    display: flex;
     flex-direction: column;
     text-align: center;
+  }
+
+  @media screen and (max-width: 410px) {
+    font-size: 16px;
   }
 
   span {
@@ -254,6 +257,10 @@ h1 {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 .main__filter {
@@ -264,11 +271,19 @@ h1 {
   padding: 0.6%;
   height: fit-content;
 
-  // @media screen and (max-width: 980px) {
-  //   display: flex;
-  //   width: 100%;
-  //   justify-content: space-between
-  // }
+  @media screen and (max-width: 980px) {
+    display: grid;
+    width: 80%;
+    align-self: center;
+    grid-column-gap: 5px;;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 590px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .main__products {
@@ -277,9 +292,9 @@ h1 {
   border: 1px solid gainsboro;
   border-radius: 0.8rem;
   overflow: hidden;
-  // @media screen and (max-width: 980px) {
-  //   width: 100%;
-  // }
+  @media screen and (max-width: 980px) {
+    width: 100%;
+  }
 }
 
 .main__reset-copy {
@@ -288,9 +303,18 @@ h1 {
   justify-content: space-around;
   margin-bottom: 2%;
   color: green;
-  // @media screen and (max-width: 980px) {
-  //   flex-direction: column;
-  // }
+
+  @media screen and (max-width: 980px) {
+    flex-direction: column;
+    gap: 5px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin-top: 2%;
+  }
+  @media screen and (max-width: 480px) {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
 }
 
 .main__btn-reset,
@@ -303,6 +327,13 @@ h1 {
   padding-right: 2%;
   font-size: 120%;
   cursor: pointer;
+
+  @media screen and (max-width: 980px) {
+    width: 150px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 200px;
+  }
 
   &:hover {
     transform: scale(105%);
@@ -321,9 +352,6 @@ h1 {
   border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 5%;
-  @media screen and (max-width: 980px) {
-    margin-bottom: 0;
-  }
 }
 
 .main__category-list,
@@ -394,13 +422,26 @@ input[type='checkbox'] {
   padding: 0.6%;
   border-bottom: 1px solid gainsboro;
 
+  @media screen and (max-width: 550px) {
+    display: grid;
+    column-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+
   .main__view {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media screen and (max-width: 550px) {
+      grid-row-start: 3;
+      grid-column-start: 3;
+      margin-left: auto;
+    }
 
     .view__small,
-    .view__big {
+    .view__big,
+    .view__extra-big {
       border: 1px solid black;
       height: 2rem;
       width: 2rem;
@@ -425,6 +466,20 @@ input[type='checkbox'] {
 
 .main__sort-stat {
   text-shadow: $shadow-text;
+  @media screen and (max-width: 550px) {
+    grid-row-start: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    font-size: 120%;
+    text-align: center;
+  }
+}
+
+.main__sort-bar {
+  @media screen and (max-width: 550px) {
+    grid-column-start: 2;
+    grid-column-end: 4;
+  }
 }
 
 select {
@@ -439,6 +494,12 @@ select {
 }
 
 .main__search-bar {
+  @media screen and (max-width: 550px) {
+    grid-row-start: 2;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    width: 56%;
+  }
   input {
     width: 140%;
     background-color: rgba(79, 81, 137, 0.432);
@@ -487,6 +548,11 @@ select {
 .big-item {
   width: 23%;
   padding-top: 20%;
+
+  @media screen and (max-width: 550px) {
+    width: 48%;
+    height: 200px;
+  }
 }
 
 .main__wrapper {
@@ -786,6 +852,11 @@ select {
       width: 50%;
       padding: 2% 0;
     }
+
+    @media screen and (max-width: 500px) {
+      width: 80%;
+      padding: 2% 0;
+    }
   }
 }
 
@@ -797,12 +868,32 @@ select {
   justify-content: center;
   height: -moz-fit-content;
   height: fit-content;
+
+  h2 {
+    text-shadow: $shadow-text;
+    font-size: 40px;
+    border: black;
+    align-self: center;
+
+    @media screen and (max-width: 700px) {
+      font-size: 28px;
+    }
+    @media screen and (max-width: 700px) {
+      font-size: 20px;
+    }
+  
+  }
 }
 
 .main__cart-wrapper {
-  width: 95%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 860px) {
+    flex-direction: column;  
+    gap: 10px;
+  }
 }
 
 .main__prod-in-cart {
@@ -814,6 +905,10 @@ select {
   height: fit-content;
   text-shadow: $shadow-text;
 
+  @media screen and (max-width: 860px) {
+    width: 100%;
+  }
+
   .title-and-page-control {
     display: flex;
     background-color: $main-color-bg;
@@ -822,6 +917,12 @@ select {
     border-bottom: 1px solid gainsboro;
     align-items: center;
     justify-content: space-between;
+    @media screen and (max-width: 700px) {
+      justify-content: space-evenly;
+    }
+    @media screen and (max-width: 700px) {
+      display: grid;
+    }
 
     h2 {
       justify-self: center;
@@ -831,6 +932,9 @@ select {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      @media screen and (max-width: 700px) {
+        font-size: 18px;
+      }
     }
   }
 }
@@ -845,6 +949,9 @@ select {
     background-color: #3b65ad;
     font-size: 140%;
     color: white;
+    @media screen and (max-width: 700px) {
+      width: 2rem;
+    }
   }
 }
 
@@ -878,6 +985,15 @@ select {
   height: fit-content;
   text-shadow: $shadow-text;
   background: rgba(96, 167, 221, 0.592);
+
+  @media screen and (max-width: 860px) {
+    width: 60%;
+    align-self: center;
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 81%;
+  }
 
   h2 {
     background-color: #aabacc;
@@ -1034,6 +1150,9 @@ select {
   border-bottom: 1px solid gainsboro;
   background: $sub-color-bg;
   background: rgba(96, 167, 221, 0.592);
+  @media screen and (max-width: 740px) {
+    padding-top: 2%;
+  }
 }
 
 .cart-item {
@@ -1041,6 +1160,12 @@ select {
   align-items: center;
   justify-content: space-around;
   height: 6rem;
+  @media screen and (max-width: 740px) {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: auto;
+  }
 
   .cart-item__id {
     width: 3%;
@@ -1048,6 +1173,12 @@ select {
     border: 1px solid gainsboro;
     border-radius: 5rem;
     background-color: #181a1c;
+    @media screen and (max-width: 740px) {
+      width: 25%;
+      grid-column-start: 1;
+      grid-row-start: 2;
+      justify-self: center;
+    }
   }
 
   .cart-item__info {
@@ -1056,13 +1187,25 @@ select {
     display: flex;
     align-items: center;
     cursor: pointer;
+    @media screen and (max-width: 740px) {
+      grid-row-start: 1;
+      grid-column-start: 1;
+      grid-column-end: 6;
+      width: 100%;
+    }
+    @media screen and (max-width: 420px) {
+      flex-direction: column;
+    }
 
     img {
       width: 20%;
-      height: 100%;
+      height: 75px;
       border-radius: 0.5rem;
       border: 0.2px solid gainsboro;
       background: 0 0 / cover;
+      @media screen and (max-width: 420px) {
+        width: 30%;
+      }
     }
 
     .cart-item__detail {
@@ -1103,6 +1246,14 @@ select {
 
   .cart-item__number-control {
     width: 15%;
+    @media screen and (max-width: 740px) {
+      display: flex;
+      grid-column-start: 2;
+      grid-column-end: 6;
+      gap: 10px;
+      width: 100%;
+      height: 60px;
+    }
 
     .product-stock,
     .product-price {
@@ -1111,6 +1262,15 @@ select {
       justify-content: center;
       margin: 7%;
       text-shadow: $shadow-text;
+      @media screen and (max-width: 1070px) {
+        font-size: 90%;
+      }
+      @media screen and (max-width: 970px) {
+        font-size: 80%;
+      }
+      @media screen and (max-width: 970px) {
+        font-size: 100%;
+      }
     }
 
     .product-controls {
@@ -1118,6 +1278,9 @@ select {
       align-items: center;
       justify-content: space-between;
       font-size: 150%;
+      @media screen and (max-width: 740px) {
+        gap: 1%;
+      }
 
       button {
         width: 2rem;
